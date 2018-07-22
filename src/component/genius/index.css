@@ -1,0 +1,21 @@
+.segSpan {
+  display: inline-block;
+  width: 70.5px;
+  height: 27px;
+  background: white;
+  color: #108ee9;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 27px;
+  border: 1px solid #108ee9
+}
+.segSpanActive {
+  display: inline-block;
+  width: 75.5px;
+  height: 27px;
+  background: #108ee9;
+  color: white;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 27px
+}
