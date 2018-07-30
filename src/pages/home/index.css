@@ -113,9 +113,9 @@
   background: #EBEBEB;
   margin: 0 auto;
   font-size: 16px;
-  color: #108EE9;
+  color: white;
+  background: #108EE9;
 }
-
 .wanted-item_t span{
   display: inline-block;
   width: 25%;
@@ -178,7 +178,26 @@
   display: inline-block;
   width: 14px;
   height: 10px;
-  background: url('../../assets/down.png');
+  background: url('../../assets/downwhite.png');
   background-size: 100% 100%;
   margin-top: 10px;
+}
+.user-sex_div span{
+  display: inline-block;
+  height: 8px;
+}
+.sex-my-male {
+  border-radius: 4px 0 0 4px;
+  background: #108EE9;
+  width: 100px;
+}
+.sex-my-female {
+  border-radius: 0 4px 4px 0;
+  background: #F03D38;
+  width: 80px;
+}
+.user-sex p {
+  font-size: 14px;
+  color: #108EE9;
+  margin-left: 15px;
 }

@@ -1,6 +1,8 @@
 import React from 'react'
 import axios from "axios/index"
 import { SearchBar, ListView } from 'antd-mobile'
+import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts'
+
 import './index.css'
 
 class Home extends React.Component{
@@ -75,8 +77,22 @@ class Home extends React.Component{
       return arr
     }
   }
+  closewin(str) {
+    let dis = this.refs[str].style.display
+    if (dis === '' || dis === 'block') {
+      this.refs[str].style.display = "none"
+    } else {
+      this.refs[str].style.display = "block"
+    }
+  }
   render(){
     let { showSingleFlag } = this.state
+    const data = [
+      { name: 'food', uv: 2000, pv: 2013, amt: 4500, time: 1, uvError: [100, 50], pvError: [110, 20] },
+      { name: 'cosmetic', uv: 3300, pv: 2000, amt: 6500, time: 2, uvError: 120, pvError: 50 },
+      { name: 'storage', uv: 3200, pv: 1398, amt: 5000, time: 3, uvError: [120, 80], pvError: [200, 100] },
+      { name: 'digital', uv: 2800, pv: 2800, amt: 4000, time: 4, uvError: 100, pvError: 30 },
+    ];
     if (showSingleFlag) {
       let dl = this.sindleDetails
       return (
@@ -86,55 +102,96 @@ class Home extends React.Component{
             <span>{dl.title}</span></div>
             <div className="singleDetail_sub">{dl.show_time}上映</div>
 
-            <div className="single-wanted" ref="">
+            <div className="single-wanted" ref="wanted">
               <div className="wanted-title">
-                <span>想看</span><span className="down-pic"></span></div>
+                <span>想看</span><span className="down-pic" onClick={()=>{this.closewin('wanted-body')}}></span></div>
+              <div ref="wanted-body">
               <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>变化值</span><span>日环比</span></div>
               <div className="wanted-item"><span className="st1">猫眼</span><span></span><span></span><span></span></div>
               <div className="wanted-item"><span className="st2">淘票票</span><span></span><span></span><span></span></div>
               <div className="wanted-item"><span className="st3">微博</span><span></span><span></span><span></span></div>
               <div className="wanted-item"><span className="st4">微信</span><span></span><span></span><span></span></div>
-            </div>
+            </div></div>
   
             <div className="single-hot">
-              <div className="wanted-title"><span>热度</span><span></span></div>
+              <div className="wanted-title"><span>热度</span><span className="down-pic" onClick={()=>{this.closewin('hot-body')}}></span></div>
+              <div ref="hot-body">
               <div className="hot-item_t"><span>观测指标</span><span>当前值</span><span>日环比</span></div>
               <div className="wanted-item"><span>百度</span><span></span><span></span><span></span></div>
               <div className="wanted-item"><span>微博</span><span></span><span></span><span></span></div>
               <div className="wanted-item"><span>阅读</span><span></span><span></span><span></span></div>
               <div className="wanted-item"><span>讨论</span><span></span><span></span><span></span></div>
               <div className="wanted-item"><span>微信</span><span></span><span></span><span></span></div>
-              <div className="wanted-item"><span>豆瓣</span><span></span><span></span><span></span></div>
+              <div className="wanted-item"><span>豆瓣</span><span></span><span></span><span></span></div></div>
             </div>
   
             <div className="single-mate">
-              <div className="wanted-title"><span>物料</span><span></span></div>
+              <div className="wanted-title"><span>物料</span><span className="down-pic" onClick={()=>{this.closewin('mate-body')}}></span></div>
+              <div ref="mate-body">
               <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>昨日值</span><span>日环比</span></div>
               <div className="wanted-item"><span>百度</span><span></span><span></span><span></span></div>
               <div className="wanted-item"><span>微博</span><span></span><span></span><span></span></div>
               <div className="wanted-item"><span>阅读</span><span></span><span></span><span></span></div>
               <div className="wanted-item"><span>讨论</span><span></span><span></span><span></span></div>
               <div className="wanted-item"><span>微信</span><span></span><span></span><span></span></div>
-              <div className="wanted-item"><span>豆瓣</span><span></span><span></span><span></span></div>
+              <div className="wanted-item"><span>豆瓣</span><span></span><span></span><span></span></div></div>
             </div>
   
             <div className="single-sale">
-              <div className="wanted-title"><span>预售</span><span></span></div>
+              <div className="wanted-title"><span>预售</span><span className="down-pic" onClick={()=>{this.closewin('sale-body')}}></span></div>
+              <div ref="sale-body">
               <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>昨日值</span><span>日环比</span></div>
               <div className="wanted-item"><span>零点场</span><span></span><span></span><span></span></div>
               <div className="wanted-item"><span>首日票房</span><span></span><span></span><span></span></div>
               <div className="wanted-item"><span>首日排片</span><span></span><span></span><span></span></div>
               <div className="wanted-item"><span>首日场次</span><span></span><span></span><span></span></div>
-              <div className="wanted-item"><span>大盘场次</span><span></span><span></span><span></span></div>
+              <div className="wanted-item"><span>大盘场次</span><span></span><span></span><span></span></div></div>
             </div>
-  
+
             <div className="single-sale">
-              <div className="wanted-title"><span>口碑</span><span></span></div>
-              <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>昨日值</span><span>日环比</span></div>
+              <div className="wanted-title"><span>口碑</span><span className="down-pic" onClick={()=>{this.closewin('kb-body')}}></span></div>
+              <div ref="kb-body">
+              <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>昨日值</span><span>日环比</span></div></div>
             </div>
 
             <div className="single-suser">
-              <div className="wanted-title"><span>用户画像</span><span></span></div>
+              <div className="wanted-title"><span>用户画像</span><span className="down-pic" onClick={()=>{this.closewin('user-body')}}></span></div>
+              <div ref="user-body">
+              <div className="user-sex">
+                <p>受众性别</p>
+                <div className="user-sex_div"><span>猫眼</span>
+                <span className="sex-my-male"></span>
+                <span className="sex-my-female"></span></div>
+                <div className="user-sex_div"><span>淘票票</span>
+                <span className="sex-my-male"></span>
+                <span className="sex-my-female"></span></div>
+              </div>
+
+              <div className="user-age">
+                <p>年龄分布</p>
+                <BarChart width={321} height={161} data={data}
+                      margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+                <CartesianGrid strokeDasharray="3 3"/>
+                <XAxis dataKey="name"/>
+                <YAxis/>
+                {/* <Tooltip/> */}
+                {/* <Legend /> */}
+                <Bar dataKey="pv" fill="#FF574D" barSize={10}/>
+                <Bar dataKey="uv" fill="#108EE9" barSize={10}/>
+                </BarChart>
+              </div>
+              
+              <div className="user-area">
+                <p>淘票票地域分布</p>
+                <BarChart width={321} height={161} data={data}
+                      margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+                <CartesianGrid strokeDasharray="3 3"/>
+                <XAxis dataKey="name" stroke="#8884d8"/>
+                <YAxis/>
+                <Bar dataKey="pv" fill="#FF574D" barSize={10}/>
+                </BarChart>
+              </div>
+              </div>
             </div>
         </div>
       )
