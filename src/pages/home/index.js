@@ -15,6 +15,12 @@ class Home extends React.Component{
       searchResults: [],
       isLoading: false,
       showSingleFlag: false,
+      showItem1: false,
+      showItem2: false,
+      showItem3: false,
+      showItem4: false,
+      showItem5: false,
+      showItem6: false,
     }
   }
   sindleDetails = {}
@@ -78,15 +84,12 @@ class Home extends React.Component{
     }
   }
   closewin(str) {
-    let dis = this.refs[str].style.display
-    if (dis === '' || dis === 'block') {
-      this.refs[str].style.display = "none"
-    } else {
-      this.refs[str].style.display = "block"
-    }
+    this.setState({
+      showItem1: !this.state.showItem1
+    })
   }
   render(){
-    let { showSingleFlag } = this.state
+    let { showSingleFlag, showItem1, showItem2, showItem3, showItem4, showItem5, showItem6 } = this.state
     const data = [
       { name: 'food', uv: 2000, pv: 2013, amt: 4500, time: 1, uvError: [100, 50], pvError: [110, 20] },
       { name: 'cosmetic', uv: 3300, pv: 2000, amt: 6500, time: 2, uvError: 120, pvError: 50 },
@@ -103,9 +106,10 @@ class Home extends React.Component{
             <div className="singleDetail_sub">{dl.show_time}上映</div>
 
             <div className="single-wanted" ref="wanted">
-              <div className="wanted-title">
-                <span>想看</span><span className="down-pic" onClick={()=>{this.closewin('wanted-body')}}></span></div>
-              <div ref="wanted-body">
+              <div className={showItem1 ? "wanted-title_up" : "wanted-title"}>
+                <span>想看</span><span className={showItem1 ? "up-pic" : "down-pic"} onClick={()=>{this.setState({
+      showItem1: !this.state.showItem1})}}></span></div>
+              <div ref="wanted-body" style={{display: showItem1 ? 'block' : 'none'}}>
               <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>变化值</span><span>日环比</span></div>
               <div className="wanted-item"><span className="st1">猫眼</span><span></span><span></span><span></span></div>
               <div className="wanted-item"><span className="st2">淘票票</span><span></span><span></span><span></span></div>
@@ -113,9 +117,10 @@ class Home extends React.Component{
               <div className="wanted-item"><span className="st4">微信</span><span></span><span></span><span></span></div>
             </div></div>
   
-            <div className="single-hot">
-              <div className="wanted-title"><span>热度</span><span className="down-pic" onClick={()=>{this.closewin('hot-body')}}></span></div>
-              <div ref="hot-body">
+            <div className="single-wanted">
+              <div className={showItem2 ? "wanted-title_up" : "wanted-title"}><span>热度</span><span className={showItem2 ? "up-pic" : "down-pic"} onClick={()=>{this.setState({
+      showItem2: !this.state.showItem2})}}></span></div>
+              <div ref="hot-body" style={{display: showItem2 ? 'block' : 'none'}}>
               <div className="hot-item_t"><span>观测指标</span><span>当前值</span><span>日环比</span></div>
               <div className="wanted-item"><span>百度</span><span></span><span></span><span></span></div>
               <div className="wanted-item"><span>微博</span><span></span><span></span><span></span></div>
@@ -125,9 +130,10 @@ class Home extends React.Component{
               <div className="wanted-item"><span>豆瓣</span><span></span><span></span><span></span></div></div>
             </div>
   
-            <div className="single-mate">
-              <div className="wanted-title"><span>物料</span><span className="down-pic" onClick={()=>{this.closewin('mate-body')}}></span></div>
-              <div ref="mate-body">
+            <div className="single-wanted">
+              <div className={showItem3 ? "wanted-title_up" : "wanted-title"}><span>物料</span><span className={showItem3 ? "up-pic" : "down-pic"} onClick={()=>{this.setState({
+      showItem3: !this.state.showItem3})}}></span></div>
+              <div ref="mate-body" style={{display: showItem3 ? 'block' : 'none'}}>
               <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>昨日值</span><span>日环比</span></div>
               <div className="wanted-item"><span>百度</span><span></span><span></span><span></span></div>
               <div className="wanted-item"><span>微博</span><span></span><span></span><span></span></div>
@@ -137,9 +143,10 @@ class Home extends React.Component{
               <div className="wanted-item"><span>豆瓣</span><span></span><span></span><span></span></div></div>
             </div>
   
-            <div className="single-sale">
-              <div className="wanted-title"><span>预售</span><span className="down-pic" onClick={()=>{this.closewin('sale-body')}}></span></div>
-              <div ref="sale-body">
+            <div className="single-wanted">
+              <div className={showItem4 ? "wanted-title_up" : "wanted-title"}><span>预售</span><span className={showItem4 ? "up-pic" : "down-pic"} onClick={()=>{this.setState({
+      showItem4: !this.state.showItem4})}}></span></div>
+              <div ref="sale-body" style={{display: showItem4 ? 'block' : 'none'}}>
               <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>昨日值</span><span>日环比</span></div>
               <div className="wanted-item"><span>零点场</span><span></span><span></span><span></span></div>
               <div className="wanted-item"><span>首日票房</span><span></span><span></span><span></span></div>
@@ -148,15 +155,17 @@ class Home extends React.Component{
               <div className="wanted-item"><span>大盘场次</span><span></span><span></span><span></span></div></div>
             </div>
 
-            <div className="single-sale">
-              <div className="wanted-title"><span>口碑</span><span className="down-pic" onClick={()=>{this.closewin('kb-body')}}></span></div>
-              <div ref="kb-body">
+            <div className="single-wanted">
+              <div className={showItem5 ? "wanted-title_up" : "wanted-title"}><span>口碑</span><span className={showItem5 ? "up-pic" : "down-pic"} onClick={()=>{this.setState({
+      showItem5: !this.state.showItem5})}}></span></div>
+              <div ref="kb-body" style={{display: showItem5 ? 'block' : 'none'}}>
               <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>昨日值</span><span>日环比</span></div></div>
             </div>
 
-            <div className="single-suser">
-              <div className="wanted-title"><span>用户画像</span><span className="down-pic" onClick={()=>{this.closewin('user-body')}}></span></div>
-              <div ref="user-body">
+            <div className="single-wanted">
+              <div className={showItem6 ? "wanted-title_up" : "wanted-title"}><span>用户画像</span><span className={showItem6 ? "up-pic" : "down-pic"} onClick={()=>{this.setState({
+      showItem6: !this.state.showItem6})}}></span></div>
+              <div ref="user-body" style={{display: showItem6 ? 'block' : 'none'}}>
               <div className="user-sex">
                 <p>受众性别</p>
                 <div className="user-sex_div"><span>猫眼</span>

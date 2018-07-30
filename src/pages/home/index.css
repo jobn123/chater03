@@ -110,11 +110,19 @@
 .wanted-title, .hot-title{
   height: 30px;
   line-height: 30px;
-  background: #EBEBEB;
+  /* background: #EBEBEB; */
   margin: 0 auto;
   font-size: 16px;
   color: white;
   background: #108EE9;
+}
+.wanted-title_up {
+  height: 30px;
+  line-height: 30px;
+  background: #EBEBEB;
+  margin: 0 auto;
+  font-size: 16px;
+  color: #108EE9;;
 }
 .wanted-item_t span{
   display: inline-block;
@@ -136,7 +144,7 @@
 }
 .single-wanted {
   width: 94.52%;
-  margin: 0 auto;
+  margin: 15px auto;
 }
 .single-wanted .st1::before{
   content: '';
@@ -179,6 +187,15 @@
   width: 14px;
   height: 10px;
   background: url('../../assets/downwhite.png');
+  background-size: 100% 100%;
+  margin-top: 10px;
+}
+.up-pic{
+  float: right;
+  display: inline-block;
+  width: 14px;
+  height: 10px;
+  background: url('../../assets/upblue.png');
   background-size: 100% 100%;
   margin-top: 10px;
 }
