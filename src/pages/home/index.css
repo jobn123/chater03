@@ -7,7 +7,7 @@
   font-size: 18px;
   color: #FFFFFF;
 }
-.header::before {
+.header .header-user {
   display: inline-block;
   content: '';
   float: left;
@@ -18,11 +18,11 @@
   margin-top: 10px;
   margin-left: 12px; 
 }
-.header::after {
+.header .header-add {
   display: inline-block;
   content: '';
   float: right;
-  background: url('../../assets/user.png');
+  background: url('../../assets/add.png');
   width: 24px;
   height: 24px;
   background-size: 100% 100%;
@@ -217,4 +217,15 @@
   font-size: 14px;
   color: #108EE9;
   margin-left: 15px;
+}
+.checkHistory {
+  float: right;
+  width: 66px;
+  height: 24px;
+  text-align: center;
+  line-height: 24px;
+  color: white;
+  background: #108EE9;
+  margin-top: 3px;
+  margin-right: 20px
 }

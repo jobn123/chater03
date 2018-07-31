@@ -7,6 +7,7 @@ import BossInfo from "./container/bossinfo/bossinfo";
 import GeniusInfo from "./container/geniusinfo/geniusinfo";
 import Search from "./component/search";
 import Home from './pages/home/index'
+import Group from './pages/home/group'
 import Login from './pages/login'
 import Register from './pages/register'
 
@@ -22,10 +23,10 @@ class App extends React.Component{
           <Route path='/geniusinfo' component={GeniusInfo}/>
           <Route path='/login' component={Login}/>
           <Route path='/register' component={Register}/>
+          <Route path='/group' component={Group}/>
           <Route path="/" component={Home}/>
           <Route component={Dashboard}/>
           {/* <Route exac path='/' component={tabExample}/> */}
-
         </Switch>
     )
   }

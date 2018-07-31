@@ -15,6 +15,7 @@ class Home extends React.Component{
       searchResults: [],
       isLoading: false,
       showSingleFlag: false,
+      showHistory: false,
       showItem1: false,
       showItem2: false,
       showItem3: false,
@@ -88,8 +89,14 @@ class Home extends React.Component{
       showItem1: !this.state.showItem1
     })
   }
+  showHistory(flag) {
+    this.setState({
+      showSingleFlag: !flag,
+      showHistory: flag
+    })
+  }
   render(){
-    let { showSingleFlag, showItem1, showItem2, showItem3, showItem4, showItem5, showItem6 } = this.state
+    let { showSingleFlag, showHistory, showItem1, showItem2, showItem3, showItem4, showItem5, showItem6 } = this.state
     const data = [
       { name: 'food', uv: 2000, pv: 2013, amt: 4500, time: 1, uvError: [100, 50], pvError: [110, 20] },
       { name: 'cosmetic', uv: 3300, pv: 2000, amt: 6500, time: 2, uvError: 120, pvError: 50 },
@@ -129,10 +136,10 @@ class Home extends React.Component{
               <div className="wanted-item"><span>微信</span><span></span><span></span><span></span></div>
               <div className="wanted-item"><span>豆瓣</span><span></span><span></span><span></span></div></div>
             </div>
-  
+                
             <div className="single-wanted">
               <div className={showItem3 ? "wanted-title_up" : "wanted-title"}><span>物料</span><span className={showItem3 ? "up-pic" : "down-pic"} onClick={()=>{this.setState({
-      showItem3: !this.state.showItem3})}}></span></div>
+      showItem3: !this.state.showItem3})}}></span><span style={{display: showItem3 ? 'block' : 'none'}} className="checkHistory" onClick={()=>{this.showHistory(true)}}>查看历史</span></div>
               <div ref="mate-body" style={{display: showItem3 ? 'block' : 'none'}}>
               <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>昨日值</span><span>日环比</span></div>
               <div className="wanted-item"><span>百度</span><span></span><span></span><span></span></div>
@@ -204,11 +211,15 @@ class Home extends React.Component{
             </div>
         </div>
       )
+    } else if(showHistory) {
+      return (<div onClick={()=>{this.showHistory(false)}}>历史记录</div>)
     }
     return (
       <div>
           <div className="header">
             首页
+            <span className="header-user"></span>
+            <span className="header-add" onClick={()=>{this.props.history.push('/group')}}></span>
           </div>
 
           <div className="home-content">
@@ -231,3 +242,5 @@ class Home extends React.Component{
 }
 
 export default Home
+
+
