@@ -55,4 +55,78 @@
   height: 20px;
   background: url('../../assets/g-add.png');
   background-size: 100% 100%;
+  margin-right: 20px;
+}
+.group-heart_gray {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/heart-gray.png');
+  background-size: 100% 100%;
+  margin-right: 40px;
+}
+.g-hearts {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/heart.png');
+  background-size: 100% 100%;
+  margin-right: 40px;
+}
+.group-add_gray {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/add.png');
+  background-size: 100% 100%;
+  margin-right: 20px;
+}
+/* .group-add_blue {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/add.png');
+  background-size: 100% 100%;
+  margin-right: 20px;
+} */
+.groupicons {
+  float: right;
+}
+.span-red {
+  display: inline-block;
+  height: 22px;
+  line-height: 22px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 11px;
+  border: 1px solid #F03D38;
+  color: #F03D38;
+  margin-left: 12px;
+}
+.span-blue {
+  display: inline-block;
+  height: 22px;
+  line-height: 22px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 11px;
+  border: 1px solid #108EE9;
+  color: #108EE9;
+  margin-left: 12px;
+}
+.span-red i{ 
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background: url('../../assets/del-red.png');
+  background-size: 100% 100%;
+  margin-left: 6px;
+}
+.span-blue i{ 
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background: url('../../assets/del-blue.png');
+  background-size: 100% 100%;
+  margin-left: 6px;
 }
