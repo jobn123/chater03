@@ -110,7 +110,7 @@ class Group extends React.Component{
         index: index
       }
       arr.push(obj)
-
+      
       this.setState({
         groups: arr
       }, ()=>{
@@ -127,6 +127,15 @@ class Group extends React.Component{
         groups: arr
       })
     }
+  }
+  getGroupsData() {
+    let { groups } = this.state
+    let arr = []
+    groups.forEach((item)=>{
+      arr.push(item.id)
+    }) 
+    // return arr
+    this.props.history.push('/home/12')
   }
   renderBody() {
     let { searchResults, groups, selectMain } = this.state
@@ -186,7 +195,7 @@ class Group extends React.Component{
             cancelText=" "
             onChange={this.onChange}
           />
-          <span className="header-fin">完成</span>
+          <span className="header-fin" onClick={()=>{ this.getGroupsData()} }>完成</span>
          </div>
         
          <div className="group-body">

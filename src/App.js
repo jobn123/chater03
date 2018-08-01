@@ -5,7 +5,7 @@ import Dashboard from "./component/dashboard/dashboard";
 import BossInfo from "./container/bossinfo/bossinfo";
 // import Login from "./container/login/login";
 import GeniusInfo from "./container/geniusinfo/geniusinfo";
-import Search from "./component/search";
+// import Search from "./component/search";
 import Home from './pages/home/index'
 import Group from './pages/home/group'
 import Login from './pages/login'
@@ -25,6 +25,7 @@ class App extends React.Component{
           <Route path='/register' component={Register}/>
           <Route path='/group' component={Group}/>
           <Route path="/" component={Home}/>
+          <Route path="/home/:data" component={Home}/>
           <Route component={Dashboard}/>
           {/* <Route exac path='/' component={tabExample}/> */}
         </Switch>
