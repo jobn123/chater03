@@ -78,7 +78,7 @@ class Home extends React.Component{
   renderHomeBody() {
     let { searchflag, searchResults, listHomeContent } = this.state
     if (listHomeContent) {
-      return(<ListContent />)
+      return(<ListContent uid={2}/>)
     }
     if (searchResults.length === 0) {
       return (<div>

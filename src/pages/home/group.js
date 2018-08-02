@@ -99,11 +99,15 @@ class Group extends React.Component{
     let { groups } = this.state
     //
     let str = `group-add_${index}`
+    let str2 = `group-heart_${index}`
+
     let cname = this.refs[str].className
+    let cname2 = this.refs[str2].className 
+
     let arr = groups
 
     if (cname === "group-add_gray") {
-      if(arr.length > 7) return
+      if(arr.length > 7 || cname2 === 'g-hearts') return
       let obj = {
         id: item.id,
         title: item.title,

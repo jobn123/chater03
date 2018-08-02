@@ -1,28 +1,55 @@
 import React from 'react'
-// import { SearchBar } from 'antd-mobile'
-// import axios from "axios"
+import axios from "axios"
 
 class ListContent extends React.Component{
   constructor() {
     super()
     this.state = {
-      value: "",
+      lists: []
     }
   }
+  componentDidMount() {
+    axios.get('http://123.56.14.124:918/group/?format=json&userid=1')
+    .then((res)=>{
+      this.setState({
+        lists: res.data.data
+      })
+    })
+  }
 
+  renderLists() {
+    let { lists } = this.state
+
+    let arr = []
+    for(let i = 0; i < lists.length; i++) {
+      let item = lists[i].movie_base_detail[0]
+      let listitem = (
+        <div key={i}>
+          <div className="list-content_img">
+            <div className="list-left_title">{item.title}</div>
+            <div className="list-left-desc">点击可编辑</div>
+          </div>
+          
+          <div ref="wanted-body" className="list-content_right" onClick={()=>{}}>
+            <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>日环比</span><span>组排名</span></div>
+            <div className="wanted-item"><span className="st1">猫眼想看</span><span>122</span><span>12</span><span>12</span></div>
+            <div className="wanted-item"><span className="st2">百度指数</span><span>12</span><span>12</span><span>12</span></div>
+            <div className="wanted-item"><span className="st3">微博指数</span><span>12</span><span>12</span><span>12</span></div>
+            <div className="wanted-item"><span className="st4">微信指数</span><span>12</span><span>12</span><span>12</span></div>
+          </div>
+          <div style={{clear: 'both'}}></div>
+          <div className="split-line"></div>
+        </div>
+      )
+      arr.push(listitem)
+    }
+
+    return arr
+  }
   render(){
     return (
       <div className="list-content">
-        <div>
-          <img className="list-content_img" alt="loading..." width="88" height="120" onClick={()=>{}}/>
-          <div ref="wanted-body" className="list-content_right" onClick={()=>{}}>
-              <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>日环比</span><span>组排名</span></div>
-              <div className="wanted-item"><span className="st1">猫眼想看</span><span></span><span></span><span></span></div>
-              <div className="wanted-item"><span className="st2">百度指数</span><span></span><span></span><span></span></div>
-              <div className="wanted-item"><span className="st3">微博指数</span><span></span><span></span><span></span></div>
-              <div className="wanted-item"><span className="st4">微信指数</span><span></span><span></span><span></span></div>
-            </div>
-        </div>
+        {this.renderLists()}
       </div>
     )
   }
