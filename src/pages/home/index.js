@@ -1,13 +1,14 @@
 import React from 'react'
 import axios from "axios/index"
-import { SearchBar, ListView } from 'antd-mobile'
+import { SearchBar } from 'antd-mobile'
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts'
+import ListContent from './listContent'
 
 import './index.css'
 
 class Home extends React.Component{
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.state = {
       value: "",
@@ -15,6 +16,7 @@ class Home extends React.Component{
       searchResults: [],
       isLoading: false,
       showSingleFlag: false,
+      listHomeContent: false,
       showHistory: false,
       showItem1: false,
       showItem2: false,
@@ -25,6 +27,14 @@ class Home extends React.Component{
     }
   }
   sindleDetails = {}
+  componentWillMount(){
+    let { id } = this.props.match.params
+    if (id != undefined) {
+      this.setState({
+        listHomeContent: true
+      })
+    }
+  }
   componentDidMount(){
   }
   onChange= (value) => {
@@ -66,7 +76,10 @@ class Home extends React.Component{
     })
   }
   renderHomeBody() {
-    let { searchflag, searchResults } = this.state
+    let { searchflag, searchResults, listHomeContent } = this.state
+    if (listHomeContent) {
+      return(<ListContent />)
+    }
     if (searchResults.length === 0) {
       return (<div>
         <p>请选择右上角『+』按钮创影片建对比组</p>
@@ -218,7 +231,7 @@ class Home extends React.Component{
       <div>
           <div className="header">
             首页
-            <span className="header-user"></span>
+            <span className="header-user" onClick={()=>{this.props.history.push('/login')}}></span>
             <span className="header-add" onClick={()=>{this.props.history.push('/group')}}></span>
           </div>
 

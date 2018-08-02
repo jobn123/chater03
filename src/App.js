@@ -8,6 +8,8 @@ import GeniusInfo from "./container/geniusinfo/geniusinfo";
 // import Search from "./component/search";
 import Home from './pages/home/index'
 import Group from './pages/home/group'
+import CompareGroupList from './pages/home/compareGroupList'
+import CompareDetail from './pages/home/compareDetail'
 import Login from './pages/login'
 import Register from './pages/register'
 
@@ -24,10 +26,13 @@ class App extends React.Component{
           <Route path='/login' component={Login}/>
           <Route path='/register' component={Register}/>
           <Route path='/group' component={Group}/>
-          <Route path="/" component={Home}/>
-          <Route path="/home/:data" component={Home}/>
-          <Route component={Dashboard}/>
-          {/* <Route exac path='/' component={tabExample}/> */}
+          <Route path='/groupcompare' component={CompareGroupList}/>
+          <Route path='/comparedetail' component={CompareDetail} />
+          <Route exac path="/home/:id" component={Home}/>
+          {/* <Route component={Dashboard}/> */}
+          <Route exac path='/xxx' component={tabExample}/>
+          <Route exac path="/" component={Home}/>
+          
         </Switch>
     )
   }

@@ -1,5 +1,6 @@
 import React from 'react'
 import { InputItem } from 'antd-mobile'
+import axios from "axios/index"
 import './index.css'
 
 class Login extends React.Component{
@@ -11,13 +12,31 @@ class Login extends React.Component{
   }
 
   goRegisPage() {
-    this.props.history.push('/login')
+    this.props.history.push('/register')
   }
 
   goHomePage() {
     this.props.history.push('/')
   }
   
+  login() {
+    let name = this.refs.uname.state.value
+    let pwd = this.refs.upwd.state.value
+
+    axios.post('http://123.56.14.124:918/user/', {
+      "account": name,
+      "password": pwd
+    }).then((res)=>{
+      let d = res.data
+      if (d.account === name && d.password === pwd) {
+        localStorage.setItem('user', JSON.stringify(res.data))
+        this.props.history.push('/')
+      } else {
+        alert('用户不存在，请点击注册按钮注册账号')
+      }
+    })
+  }
+
   render(){
     return (
       <div>
@@ -28,17 +47,20 @@ class Login extends React.Component{
 
         <div className="login-content">
         <InputItem
+            ref="uname"
             placeholder="请输入您的用户名"
           >
             <div className="login-user_img"></div>
           </InputItem>
           <InputItem
+            ref="upwd"
+            type="password"
             placeholder="请输入密码"
           >
             <div className="login-user_pwd"></div>
           </InputItem>
 
-          <div className="login-btn">登录</div>
+          <div className="login-btn" onClick={()=>{this.login()}}>登录</div>
         </div>
         
       </div>

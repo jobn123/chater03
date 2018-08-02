@@ -504,20 +504,10 @@ class Genius extends React.Component {
         <div style={{display: 'inline-block', width:'40%'}}>
           <span className={segZero == 0 ? 'segSpanActive' : 'segSpan'} onClick={()=>{this.setZeroSeg(0)}}> 累计 </span>
           <span className={segZero == 1 ? 'segSpanActive' : 'segSpan'} onClick={()=>{this.setZeroSeg(1)}}> 日增 </span>
-          {/* <SegmentedControl
-            selectedIndex={this.state.segZero}
-            values={['累计', '日增']}
-            onValueChange={this.setZeroSeg}/> */}
         </div>
         <div style={{display: 'inline-block', width:'40%', marginLeft: '18%'}}>
         <span className={segIndex == 0 ? 'segSpanActive' : 'segSpan'} onClick={()=>{this.onValueChange(0)}}> 绝对时间 </span>
           <span className={segIndex == 1 ? 'segSpanActive' : 'segSpan'} onClick={()=>{this.onValueChange(1)}}> 相对时间 </span>
-          {/* <SegmentedControl
-            selectedIndex={segIndex}
-            values={['绝对时间', '相对时间']}
-            onChange={this.onChange}
-            onValueChange={this.onValueChange}
-          /> */}
         </div>
           {this.renderDateDiv()}
           {this.renderRange()}
