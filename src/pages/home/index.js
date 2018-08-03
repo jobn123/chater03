@@ -76,9 +76,10 @@ class Home extends React.Component{
     })
   }
   renderHomeBody() {
-    let { searchflag, searchResults, listHomeContent } = this.state
+    let { searchResults, listHomeContent } = this.state
+    let { id } = this.props.match.params
     if (listHomeContent) {
-      return(<ListContent uid={2}/>)
+      return(<ListContent uid={id} goCompareGroup={this.goCompareGroup.bind(this)}/>)
     }
     if (searchResults.length === 0) {
       return (<div>
@@ -97,6 +98,11 @@ class Home extends React.Component{
       return arr
     }
   }
+
+  goCompareGroup(id) {
+    this.props.history.push(`/groupcompare/${id}`)
+  }
+
   closewin(str) {
     this.setState({
       showItem1: !this.state.showItem1

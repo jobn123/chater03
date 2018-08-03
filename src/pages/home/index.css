@@ -313,3 +313,40 @@
   bottom: 0;
   width: 100%;
 }
+.home-group {
+  position: relative;
+}
+.del-groups {
+  position: absolute;
+  width: 218px;
+  height: 148px;
+  text-align: center;
+  font-size: 14px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #FFFFFF;
+  border-radius: 4px;
+}
+.del-groups_desc {
+  margin-top: 38px;
+  margin-bottom: 50px;
+}
+.del-groups_btns {
+  width: 100%;
+}
+.del-groups_btns span{
+  display: inline-block;
+  width: 50%;
+  height: 44px;
+  text-align: center;
+  line-height: 44px;
+}
+.del-groups_btns span:first-child{
+  color: #F03D38;
+  background: #E3E3E3;
+}
+.del-groups_btns span:last-child{
+  color: white;
+  background: #F03D38;
+}

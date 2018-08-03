@@ -9,12 +9,17 @@ class ListContent extends React.Component{
     }
   }
   componentDidMount() {
-    axios.get('http://123.56.14.124:918/group/?format=json&userid=1')
+    let id = this.props.uid
+    axios.get(`http://123.56.14.124:918/group/?format=json&userid=${id}`)
     .then((res)=>{
       this.setState({
         lists: res.data.data
       })
     })
+  }
+
+  goCompareGroup(id) {
+    this.props.goCompareGroup(id)
   }
 
   renderLists() {
@@ -27,7 +32,9 @@ class ListContent extends React.Component{
         <div key={i}>
           <div className="list-content_img">
             <div className="list-left_title">{item.title}</div>
-            <div className="list-left-desc">点击可编辑</div>
+            <div className="list-left-desc" onClick={()=>{
+              this.goCompareGroup(lists[i].id)
+            }}>点击可编辑</div>
           </div>
           
           <div ref="wanted-body" className="list-content_right" onClick={()=>{}}>

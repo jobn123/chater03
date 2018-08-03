@@ -138,8 +138,19 @@ class Group extends React.Component{
     groups.forEach((item)=>{
       arr.push(item.id)
     }) 
-    // return arr
-    this.props.history.push('/home/12')
+
+    let base = arr.shift()
+    let u = JSON.parse(localStorage.getItem('user'))
+    let uid = u === null ? 1 : u.id
+    
+    let url = `http://123.56.14.124:918/group/`
+    axios.post(url, {
+      "movie_base": base,
+      "user": uid,
+      "movies": arr,
+    }).then((res) => {
+      this.props.history.push(`/home/${uid}`)
+    })
   }
   renderBody() {
     let { searchResults, groups, selectMain } = this.state

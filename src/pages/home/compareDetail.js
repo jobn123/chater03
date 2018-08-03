@@ -39,7 +39,7 @@ class CompareDetail extends React.Component{
           <span className="detail-compare">对比详情</span>
           <span className="detail-edit"></span>
         </div>
-
+        
         <div className="com-sub_header">
           <div style={{display: 'inline-block', width:'40%'}}>
             <span className={segIndex == 0 ? 'segSpanActive' : 'segSpan'} onClick={()=>{this.onValueChange(0)}}> 绝对时间 </span>
