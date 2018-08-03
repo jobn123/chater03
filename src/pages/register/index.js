@@ -6,9 +6,6 @@ import './index.css'
 class Register extends React.Component{
   constructor() {
     super()
-    this.state = {
-      value: "搜索影片名"
-    }
   }
 
   goRegisPage() {
@@ -16,7 +13,6 @@ class Register extends React.Component{
   }
 
   regis() {
-    // debugger
     let name = this.refs.uname.state.value
     let pwd = this.refs.upwd.state.value
     let rpwd = this.refs.urpwd.state.value
@@ -27,7 +23,12 @@ class Register extends React.Component{
       "account": name,
       "password": pwd
     }).then((res)=>{
-      this.props.history.push('/login')
+      let d = res.data
+      if(d.account === name && d.password === pwd) {
+        this.props.history.push('/login')
+      } else if(d.message === "success") {
+        alert('账号已存在')
+      }
     })
   }
   render(){
