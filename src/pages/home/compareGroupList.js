@@ -212,6 +212,7 @@ class CompareGroupList extends React.Component{
     this.setState({
       groupList: arr
     }, ()=>{
+      if (this.refs[str] === undefined) return
       let str = `group-add_${item.index}`
       this.refs[str].className = "group-add_gray"
     })

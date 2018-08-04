@@ -22,6 +22,9 @@ class ListContent extends React.Component{
     this.props.goCompareGroup(id)
   }
 
+  goCompoareDetail(id) {
+    this.props.goCompoareDetail(id)
+  }
   renderLists() {
     let { lists } = this.state
 
@@ -37,7 +40,7 @@ class ListContent extends React.Component{
             }}>点击可编辑</div>
           </div>
           
-          <div ref="wanted-body" className="list-content_right" onClick={()=>{}}>
+          <div ref="wanted-body" className="list-content_right" onClick={()=>{this.goCompoareDetail(lists[i].id)}}>
             <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>日环比</span><span>组排名</span></div>
             <div className="wanted-item"><span className="st1">猫眼想看</span><span>122</span><span>12</span><span>12</span></div>
             <div className="wanted-item"><span className="st2">百度指数</span><span>12</span><span>12</span><span>12</span></div>

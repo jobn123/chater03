@@ -81,7 +81,9 @@ class Home extends React.Component{
     let u = JSON.parse(localStorage.getItem('user'))
     let id  = this.props.match.params.id || u.id
     if (listHomeContent) {
-      return(<ListContent uid={id} goCompareGroup={this.goCompareGroup.bind(this)}/>)
+      return(<ListContent uid={id} 
+        goCompoareDetail={this.goCompoareDetail.bind(this)}               
+        goCompareGroup={this.goCompareGroup.bind(this)}/>)
     }
     if (searchResults.length === 0) {
       return (<div>
@@ -104,7 +106,9 @@ class Home extends React.Component{
   goCompareGroup(id) {
     this.props.history.push(`/groupcompare/${id}`)
   }
-
+  goCompoareDetail(id) {
+    this.props.history.push(`/comparedetail/${id}`)
+  }
   closewin(str) {
     this.setState({
       showItem1: !this.state.showItem1

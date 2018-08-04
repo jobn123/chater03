@@ -27,7 +27,7 @@ class App extends React.Component{
           <Route path='/register' component={Register}/>
           <Route path='/group' component={Group}/>
           <Route path='/groupcompare/:id' component={CompareGroupList}/>
-          <Route path='/comparedetail' component={CompareDetail} />
+          <Route path='/comparedetail/:id' component={CompareDetail} />
           <Route exac path="/home/:id" component={Home}/>
           {/* <Route component={Dashboard}/> */}
           <Route exac path='/xxx' component={tabExample}/>
