@@ -7,17 +7,48 @@ class CompareGroupList extends React.Component{
   constructor(props) {
     super(props)
     this.state = {
-      value: "对比组列表",
+      value: "",
       editFlag: false,
       showAdd: false,
       groupList: [],
       groups: [],
+      searchResults:[]
     }
   }
 
   componentDidMount() {
     this.fetchData()
   }
+  onChange= (value) => {
+    this.setState({ value });
+    if(value === "") {
+      return this.setState({searchResults: []})
+    }
+    axios.get(`http://123.56.14.124:918/albums/?format=json&search=${value}&page_size=50`)
+    .then(res=>{
+      if(res.status===200){
+        this.setState({
+          searchResults: res.data.results,
+        });
+      }
+    })
+  };
+  search(val) {
+    if(val === "") {
+      return this.setState({searchResults: []})
+    }
+    axios.get(`http://123.56.14.124:918/albums/?format=json&search=${val}&page_size=50`)
+    .then(res=>{
+      if(res.status===200){
+        this.setState({
+          searchResults: res.data.results
+        });
+      }
+    })
+  }
+  clear = () => {
+    this.setState({ value: '' });
+  };
   fetchData() {
     let { id } = this.props.match.params
     axios.get(`http://123.56.14.124:918/group/${id}/?format=json`)
@@ -66,7 +97,54 @@ class CompareGroupList extends React.Component{
   addMainitem() {
 
   }
+  addGroupsItem(item, index) {
+    let { groupList, groups } = this.state
+    let str = `group-add_${index}`
+    let str2 = `group-heart_${index}`
 
+    let cname = this.refs[str].className
+    let cname2 = this.refs[str2].className 
+
+    if (cname === "group-add_gray" && cname2 === 'group-heart_gray') {
+      if(groupList.length > 7) return
+      let arr = groupList
+      let g = groups
+      //去除重复
+      if(g.includes(it.id)) return
+
+      let it = {
+        index: arr.lengh,
+        title: item.title,
+        id: item.id
+      }
+      arr.push(it)
+      g.push(it.id) 
+      
+      this.setState({
+        groupList: arr,
+        groups: g
+      }, ()=>{
+        this.refs[str].className = "g-add"
+      })
+    } else {
+      groupList.forEach((val, i) =>{
+        if (val.id === item.id) {
+          console.log('-----------test')
+          groupList.splice(i, 1)
+        }
+      })
+
+      let ix = groups.indexOf(item.id)
+      groups.splice(ix, 1)
+
+      this.setState({
+        groups: groups,
+        groupList: groupList
+      },() =>{
+        this.refs[str].className = "group-add_gray"
+      })
+    }
+  }
   addGroups(id, index) {
     let { groups } = this.state
     let str = `group-add_${index}`
@@ -118,6 +196,26 @@ class CompareGroupList extends React.Component{
       }
     })
   }
+  delGroupItem(item, index) {
+    debugger
+    let arr = this.state.groupList
+    arr.splice(index, 1)
+    if (index === 0) {
+      this.setState({
+        groupList: arr,
+      },()=>{
+        let str = `group-heart_${item.index}`
+        this.refs[str].className = "group-heart_gray"
+      })
+      return
+    }
+    this.setState({
+      groupList: arr
+    }, ()=>{
+      let str = `group-add_${item.index}`
+      this.refs[str].className = "group-add_gray"
+    })
+  }
   renderGroupLists() {
     let { groupList, editFlag } = this.state
 
@@ -139,14 +237,54 @@ class CompareGroupList extends React.Component{
     }
     return arr
   }
-
+  renderGroupSearchBody() {
+    let { searchResults, groups, groupList } = this.state
+    let arr = []
+      for(let i = 0; i < searchResults.length; i++) {
+        let cname = (i + 1) % 2 === 0 ? 's-item_g' : 's-item'
+        let item = (<div key={i} className={cname}>
+          <span style={{paddingRight: '16px'}}>{searchResults[i].title}</span>
+          <div className="groupicons">
+            <i className="group-heart_gray" ref={`group-heart_${i}`} onClick={()=>{this.addMainitem(searchResults[i], i)}} />
+            <i className="group-add_gray" ref={`group-add_${i}`} onClick={()=>{ this.addGroupsItem(searchResults[i], i)}}/>
+          </div>
+        </div>)
+        arr.push(item)
+      }
+      //选择对比组
+      if (groupList.length > 0) {
+        let garrs = []
+        for(let j = 0; j < groupList.length; j++) {
+          let item = groupList[j]
+          let cname = (j === 0) ? 'span-red' : 'span-blue'
+          let spanItem = (<span className={cname}>{item.title} <i onClick={()=>{this.delGroupItem(item, j)}} className="span-blue_i" /></span>)
+          garrs.push(spanItem)
+        }
+        return (<div>
+          <div>{garrs}</div>
+          { arr }
+        </div>)
+      }
+      return arr
+  }
+  backHome() {
+    let { editFlag } = this.state
+    if (editFlag) {
+      return this.setState({
+        editFlag: false
+      })
+    }
+    let u = JSON.parse(localStorage.getItem('user'))
+    let uid = u === null ? 1 : u.id
+    this.props.history.push(`/home/${uid}`)
+  }
   render(){
     let { editFlag, showAdd } = this.state
     if (showAdd) {
       return (
         <div className="home-group">
          <div className="group-header"> 
-          <span className="header-back">返回</span>
+          <span className="header-back" onClick={()=>{ this.edit()} }>返回</span>
           {/* <input type="search" placeholder="请输入影片" /> */}
           <SearchBar
             className="group-saerch"
@@ -159,10 +297,11 @@ class CompareGroupList extends React.Component{
             cancelText=" "
             onChange={this.onChange}
           />
-          <span className="header-fin" onClick={()=>{ this.getGroupsData()} }>完成</span>
+          <span className="header-fin" onClick={()=>{ this.edit()} }>完成</span>
          </div>
         
          <div className="group-body">
+          {this.renderGroupSearchBody()}
          </div>
       </div>
       )
@@ -171,7 +310,7 @@ class CompareGroupList extends React.Component{
     return (
       <div className="compareLsits">
         <div className="compare-header">
-          <span>返回</span> 对比组列表 <span className={editFlag ? "compare-add" : "compare-edit"} onClick={()=>{this.edit()}}></span></div>
+          <span onClick={()=>{ this.backHome()} }>返回</span> 对比组列表 <span className={editFlag ? "compare-add" : "compare-edit"} onClick={()=>{this.edit()}}></span></div>
 
         {/* xxxxxx */}
         {this.renderGroupLists()}

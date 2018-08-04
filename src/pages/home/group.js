@@ -105,7 +105,7 @@ class Group extends React.Component{
     let cname2 = this.refs[str2].className 
 
     let arr = groups
-
+    
     if (cname === "group-add_gray") {
       if(arr.length > 7 || cname2 === 'g-hearts') return
       let obj = {

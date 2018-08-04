@@ -29,7 +29,8 @@ class Home extends React.Component{
   sindleDetails = {}
   componentWillMount(){
     let { id } = this.props.match.params
-    if (id != undefined) {
+    let u = JSON.parse(localStorage.getItem('user'))
+    if (id !== undefined || u !== null) {
       this.setState({
         listHomeContent: true
       })
@@ -77,7 +78,8 @@ class Home extends React.Component{
   }
   renderHomeBody() {
     let { searchResults, listHomeContent } = this.state
-    let { id } = this.props.match.params
+    let u = JSON.parse(localStorage.getItem('user'))
+    let id  = this.props.match.params.id || u.id
     if (listHomeContent) {
       return(<ListContent uid={id} goCompareGroup={this.goCompareGroup.bind(this)}/>)
     }
