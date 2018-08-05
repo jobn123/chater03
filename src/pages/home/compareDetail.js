@@ -18,9 +18,10 @@ class CompareDetail extends React.Component{
     super(props)
     this.state = {
       value: "对比组列表",
-      editFlag: false,
+      editFlag: true,
       segZero: 0,
-      segIndex: 0
+      segIndex: 0,
+      data: ['猫眼想看','淘票票先看' , '百度指数', '微博指数', '微信指数', '预售票房']
     }
   }
   backHome() {
@@ -34,7 +35,6 @@ class CompareDetail extends React.Component{
     })
   }
   showEdit() {
-    debugger
     this.setState({
       editFlag: !this.state.editFlag
     })
@@ -51,14 +51,77 @@ class CompareDetail extends React.Component{
   onValueChange() {
 
   }
+  up(i) {
+    let { data } = this.state
+    if (i === 0) return
+
+    let val = data[i]
+    let preVal = data[i-1]
+    data[i-1] = val
+    data[i] = preVal
+
+    this.setState({data: data})
+  }
+  down(i) {
+    let { data } = this.state
+    if (i === data.length - 1) return
+
+    let val = data[i]
+    let nextVal = data[i+1]
+
+    data[i] = nextVal
+    data[i+1] = val
+    
+    this.setState({data: data})
+  }
+  add(i) {
+    console.log('----------add-----------')
+  }
+  back() {
+    console.log('---back-')
+    this.setState({editFlag: false})
+  }
+  save() {
+    console.log('save')
+    this.setState({editFlag: false})
+  }
+  renderEditTrendItem() {
+    let arr = this.state.data
+    let trendArr = []
+    for (let i = 0; i < arr.length; i++) {
+      let title = arr[i]
+      let upClassName = i === 0 ? 'trend_item_up' : 'trend_item_canup'
+      let downClassName = i === arr.length - 1 ? 'trend_item_cndown' : 'trend_item_down'
+      let item =  (
+        <div className="edit-trend_item">
+          <span>{ title }</span>
+          <div style={{float: 'right'}}>
+          <span className={upClassName} onClick={()=>{this.up(i)}}></span>
+          <span className={downClassName} onClick={()=>{this.down(i)}}></span>
+          <span className="trend_item_add" onClick={()=>{this.add(i)}}></span></div>
+        </div>
+      )
+
+      trendArr.push(item)
+    }
+
+    return trendArr
+  }
   render(){
     let { editFlag, segZero, segIndex } = this.state
     if (editFlag) {
       return (
-        <div className="comparedetail-header">
-          <span className="detail-back" ononClick={()=>{this.showEdit()}}>返回</span>
-          <span className="">编辑总趋势观测指标</span>
-          <span className="" onClick={()=>{this.showEdit()}}>保存</span>
+        <div>
+          <div className="comparedetail-header">
+            <span className="detail-back" onClick={()=>{this.back()}}>返回</span>
+            <span className="">编辑总趋势观测指标</span>
+            <span className="detail-save" onClick={()=>{this.save()}}>保存</span>
+          </div>
+
+          {/*  body  */}
+          <div className="edit-trend_body">
+            {this.renderEditTrendItem()}
+          </div>
         </div>
       )
     }
@@ -83,7 +146,7 @@ class CompareDetail extends React.Component{
 
           <div className="compare-date">2018-12-12/2018-12-12</div>
 
-          <LineChart width={600} height={300} data={data}
+          <LineChart width={321} height={161} data={data} data={data}
                 margin={{top: 5, right: 30, left: 20, bottom: 5}}>
           <XAxis dataKey="name"/>
           <YAxis/>
