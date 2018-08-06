@@ -14,7 +14,7 @@ const data = [
   {name: 'Page G', uv: 3490, pv: 4300, amt: 2100},
 ]
 
-class CompareDetail extends React.Component{
+class Compare extends React.Component{
   constructor(props) {
     super(props)
     let e = new Date()
@@ -48,7 +48,7 @@ class CompareDetail extends React.Component{
   }
   backHome() {
     let u = JSON.parse(localStorage.getItem('user'))
-    this.props.history.push(`/home/${u.id}`)
+    this.props.history.push(`/comparedetail/${u.id}`)
   }
   edit() {
     console.log('-----edit------')
@@ -59,32 +59,6 @@ class CompareDetail extends React.Component{
   showEdit() {
     this.setState({
       editFlag: !this.state.editFlag
-    })
-  }
-  addMainitem() {
-
-  }
-  addGroups() {
-
-  }
-  setZeroSeg(e) {
-    let {segIndex, start, end, segZero, start2, end2} = this.state
-    // let pids = ""
-    // this.props.pidlist.map((pid)=>{
-    //   pids += "&pid="
-    //   pids += pid
-    // })
-    this.setState({
-      segZero: e,
-    }, ()=> {
-      // let platform = this.state.segZero == 0 ? this.props.platform : this.props.platform.replace('count', 'up')
-      // let url = ''
-      // if(segIndex === 1) {
-      //     url = `http://123.56.14.124:918/trend/?format=json${pids}&start_days=${start2}&end_days=${end2}&target=${platform}`
-      //   } else {
-      //     url = `http://123.56.14.124:918/trend/?format=json${pids}&start=${start}&end=${end}&target=${platform}`
-      // }
-      // this.fetchTrend(url)
     })
   }
   onValueChange(e) {
@@ -115,61 +89,25 @@ class CompareDetail extends React.Component{
       // this.fetchTrend(url)
     })
   }
-  up(i) {
-    let { data } = this.state
-    if (i === 0) return
-
-    let val = data[i]
-    let preVal = data[i-1]
-    data[i-1] = val
-    data[i] = preVal
-
-    this.setState({data: data})
-  }
-  down(i) {
-    let { data } = this.state
-    if (i === data.length - 1) return
-
-    let val = data[i]
-    let nextVal = data[i+1]
-
-    data[i] = nextVal
-    data[i+1] = val
-    
-    this.setState({data: data})
-  }
-  add(i) {
-    console.log('----------add-----------')
-  }
-  back() {
-    console.log('---back-')
-    this.setState({editFlag: false})
-  }
-  save() {
-    console.log('save')
-    this.setState({editFlag: false})
-  }
-  renderEditTrendItem() {
-    let arr = this.state.data
-    let trendArr = []
-    for (let i = 0; i < arr.length; i++) {
-      let title = arr[i]
-      let upClassName = i === 0 ? 'trend_item_up' : 'trend_item_canup'
-      let downClassName = i === arr.length - 1 ? 'trend_item_cndown' : 'trend_item_down'
-      let item =  (
-        <div className="edit-trend_item">
-          <span>{ title }</span>
-          <div style={{float: 'right'}}>
-          <span className={upClassName} onClick={()=>{this.up(i)}}></span>
-          <span className={downClassName} onClick={()=>{this.down(i)}}></span>
-          <span className="trend_item_add" onClick={()=>{this.add(i)}}></span></div>
-        </div>
-      )
-
-      trendArr.push(item)
-    }
-
-    return trendArr
+  setZeroSeg(e) {
+    let {segIndex, start, end, segZero, start2, end2} = this.state
+    // let pids = ""
+    // this.props.pidlist.map((pid)=>{
+    //   pids += "&pid="
+    //   pids += pid
+    // })
+    this.setState({
+      segZero: e,
+    }, ()=> {
+      // let platform = this.state.segZero == 0 ? this.props.platform : this.props.platform.replace('count', 'up')
+      // let url = ''
+      // if(segIndex === 1) {
+      //     url = `http://123.56.14.124:918/trend/?format=json${pids}&start_days=${start2}&end_days=${end2}&target=${platform}`
+      //   } else {
+      //     url = `http://123.56.14.124:918/trend/?format=json${pids}&start=${start}&end=${end}&target=${platform}`
+      // }
+      // this.fetchTrend(url)
+    })
   }
   showCanlender() {
     this.setState({
@@ -178,28 +116,6 @@ class CompareDetail extends React.Component{
   }
   onChange = (e) => {
     console.log(e)
-  }
-  rangeChange() {
-    console.log('range change')
-  }
-  afteRangeChange = (arr) => {
-    console.log(arr)
-    // let pids = ""
-    // this.props.pidlist.map((pid)=>{
-    //   pids += "&pid="
-    //   pids += pid
-    // })
-    // if (pids) {
-      // let url = `http://123.56.14.124:918/trend/?format=json${pids}&start_days=${arr[0]}&end_days=${arr[1]}&target=${this.props.platform}`
-
-      this.setState({
-        showDate: arr,
-        start2: arr[0],
-        end2: arr[1]
-      }, () => {
-        // this.fetchTrend(url)
-      })
-    // } 
   }
   onCancel = (e) => {
     console.log(e)
@@ -212,26 +128,16 @@ class CompareDetail extends React.Component{
       showCalender: false
     })
   }
-  renderCalender() {
-    const MDate = new Date(new Date() - 2592000000)
-    const MinDate = new Date('2014-01-01')
-
-    if (this.state.showCalender) {
+  renderDateDiv() {
+    if(this.state.segIndex === 0) {
       return (
-        <Calendar
-            showShortcut={true}
-            title="相对时间"
-            visible={true}
-            onCancel={this.onCancel}
-            onConfirm={this.onConfirm}
-            onSelectHasDisableDate={this.onSelectHasDisableDate}
-            getDateExtra={this.getDateExtra}
-            defaultDate={MDate}
-            // minDate={new Date(+now - 5184000000)}
-            minDate={MinDate}
-            // maxDate={new Date(+now + 2592000000)}
-            maxDate={new Date()}
-          />
+        <div style={{marginTop: 20, textAlign: 'right'}}>
+        <Button 
+          size="small"
+          onClick={() => this.setState({showCalendar: !this.state.showCalendar})}
+          type="primary" inline style={{ marginRight: '4px' }}>
+          {this.state.dateStr}
+        </Button></div>
       )
     }
   }
@@ -255,44 +161,46 @@ class CompareDetail extends React.Component{
      </div>)
     }
   }
-  renderDateDiv() {
-    if(this.state.segIndex === 0) {
+  renderCalender() {  
+    const MDate = new Date(new Date() - 2592000000)
+    const MinDate = new Date('2014-01-01')
+
+    if (this.state.showCalender) {
       return (
-        <div style={{marginTop: 20, textAlign: 'right'}}>
-        <Button 
-          size="small"
-          onClick={() => this.setState({showCalendar: !this.state.showCalendar})}
-          type="primary" inline style={{ marginRight: '4px' }}>
-          {this.state.dateStr}
-        </Button></div>
+        <Calendar
+            showShortcut={true}
+            title="相对时间"
+            visible={true}
+            onCancel={this.onCancel}
+            onConfirm={this.onConfirm}
+            onSelectHasDisableDate={this.onSelectHasDisableDate}
+            getDateExtra={this.getDateExtra}
+            defaultDate={MDate}
+            // minDate={new Date(+now - 5184000000)}
+            minDate={MinDate}
+            // maxDate={new Date(+now + 2592000000)}
+            maxDate={new Date()}
+          />
       )
     }
   }
   render(){
+    let cw = document.body.clientWidth
     let { editFlag, segZero, segIndex } = this.state
-    if (editFlag) {
-      return (
-        <div>
-          <div className="comparedetail-header">
-            <span className="detail-back" onClick={()=>{this.back()}}>返回</span>
-            <span className="">编辑总趋势观测指标</span>
-            <span className="detail-save" onClick={()=>{this.save()}}>保存</span>
-          </div>
-
-          {/*  body  */}
-          <div className="edit-trend_body">
-            {this.renderEditTrendItem()}
-          </div>
-        </div>
-      )
-    }
     return (
       <div className="comparedetail">
-        <div className="comparedetail-header">
+        <div className="compare2-header">
           <span className="detail-back" onClick={()=>{this.backHome()}}>返回</span>
-          <span className="detail-trend">总趋势</span>
-          <span className="detail-compare" onClick={()=>{this.props.history.push('/compare')}}>对比详情</span>
-          <span className="detail-edit" onClick={()=>{this.showEdit()}}></span>
+          <span className="detail2-trend" onClick={()=>{this.backHome()}}>总趋势</span>
+          <span className="detail2-compare">对比详情</span>
+          <ul className="comparesubtitle">
+            <li>想看</li>
+            <li>热度</li>
+            <li>画像</li>
+            <li>物料</li>
+            <li>预售</li>
+            <li>口碑</li>
+          </ul>
         </div>
         
         <div className="com-sub_header">
@@ -310,11 +218,7 @@ class CompareDetail extends React.Component{
           {this.renderCalender()}
           {this.renderRange()}
 
-          <div style={{clear: 'both'}}></div>
-
-          <div>
-          <div>猫眼想看 <span onClick={()=>{alert('查看事件')}}>查看事件</span></div>
-          <LineChart width={321} height={220} data={data} data={data}
+          <LineChart width={cw} height={220} data={data} data={data}
                 margin={{top: 5, right: 30, left: 20, bottom: 5}}>
           <XAxis dataKey="name"/>
           <YAxis/>
@@ -325,11 +229,10 @@ class CompareDetail extends React.Component{
           <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
           <Line type="monotone" dataKey="amt" stroke="#82cc9d" />
           </LineChart>
-          </div>
         </div>
       </div>
     )
   }
 }
 
-export default CompareDetail
+export default Compare

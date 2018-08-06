@@ -10,6 +10,8 @@ import Home from './pages/home/index'
 import Group from './pages/home/group'
 import CompareGroupList from './pages/home/compareGroupList'
 import CompareDetail from './pages/home/compareDetail'
+import Compare from './pages/home/Compare'
+import Event from './pages/home/event'
 import Login from './pages/login'
 import Register from './pages/register'
 
@@ -28,8 +30,10 @@ class App extends React.Component{
           <Route path='/group' component={Group}/>
           <Route path='/groupcompare/:id' component={CompareGroupList}/>
           <Route path='/comparedetail/:id' component={CompareDetail} />
+          <Route path="/compare" component={Compare} />
+          <Route path='/event' component={Event} />
           <Route exac path="/home/:id" component={Home}/>
-          {/* <Route component={Dashboard}/> */}
+          <Route component={Dashboard}/>
           <Route exac path='/xxx' component={tabExample}/>
           <Route exac path="/" component={Home}/>
           
