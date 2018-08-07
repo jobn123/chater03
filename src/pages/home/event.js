@@ -18,6 +18,7 @@ class Event extends React.Component{
   constructor() {
     super()
   }
+
   componentWillMount() {
     let u = localStorage.getItem('user')
     if (u != null) {
@@ -26,7 +27,7 @@ class Event extends React.Component{
       })
     }
   }
-
+  
   backHome() {
     let u = JSON.parse(localStorage.getItem('user'))
     this.props.history.push(`/home/${u.id}`)
@@ -49,7 +50,7 @@ class Event extends React.Component{
     )
   }
   
-  render(){
+  render() {
     return (
       <div>
         <div className="comparedetail-header">
