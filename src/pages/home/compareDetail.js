@@ -1,17 +1,22 @@
 import React from 'react'
 import { Calendar, Range, Button } from 'antd-mobile'
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts'
-
+import ReactEcharts from 'echarts-for-react';
 import './comparedetail.css'
 
+// const data = [
+//   {name: 'Page A', uv: 4000, pv: 2400, amt: 2400},
+//   {name: 'Page B', uv: 3000, pv: 1398, amt: 2210},
+//   {name: 'Page C', uv: 2000, pv: 9800, amt: 2290},
+//   {name: 'Page D', uv: 2780, pv: 3908, amt: 2000},
+//   {name: 'Page E', uv: 1890, pv: 4800, amt: 2181},
+//   {name: 'Page F', uv: 2390, pv: 3800, amt: 2500},
+//   {name: 'Page G', uv: 3490, pv: 4300, amt: 2100},
+// ]
+
 const data = [
-  {name: 'Page A', uv: 4000, pv: 2400, amt: 2400},
-  {name: 'Page B', uv: 3000, pv: 1398, amt: 2210},
-  {name: 'Page C', uv: 2000, pv: 9800, amt: 2290},
-  {name: 'Page D', uv: 2780, pv: 3908, amt: 2000},
-  {name: 'Page E', uv: 1890, pv: 4800, amt: 2181},
-  {name: 'Page F', uv: 2390, pv: 3800, amt: 2500},
-  {name: 'Page G', uv: 3490, pv: 4300, amt: 2100},
+  {id: 997, title: "捉妖记", data:{date:'2014-01-01,014-01-02,2014-01-03', value: '122, 1000, 2000'}},
+  {id: 997, title: "捉妖记2", data:{date:'2014-01-01,014-01-02,2014-01-03', value: '300, 400, 500'}},
 ]
 
 class CompareDetail extends React.Component{
@@ -268,6 +273,77 @@ class CompareDetail extends React.Component{
       )
     }
   }
+  getOption = () => {
+    // const data = [
+    //   {id: 997, title: "捉妖记", data:[{date:'2014-01-01,014-01-02,2014-01-03', value: '122, 1000, 2000'}]},
+  // {id: 997, title: "捉妖记2", data:[{date:'2014-01-01,014-01-02,2014-01-03', value: '300, 400, 500'}]},
+    // ]
+    // debugger
+      let obj = data
+      let xArr = obj[0].data.date.split(',')
+      // let XABArr = []
+      return {
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          data: obj.map(function (item) {
+            return item['title']
+          })
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          // data: ['映前5日','映前4日','映前3日','映前2日','映前1日','上映当日']
+          data:  xArr
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: obj.map((item) => {
+            return {
+              name:item['title'],
+              type:'line',
+              data: item.data.value.split(',')
+            }
+        })
+      };
+  };
+  renderCharts() {  
+    let arr = []
+    // for (let i = 0; i < data.length; i++) {
+      // let item = data[i]
+      // let d = item.data
+      
+      // let ic = (
+      //   <div>
+      //   <div>猫眼想看 <span onClick={()=>{alert('查看事件')}}>查看事件</span></div>
+      //   <LineChart width={321} height={220} data={data.data}
+      //         margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+      //   <XAxis dataKey={data.data.date}/>
+      //   <YAxis />
+      //   <CartesianGrid strokeDasharray="3 3"/>
+      //   <Tooltip/>
+      //   <Legend />
+      //   <Line type="monotone" dataKey={data.data.value} stroke="#8884d8" activeDot={{r: 8}}/>
+      //   <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+      //   <Line type="monotone" dataKey="amt" stroke="#82cc9d" />
+      //   </LineChart>
+      // </div>
+      // )
+      // arr.push(ic)
+    // // }
+    // <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption()}/>
+    return (
+      <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption()}/>
+    )
+  }
   render(){
     let { editFlag, segZero, segIndex } = this.state
     if (editFlag) {
@@ -312,20 +388,7 @@ class CompareDetail extends React.Component{
 
           <div style={{clear: 'both'}}></div>
 
-          <div>
-          <div>猫眼想看 <span onClick={()=>{alert('查看事件')}}>查看事件</span></div>
-          <LineChart width={321} height={220} data={data} data={data}
-                margin={{top: 5, right: 30, left: 20, bottom: 5}}>
-          <XAxis dataKey="name"/>
-          <YAxis/>
-          <CartesianGrid strokeDasharray="3 3"/>
-          <Tooltip/>
-          <Legend />
-          <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{r: 8}}/>
-          <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-          <Line type="monotone" dataKey="amt" stroke="#82cc9d" />
-          </LineChart>
-          </div>
+          {this.renderCharts()}
         </div>
       </div>
     )
