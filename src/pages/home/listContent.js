@@ -9,7 +9,6 @@ class ListContent extends React.Component{
     }
   }
   componentDidMount() {
-    debugger
     let id = this.props.uid
     axios.get(`http://123.56.14.124:918/group/?format=json&userid=${id}`)
     .then((res)=>{

@@ -36,10 +36,17 @@ class CompareDetail extends React.Component{
     }
   }
   componentDidMount() {
-    this.fetchData()
+    let { query } = this.props.location
+    let {start, end} = this.state
+    let arr = query.movies
+    let first = query.movie_base
+    arr.unshift(first)
+    
+    let movieStr = arr.toString()
+    let url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=count&id=${movieStr}&start=${start}&end=${end}`
+    this.fetchData(url)
   }
-  fetchData() {
-    let url = 'http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=count&id=423,910,788&start=2018-01-08&end=2018-01-10'
+  fetchData(url) {
     axios.get(url).then(res =>{
       this.setState({dataLists: res.data.data})
     }).catch(err =>{
@@ -164,7 +171,6 @@ class CompareDetail extends React.Component{
     this.setState({editFlag: false})
   }
   save() {
-    // debugger
     console.log('save')
     console.log(baseData)
     this.setState({editFlag: false})

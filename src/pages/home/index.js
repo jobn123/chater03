@@ -78,9 +78,11 @@ class Home extends React.Component{
   }
   renderHomeBody() {
     let { searchResults, listHomeContent } = this.state
-    let u = JSON.parse(localStorage.getItem('user'))
-    let id  = this.props.match.params.id || u.id
+    
     if (listHomeContent) {
+      let u = JSON.parse(localStorage.getItem('user'))
+      let id  = this.props.match.params.id || u.id
+      
       return(<ListContent uid={id} 
         goCompoareDetail={this.goCompoareDetail.bind(this)}               
         goCompareGroup={this.goCompareGroup.bind(this)}/>)
