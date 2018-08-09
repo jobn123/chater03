@@ -106,8 +106,12 @@ class Home extends React.Component{
   goCompareGroup(id) {
     this.props.history.push(`/groupcompare/${id}`)
   }
-  goCompoareDetail(id) {
-    this.props.history.push(`/comparedetail/${id}`)
+  goCompoareDetail(item) {
+    // this.props.history.push(`/comparedetail/${id}`)
+    this.props.history.push({
+      pathname: `/comparedetail/${item.id}`,
+      query: item
+    })
   }
   closewin(str) {
     this.setState({

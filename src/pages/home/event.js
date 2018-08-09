@@ -1,18 +1,6 @@
 import React from 'react'
-// import { InputItem } from 'antd-mobile'
-// import axios from "axios/index"
-import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts'
+import ReactEcharts from 'echarts-for-react'
 import './event.css'
-
-const data = [
-  {name: 'Page A', uv: 4000, pv: 2400, amt: 2400},
-  {name: 'Page B', uv: 3000, pv: 1398, amt: 2210},
-  {name: 'Page C', uv: 2000, pv: 9800, amt: 2290},
-  {name: 'Page D', uv: 2780, pv: 3908, amt: 2000},
-  {name: 'Page E', uv: 1890, pv: 4800, amt: 2181},
-  {name: 'Page F', uv: 2390, pv: 3800, amt: 2500},
-  {name: 'Page G', uv: 3490, pv: 4300, amt: 2100},
-]
 
 class Event extends React.Component{
   constructor() {
@@ -27,27 +15,57 @@ class Event extends React.Component{
       })
     }
   }
-  
+
   backHome() {
     let u = JSON.parse(localStorage.getItem('user'))
-    this.props.history.push(`/home/${u.id}`)
+    this.props.history.push(`/comparedetail/${u.id}`)
   }
 
+  getOption = (d) => {
+    let xArr = d.data.date.split(',')
+    return {
+      tooltip: {
+        trigger: 'axis'
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data:  xArr
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: {
+        name: d['title'],
+        type:'line',
+        data: d.data.value.split(',')
+      }
+    };
+  };
+
   renderEventLists() {
-    let cw = document.body.clientWidth
-    return (
-      <LineChart width={cw} height={220} data={data} data={data}
-                margin={{top: 5, right: 30, left: 20, bottom: 5}}>
-      <XAxis dataKey="name"/>
-      <YAxis/>
-      <CartesianGrid strokeDasharray="3 3"/>
-      <Tooltip/>
-      {/* <Legend /> */}
-      <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{r: 8}}/>
-      {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}
-      {/* <Line type="monotone" dataKey="amt" stroke="#82cc9d" /> */}
-      </LineChart>
-    )
+    let data = this.props.location.query.data
+
+    let arr = []
+
+    for (let i = 0; i < data.length; i++) {
+      let item = (
+        <div className="wish-item_box">
+          <div className="wish-title_event"><span>
+            {data[i].title}</span></div>
+          <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption(data[i])}/>
+        </div>
+      )
+      arr.push(item)
+    }
+    
+    return arr
   }
   
   render() {

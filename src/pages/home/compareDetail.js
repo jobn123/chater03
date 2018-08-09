@@ -1,23 +1,12 @@
 import React from 'react'
 import { Calendar, Range, Button } from 'antd-mobile'
-import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts'
-import ReactEcharts from 'echarts-for-react';
+import ReactEcharts from 'echarts-for-react'
+import axios from 'axios'
+
 import './comparedetail.css'
 
-// const data = [
-//   {name: 'Page A', uv: 4000, pv: 2400, amt: 2400},
-//   {name: 'Page B', uv: 3000, pv: 1398, amt: 2210},
-//   {name: 'Page C', uv: 2000, pv: 9800, amt: 2290},
-//   {name: 'Page D', uv: 2780, pv: 3908, amt: 2000},
-//   {name: 'Page E', uv: 1890, pv: 4800, amt: 2181},
-//   {name: 'Page F', uv: 2390, pv: 3800, amt: 2500},
-//   {name: 'Page G', uv: 3490, pv: 4300, amt: 2100},
-// ]
 
-const data = [
-  {id: 997, title: "捉妖记", data:{date:'2014-01-01,014-01-02,2014-01-03', value: '122, 1000, 2000'}},
-  {id: 997, title: "捉妖记2", data:{date:'2014-01-01,014-01-02,2014-01-03', value: '300, 400, 500'}},
-]
+const baseData = [{id : 1, prefix:'wish', title: '猫眼想看'},{id : 2, prefix:'wish', title: '淘票票想看'},{id : 3, prefix:'wish', title: '百度指数'},{id : 4, prefix:'wish', title: '微博指数'},{id : 5, prefix:'wish', title: '微信指数'},{id : 6, prefix:'wish', title: '预售票房'}]
 
 class CompareDetail extends React.Component{
   constructor(props) {
@@ -35,14 +24,27 @@ class CompareDetail extends React.Component{
       showRange: false,
       segZero: 0,
       segIndex: 0,
-      data: ['猫眼想看','淘票票先看' , '百度指数', '微博指数', '微信指数', '预售票房'],
+      data: [{id : 1, prefix:'wish', title: '猫眼想看'},{id : 2, prefix:'wish', title: '淘票票想看'},{id : 3, prefix:'wish', title: '百度指数'},{id : 4, prefix:'wish', title: '微博指数'},{id : 5, prefix:'wish', title: '微信指数'},{id : 6, prefix:'wish', title: '预售票房'}],
+      dataCls: {wish: '猫眼想看', tpp_wish: '淘票票想看', baidu_index: '百度指数', weibo_index: '微博指数', weixin_index: '微信指数', first_box: '预售票房'},
       showDate: [30, 0],
       dateStr: dateStr,
       start: start,
       end: end,
       start2: '-30',
-      end2: '0'
+      end2: '0',
+      dataLists: []
     }
+  }
+  componentDidMount() {
+    this.fetchData()
+  }
+  fetchData() {
+    let url = 'http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=count&id=423,910,788&start=2018-01-08&end=2018-01-10'
+    axios.get(url).then(res =>{
+      this.setState({dataLists: res.data.data})
+    }).catch(err =>{
+      console.log('----err----')
+    })
   }
   fomartDate = (str) => {
     var d = new Date(str);
@@ -145,32 +147,46 @@ class CompareDetail extends React.Component{
   }
   add(i) {
     console.log('----------add-----------')
+    let { data } = this.state
+    //trend_add_gray
+    let str = `trend_add${i}`
+    if (this.refs[str].className === "trend_item_add") {
+      baseData.splice(i, 1)
+      this.refs[str].className = "trend_add_gray"
+    } else {
+      let item = data[i]
+      baseData.push(item)
+      this.refs[str].className = "trend_item_add"
+    }
   }
   back() {
     console.log('---back-')
     this.setState({editFlag: false})
   }
   save() {
+    // debugger
     console.log('save')
+    console.log(baseData)
     this.setState({editFlag: false})
   }
   renderEditTrendItem() {
     let arr = this.state.data
     let trendArr = []
     for (let i = 0; i < arr.length; i++) {
-      let title = arr[i]
+      // let title = arr[i]
       let upClassName = i === 0 ? 'trend_item_up' : 'trend_item_canup'
       let downClassName = i === arr.length - 1 ? 'trend_item_cndown' : 'trend_item_down'
+      let rid = `trend_add${i}`
+
       let item =  (
         <div className="edit-trend_item">
-          <span>{ title }</span>
+          <span>{ arr[i].title }</span>
           <div style={{float: 'right'}}>
           <span className={upClassName} onClick={()=>{this.up(i)}}></span>
           <span className={downClassName} onClick={()=>{this.down(i)}}></span>
-          <span className="trend_item_add" onClick={()=>{this.add(i)}}></span></div>
+          <span className="trend_item_add" ref={rid} onClick={()=>{this.add(i)}}></span></div>
         </div>
       )
-
       trendArr.push(item)
     }
 
@@ -215,6 +231,12 @@ class CompareDetail extends React.Component{
   onConfirm = (a, b) => {
     this.setState({
       showCalender: false
+    })
+  }
+  goEvent(data) {
+    this.props.history.push({
+      pathname: '/event',
+      query: data
     })
   }
   renderCalender() {
@@ -273,21 +295,14 @@ class CompareDetail extends React.Component{
       )
     }
   }
-  getOption = () => {
-    // const data = [
-    //   {id: 997, title: "捉妖记", data:[{date:'2014-01-01,014-01-02,2014-01-03', value: '122, 1000, 2000'}]},
-  // {id: 997, title: "捉妖记2", data:[{date:'2014-01-01,014-01-02,2014-01-03', value: '300, 400, 500'}]},
-    // ]
-    // debugger
-      let obj = data
-      let xArr = obj[0].data.date.split(',')
-      // let XABArr = []
+  getOption = (d) => {
+      let xArr = d.data[0].data.date.split(',')
       return {
         tooltip: {
           trigger: 'axis'
         },
         legend: {
-          data: obj.map(function (item) {
+          data: d.data.map(function (item) {
             return item['title']
           })
         },
@@ -300,13 +315,12 @@ class CompareDetail extends React.Component{
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          // data: ['映前5日','映前4日','映前3日','映前2日','映前1日','上映当日']
           data:  xArr
         },
         yAxis: {
           type: 'value'
         },
-        series: obj.map((item) => {
+        series: d.data.map((item) => {
             return {
               name:item['title'],
               type:'line',
@@ -315,34 +329,23 @@ class CompareDetail extends React.Component{
         })
       };
   };
-  renderCharts() {  
+  renderCharts() {
+    let { dataLists, dataCls } = this.state
+    if (dataLists.length === 0) return
     let arr = []
-    // for (let i = 0; i < data.length; i++) {
-      // let item = data[i]
-      // let d = item.data
-      
-      // let ic = (
-      //   <div>
-      //   <div>猫眼想看 <span onClick={()=>{alert('查看事件')}}>查看事件</span></div>
-      //   <LineChart width={321} height={220} data={data.data}
-      //         margin={{top: 5, right: 30, left: 20, bottom: 5}}>
-      //   <XAxis dataKey={data.data.date}/>
-      //   <YAxis />
-      //   <CartesianGrid strokeDasharray="3 3"/>
-      //   <Tooltip/>
-      //   <Legend />
-      //   <Line type="monotone" dataKey={data.data.value} stroke="#8884d8" activeDot={{r: 8}}/>
-      //   <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-      //   <Line type="monotone" dataKey="amt" stroke="#82cc9d" />
-      //   </LineChart>
-      // </div>
-      // )
-      // arr.push(ic)
-    // // }
-    // <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption()}/>
-    return (
-      <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption()}/>
-    )
+    for (let i = 0; i < dataLists.length; i++) {
+      let d = dataLists[i]
+      let item = (
+        <div className="wish-item_box">
+          <div className="wish-title"><span className={`${d.target_code}_icon`}>
+            {dataCls[d.target_code]}</span>
+            <span className="check-event" style={{display: i === 0 ? 'inline-block' : 'none'}} onClick={()=>{this.goEvent(d)}}>查看事件</span></div>
+          <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption(d)}/>
+        </div>
+      )
+      arr.push(item)
+    }
+    return arr
   }
   render(){
     let { editFlag, segZero, segIndex } = this.state

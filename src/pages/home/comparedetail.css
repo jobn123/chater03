@@ -149,6 +149,14 @@
   display: inline-block;
   margin-right: 16px;
 }
+.trend_add_gray {
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/add.png');
+  background-size: 100% 100%;
+  display: inline-block;
+  margin-right: 16px;
+}
 .comparesubtitle li{
   display: inline-block;
   width: 40px;
@@ -158,4 +166,87 @@
 }
 .comparesubtitle li:not(:first-child) {
   margin-left: 24px;
+}
+.wish-title {
+  margin-top: 22px;
+  margin-bottom: 22px;
+}
+.wish-item_box {
+  border-bottom: 2px solid #E3E3E3;
+  padding-bottom: 20px;
+}
+.check-event {
+  background: #108EE9;
+  border-radius: 46px;
+  width: 58px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  font-size: 10px;
+  color: #FFFFFF;
+  margin-left: 12px;
+}
+.wish_icon::before {
+  position: relative;
+  top: 3px;
+  display: inline-block;
+  content: '';
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/maoyan.png');
+  background-size: 100% 100%;
+  margin-left: 12px;
+  margin-right: 5px;
+}
+.baidu_index_icon::before {
+  position: relative;
+  top: 3px;
+  display: inline-block;
+  content: '';
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/weibo.png');
+  background-size: 100% 100%;
+  margin-left: 12px;
+  margin-right: 5px;
+}
+.weixin_index_icon::before  {
+  position: relative;
+  top: 3px;
+  display: inline-block;
+  content: '';
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/weixin.png');
+  background-size: 100% 100%;
+  margin-left: 12px;
+  margin-right: 5px;
+}
+.tpp_wish_icon::before  {
+  position: relative;
+  top: 3px;
+  display: inline-block;
+  content: '';
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/taopiao.png');
+  background-size: 100% 100%;
+  margin-left: 12px;
+  margin-right: 5px;
+}
+.first_box_icon::before  {
+  position: relative;
+  top: 3px;
+  display: inline-block;
+  content: '';
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/yuhshou.png');
+  background-size: 100% 100%;
+  margin-left: 12px;
+  margin-right: 5px;
+}
+.wish-title_event {
+  margin-top: 22px;
+  margin-bottom: -30px;
 }

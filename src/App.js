@@ -31,7 +31,7 @@ class App extends React.Component{
           <Route path='/groupcompare/:id' component={CompareGroupList}/>
           <Route path='/comparedetail/:id' component={CompareDetail} />
           <Route path="/compare" component={Compare} />
-          <Route path='/event' component={Event} />
+          <Route path='/event/' component={Event} />
           <Route exac path="/home/:id" component={Home}/>
           <Route component={Dashboard}/>
           <Route exac path='/xxx' component={tabExample}/>
