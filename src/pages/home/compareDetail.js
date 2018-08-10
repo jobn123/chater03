@@ -36,19 +36,20 @@ class CompareDetail extends React.Component{
     }
   }
   componentDidMount() {
-    let { query } = this.props.location
-    let {start, end} = this.state
-    let arr = query.movies
-    let first = query.movie_base
-    arr.unshift(first)
+    // let { query } = this.props.location
+    // let {start, end} = this.state
+    // let arr = query.movies
+    // let first = query.movie_base
+    // arr.unshift(first)
     
-    let movieStr = arr.toString()
-    let url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=count&id=${movieStr}&start=${start}&end=${end}`
+    // let movieStr = arr.toString()
+    // let url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=count&id=${movieStr}&start=${start}&end=${end}`
+    let url = 'http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=count&id=423,910,788&start=2018-01-08&end=2018-01-10'
     this.fetchData(url)
   }
   fetchData(url) {
     axios.get(url).then(res =>{
-      this.setState({dataLists: res.data.data})
+      this.setState({dataLists: res.data.data, showCalender: false})
     }).catch(err =>{
       console.log('----err----')
     })
@@ -91,14 +92,14 @@ class CompareDetail extends React.Component{
     this.setState({
       segZero: e,
     }, ()=> {
-      // let platform = this.state.segZero == 0 ? this.props.platform : this.props.platform.replace('count', 'up')
-      // let url = ''
-      // if(segIndex === 1) {
-      //     url = `http://123.56.14.124:918/trend/?format=json${pids}&start_days=${start2}&end_days=${end2}&target=${platform}`
-      //   } else {
-      //     url = `http://123.56.14.124:918/trend/?format=json${pids}&start=${start}&end=${end}&target=${platform}`
-      // }
-      // this.fetchTrend(url)
+      let type = segZero === 0 ? 'up' : 'count'
+      let url = ''
+      if(segIndex === 0) {
+          url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=423,910,788&start=${start}&end=${end}`
+        } else {
+          url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=423,910,788&start_days=${start2}&end_days=${end2}`
+      }
+      this.fetchData(url)
     })
   }
   onValueChange(e) {
@@ -108,25 +109,19 @@ class CompareDetail extends React.Component{
     let flag = index === 1 ? true : false
     // debugger
     let {segIndex, start, end, segZero, start2, end2} = this.state
-    // let pids = ""
-    // this.props.pidlist.map((pid)=>{
-    //   pids += "&pid="
-    //   pids += pid
-    // })
-    // console.log(this.props.platform)
-    // let platform = segZero == 0 ? this.props.platform : this.props.platform.replace('count', 'up')
-    
+
     this.setState({
       showRange: flag,
       segIndex: index
     }, ()=> {
-      // let url = ''
-      // if(this.state.segIndex === 1) {
-      //     url = `http://123.56.14.124:918/trend/?format=json${pids}&start_days=${start2}&end_days=${end2}&target=${platform}`
-      //   } else {
-      //     url = `http://123.56.14.124:918/trend/?format=json${pids}&start=${start}&end=${end}&target=${platform}`
-      // }
-      // this.fetchTrend(url)
+      let url = ''
+      let type = segZero === 0 ? 'count' : 'up'
+      if(segIndex === 1) {
+          url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=423,910,788&start=${start}&end=${end}`
+        } else {
+          url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=423,910,788&start_days=${start2}&end_days=${end2}`
+      }
+      this.fetchData(url)
     })
   }
   up(i) {
@@ -228,16 +223,26 @@ class CompareDetail extends React.Component{
       })
     // } 
   }
+
   onCancel = (e) => {
     console.log(e)
     this.setState({
       showCalender: false
     })
   }
+
   onConfirm = (a, b) => {
-    this.setState({
-      showCalender: false
-    })
+    let { segIndex, segZero } = this.state
+    let start = this.fomartDate(a)
+    let end = this.fomartDate(b)
+    
+    let type = segZero === 0 ? 'count' : 'up'
+
+    let url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=423,910,788&start=${start}&end=${end}`
+    this.fetchData(url)
+    // this.setState({
+    //   showCalender: false
+    // })
   }
   goEvent(data) {
     this.props.history.push({
@@ -256,7 +261,7 @@ class CompareDetail extends React.Component{
             title="相对时间"
             visible={true}
             onCancel={this.onCancel}
-            onConfirm={this.onConfirm}
+            onConfirm={this.onConfirm.bind(this)}
             onSelectHasDisableDate={this.onSelectHasDisableDate}
             getDateExtra={this.getDateExtra}
             defaultDate={MDate}
@@ -294,7 +299,7 @@ class CompareDetail extends React.Component{
         <div style={{marginTop: 20, textAlign: 'right'}}>
         <Button 
           size="small"
-          onClick={() => this.setState({showCalendar: !this.state.showCalendar})}
+          onClick={() => this.setState({showCalender: !this.state.showCalender})}
           type="primary" inline style={{ marginRight: '4px' }}>
           {this.state.dateStr}
         </Button></div>
