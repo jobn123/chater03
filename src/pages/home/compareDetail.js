@@ -32,20 +32,24 @@ class CompareDetail extends React.Component{
       end: end,
       start2: '-30',
       end2: '0',
-      dataLists: []
+      dataLists: [],
+      movies: '',
     }
   }
   componentDidMount() {
-    // let { query } = this.props.location
-    // let {start, end} = this.state
-    // let arr = query.movies
-    // let first = query.movie_base
-    // arr.unshift(first)
+    let d = JSON.parse(localStorage.getItem('movies'))
+    let {start, end} = this.state
+    let arr = d.movies
+    let first = d.movie_base
+    arr.unshift(first)
     
-    // let movieStr = arr.toString()
-    // let url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=count&id=${movieStr}&start=${start}&end=${end}`
-    let url = 'http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=count&id=423,910,788&start=2018-01-08&end=2018-01-10'
-    this.fetchData(url)
+    let movieStr = arr.toString()
+    let url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=count&id=${movieStr}&start=${start}&end=${end}`
+    this.setState({
+      movies:  movieStr
+    }, ()=>{
+      this.fetchData(url)
+    })
   }
   fetchData(url) {
     axios.get(url).then(res =>{
@@ -76,28 +80,17 @@ class CompareDetail extends React.Component{
       editFlag: !this.state.editFlag
     })
   }
-  addMainitem() {
-
-  }
-  addGroups() {
-
-  }
   setZeroSeg(e) {
-    let {segIndex, start, end, segZero, start2, end2} = this.state
-    // let pids = ""
-    // this.props.pidlist.map((pid)=>{
-    //   pids += "&pid="
-    //   pids += pid
-    // })
+    let {segIndex, start, end, segZero, start2, end2, movies} = this.state
     this.setState({
       segZero: e,
     }, ()=> {
       let type = segZero === 0 ? 'up' : 'count'
       let url = ''
       if(segIndex === 0) {
-          url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=423,910,788&start=${start}&end=${end}`
+          url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=${movies}&start=${start}&end=${end}`
         } else {
-          url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=423,910,788&start_days=${start2}&end_days=${end2}`
+          url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=${movies}&start_days=${start2}&end_days=${end2}`
       }
       this.fetchData(url)
     })
@@ -107,8 +100,7 @@ class CompareDetail extends React.Component{
     // const d = ['绝对时间', '相对时间']
     const index = e
     let flag = index === 1 ? true : false
-    // debugger
-    let {segIndex, start, end, segZero, start2, end2} = this.state
+    let {segIndex, start, end, segZero, start2, end2, movies} = this.state
 
     this.setState({
       showRange: flag,
@@ -117,9 +109,9 @@ class CompareDetail extends React.Component{
       let url = ''
       let type = segZero === 0 ? 'count' : 'up'
       if(segIndex === 1) {
-          url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=423,910,788&start=${start}&end=${end}`
+          url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=${movies}&start=${start}&end=${end}`
         } else {
-          url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=423,910,788&start_days=${start2}&end_days=${end2}`
+          url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=${movies}&start_days=${start2}&end_days=${end2}`
       }
       this.fetchData(url)
     })
@@ -206,22 +198,17 @@ class CompareDetail extends React.Component{
   }
   afteRangeChange = (arr) => {
     console.log(arr)
-    // let pids = ""
-    // this.props.pidlist.map((pid)=>{
-    //   pids += "&pid="
-    //   pids += pid
-    // })
-    // if (pids) {
-      // let url = `http://123.56.14.124:918/trend/?format=json${pids}&start_days=${arr[0]}&end_days=${arr[1]}&target=${this.props.platform}`
+    let { segZero, movies } = this.state
+    this.setState({
+      showDate: arr,
+      start2: arr[0],
+      end2: arr[1]
+    }, () => {
+      let type = segZero === 0 ? 'count' : 'up'
 
-      this.setState({
-        showDate: arr,
-        start2: arr[0],
-        end2: arr[1]
-      }, () => {
-        // this.fetchTrend(url)
-      })
-    // } 
+      let url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=${movies}&start_days=${arr[0]}&end_days=${arr[1]}`
+      this.fetchData(url)
+    })
   }
 
   onCancel = (e) => {
@@ -232,17 +219,14 @@ class CompareDetail extends React.Component{
   }
 
   onConfirm = (a, b) => {
-    let { segIndex, segZero } = this.state
+    let { segZero, movies } = this.state
     let start = this.fomartDate(a)
     let end = this.fomartDate(b)
     
     let type = segZero === 0 ? 'count' : 'up'
 
-    let url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=423,910,788&start=${start}&end=${end}`
+    let url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=${movies}&start=${start}&end=${end}`
     this.fetchData(url)
-    // this.setState({
-    //   showCalender: false
-    // })
   }
   goEvent(data) {
     this.props.history.push({

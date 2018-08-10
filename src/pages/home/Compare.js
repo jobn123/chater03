@@ -1,18 +1,31 @@
 import React from 'react'
 import { Calendar, Range, Button } from 'antd-mobile'
-import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts'
+import ReactEcharts from 'echarts-for-react'
+import ReactTable from "react-table"
+import "react-table/react-table.css"
+import axios from 'axios'
 
 import './comparedetail.css'
 
-const data = [
-  {name: 'Page A', uv: 4000, pv: 2400, amt: 2400},
-  {name: 'Page B', uv: 3000, pv: 1398, amt: 2210},
-  {name: 'Page C', uv: 2000, pv: 9800, amt: 2290},
-  {name: 'Page D', uv: 2780, pv: 3908, amt: 2000},
-  {name: 'Page E', uv: 1890, pv: 4800, amt: 2181},
-  {name: 'Page F', uv: 2390, pv: 3800, amt: 2500},
-  {name: 'Page G', uv: 3490, pv: 4300, amt: 2100},
-]
+const TA = [{
+  title: '想看',
+  subtitle:['猫眼想看','豆瓣想看', '时光网想看', '淘票票想看', '微博想看']
+  },{
+  title: '热度',
+  subtitle:['微信指数', '百度指数', '微博指数', '微博阅读', '微博讨论']
+  }, {
+  title: '画像',
+  subtitle:[]
+  },{
+  title: '物料',
+  subtitle: ['总量', '优酷', '腾讯视频', '爱奇艺', '秒拍']
+  }, {
+  title: '预售',
+  subtitle: ['每日票房', '首日拍片', '首日场次', '大盘场次']
+  },{
+  title: '口碑',
+  subtitle: ['猫眼', '淘票票', '豆瓣', '时光网', '微博']
+}]
 
 class Compare extends React.Component{
   constructor(props) {
@@ -22,22 +35,48 @@ class Compare extends React.Component{
     let start = this.fomartDate(s);
     let end = this.fomartDate(e)
     let dateStr = start + '/' + end
-
+    
     this.state = {
       value: "对比组列表",
+      pages: null,
       editFlag: false,
       showCalender: false,
       showRange: false,
       segZero: 0,
       segIndex: 0,
-      data: ['猫眼想看','淘票票先看' , '百度指数', '微博指数', '微信指数', '预售票房'],
       showDate: [30, 0],
       dateStr: dateStr,
       start: start,
       end: end,
       start2: '-30',
-      end2: '0'
+      end2: '0',
+      firsTitleIndex: 0,
+      secondTitleIndex: 0,
+      dataLists:[],
+      movies: ''
     }
+  }
+  componentDidMount() {
+    let d = JSON.parse(localStorage.getItem('movies'))
+    let {start, end} = this.state
+    let arr = d.movies
+    let first = d.movie_base
+    arr.unshift(first)
+    
+    let movieStr = arr.toString()
+    let url = `http://123.56.14.124:918/trend/?format=json&pid=78405&pid=78429&pid=246083&start=2015-04-20&end=2015-05-10&target=maoyan_wish_count`
+    this.setState({
+      movies:  movieStr
+    }, ()=>{
+      this.fetchData(url)
+    })
+  }
+  fetchData(url) {
+    axios.get(url).then(res =>{
+      this.setState({dataLists: res.data.data, showCalender: false})
+    }).catch(err =>{
+      console.log('----err----')
+    })
   }
   fomartDate = (str) => {
     var d = new Date(str);
@@ -124,9 +163,89 @@ class Compare extends React.Component{
     })
   }
   onConfirm = (a, b) => {
-    this.setState({
-      showCalender: false
-    })
+    // let { segZero, movies } = this.state
+    // let start = this.fomartDate(a)
+    // let end = this.fomartDate(b)
+    
+    // let type = segZero === 0 ? 'count' : 'up'
+
+    // let url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=${movies}&start=${start}&end=${end}`
+    // this.fetchData(url)
+  }
+  renderMainTitle() {
+    let { firsTitleIndex } = this.state
+    let arr = []
+    for (let i = 0; i < TA.length; i++) {
+      let cname = i === firsTitleIndex ? 'mainActive' : ''
+      let item = (
+        <li key={i} className={cname} onClick={()=>{this.setState({firsTitleIndex: i, secondTitleIndex: 0})}}> {TA[i].title} </li>
+      )
+      arr.push(item)
+    }
+    return arr
+  }
+  renderThirdTitle() {
+    let { firsTitleIndex, secondTitleIndex } = this.state
+
+    let d = TA[firsTitleIndex].subtitle
+    if (d.length === 0) return
+
+    let arr = []
+
+    for(let i = 0; i < d.length; i++) {
+      let cname = i === secondTitleIndex ? 'secondActive' : ''
+      let item = (
+        <li key={i} className={cname} onClick={()=>{this.setState({secondTitleIndex: i})}}>{d[i]}</li>
+      )
+      arr.push(item)
+    }
+
+    return (
+      <ul className="compareThrtitle">{arr}</ul>
+    )
+  }
+  getOption = (d) => {
+    let xArr = d[0].date.split(',')
+    return {
+      tooltip: {
+        trigger: 'axis'
+      },
+      legend: {
+        data: d.map(function (item) {
+          return item['title']
+        })
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data:  xArr
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: d.map((item) => {
+          return {
+            name:item['title'],
+            type:'line',
+            data: item.value.split(',')
+          }
+      })
+    };
+};
+renderCharts() {
+  let { dataLists, dataCls } = this.state
+  if (dataLists.length === 0) return
+    return (
+      <div className="wish-item_box">
+        <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption(dataLists)}/>
+      </div>
+    )
   }
   renderDateDiv() {
     if(this.state.segIndex === 0) {
@@ -134,7 +253,7 @@ class Compare extends React.Component{
         <div style={{marginTop: 20, textAlign: 'right'}}>
         <Button 
           size="small"
-          onClick={() => this.setState({showCalendar: !this.state.showCalendar})}
+          onClick={() => this.setState({showCalender: !this.state.showCalender})}
           type="primary" inline style={{ marginRight: '4px' }}>
           {this.state.dateStr}
         </Button></div>
@@ -184,6 +303,87 @@ class Compare extends React.Component{
       )
     }
   }
+  _setColumns =()=>{
+    const {segIndex, dataLists} = this.state 
+    let data = dataLists
+    if (segIndex == 1) {
+      if (data.length === 0) return []
+      
+      let  allArr = [
+        {
+            Header: "片名(每日增长量)",
+            accessor: "title",
+            width: 180
+          },
+      ]
+      let dArr = data[0].date.split(',')
+
+      for(let i = 0; i < dArr.length; i++) {
+        let item = parseInt(dArr[i])
+        let str = item > 0 ? `映后${item}天` : `映前${Math.abs(item)}天`
+
+        let obj = {
+          Header: str,
+          accessor: `${item}`,
+          Cell: props => <div style={{textAlign: "right"}}>
+          {props.value == null ? 0 : parseInt(props.value).toLocaleString()}
+          </div>,
+          // height: 30
+        }
+        allArr.push(obj)
+      }
+      return allArr
+    } else {
+      if (data.length === 0) return []
+      let  allArr = [
+        {
+            Header: "片名(累计))",
+            accessor: "title",
+            width: 180
+          },
+      ]
+      let dArr = data[0].date.split(',')
+        for(let i = 0; i < dArr.length; i++) {
+          let obj = {
+            Header: dArr[i],
+            accessor: `${dArr[i]}`,
+            Cell: props => <div style={{textAlign: "right"}}>
+            <div>{props.value == null ? 0 : parseInt(props.value).toLocaleString()}</div>
+            <div>22.22%</div>
+            </div>,
+            // height: 30
+          }
+          allArr.push(obj)
+        }
+      return allArr
+    }
+  }
+  renderTable() {
+    let { dataLists, pages } = this.state
+    return (
+      <ReactTable
+            resizable={false}
+            pages={pages} // Display the total number of pages
+            columns={this._setColumns()}
+            manual // Forces table not to paginate or sort automatically, so we can handle it server-side
+            data={dataLists}
+            resolveData={this.resolveData}
+            loading={false} // Display the loading overlay when we need it
+            onFetchData={this.fetchData} // Request new data when things change
+            // filterable
+            defaultPageSize={2}
+            showPagination={false}
+            showPaginationTop={true}
+            showPaginationBottom={false}
+            showPageJump={false}
+            showPageSizeOptions={false}
+            style={{
+              height: "200px" // This will force the table body to overflow and scroll, since there is not enough room
+            }}
+            className="-striped -highlight"
+          />
+    )
+  }
   render(){
     let cw = document.body.clientWidth
     let { editFlag, segZero, segIndex } = this.state
@@ -194,15 +394,11 @@ class Compare extends React.Component{
           <span className="detail2-trend" onClick={()=>{this.backHome()}}>总趋势</span>
           <span className="detail2-compare">对比详情</span>
           <ul className="comparesubtitle">
-            <li>想看</li>
-            <li>热度</li>
-            <li>画像</li>
-            <li>物料</li>
-            <li>预售</li>
-            <li>口碑</li>
+            { this.renderMainTitle() }
           </ul>
         </div>
-        
+        { this.renderThirdTitle() }
+
         <div className="com-sub_header">
           <div style={{display: 'inline-block', width:'40%'}}>
             <span className={segIndex == 0 ? 'segSpanActive' : 'segSpan'} onClick={()=>{this.onValueChange(0)}}> 绝对时间 </span>
@@ -217,18 +413,10 @@ class Compare extends React.Component{
           {this.renderDateDiv()}
           {this.renderCalender()}
           {this.renderRange()}
+          <div style={{clear: 'both'}}></div>
 
-          <LineChart width={cw} height={220} data={data} data={data}
-                margin={{top: 5, right: 30, left: 20, bottom: 5}}>
-          <XAxis dataKey="name"/>
-          <YAxis/>
-          <CartesianGrid strokeDasharray="3 3"/>
-          <Tooltip/>
-          <Legend />
-          <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{r: 8}}/>
-          <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-          <Line type="monotone" dataKey="amt" stroke="#82cc9d" />
-          </LineChart>
+          {this.renderCharts()}
+          {this.renderTable()}
         </div>
       </div>
     )

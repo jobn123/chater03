@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from "axios/index"
 import { SearchBar } from 'antd-mobile'
-import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts'
+import {BarChart, Bar, XAxis, YAxis, CartesianGrid} from 'recharts'
 import ListContent from './listContent'
 
 import './index.css'
@@ -49,6 +49,7 @@ class Home extends React.Component{
       if(res.status===200){
         this.setState({
           searchResults: res.data.results,
+          listHomeContent: false,
         });
       }
     })
@@ -109,7 +110,7 @@ class Home extends React.Component{
     this.props.history.push(`/groupcompare/${id}`)
   }
   goCompoareDetail(item) {
-    // this.props.history.push(`/comparedetail/${id}`)
+    localStorage.setItem('movies', JSON.stringify(item))
     this.props.history.push({
       pathname: `/comparedetail/${item.id}`,
       query: item

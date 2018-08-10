@@ -109,14 +109,14 @@ class CompareGroupList extends React.Component{
       if(groupList.length > 7) return
       let arr = groupList
       let g = groups
-      //去除重复
-      if(g.includes(it.id)) return
 
       let it = {
         index: arr.lengh,
         title: item.title,
         id: item.id
       }
+      //去除重复
+      if(g.includes(it.id)) return
       arr.push(it)
       g.push(it.id) 
       
@@ -197,7 +197,6 @@ class CompareGroupList extends React.Component{
     })
   }
   delGroupItem(item, index) {
-    debugger
     let arr = this.state.groupList
     arr.splice(index, 1)
     if (index === 0) {
@@ -212,8 +211,8 @@ class CompareGroupList extends React.Component{
     this.setState({
       groupList: arr
     }, ()=>{
-      if (this.refs[str] === undefined) return
       let str = `group-add_${item.index}`
+      if (this.refs[str] === undefined) return
       this.refs[str].className = "group-add_gray"
     })
   }
@@ -239,7 +238,7 @@ class CompareGroupList extends React.Component{
     return arr
   }
   renderGroupSearchBody() {
-    let { searchResults, groups, groupList } = this.state
+    let { searchResults, groupList } = this.state
     let arr = []
       for(let i = 0; i < searchResults.length; i++) {
         let cname = (i + 1) % 2 === 0 ? 's-item_g' : 's-item'
