@@ -153,6 +153,7 @@
   height: 20px;
   background: url('../../assets/maoyan.png');
   background-size: 100% 100%;
+  margin-right: 5px;
 }
 .single-wanted .st2::before{
   content: '';
@@ -161,6 +162,7 @@
   height: 20px;
   background: url('../../assets/taopiao.png');
   background-size: 100% 100%;
+  margin-right: 5px;
 }
 .single-wanted .st3::before{
   content: '';
@@ -169,6 +171,7 @@
   height: 20px;
   background: url('../../assets/weibo.png');
   background-size: 100% 100%;
+  margin-right: 5px;
 }
 .single-wanted .st4::before{
   content: '';
@@ -177,6 +180,97 @@
   height: 20px;
   background: url('../../assets/weixin.png');
   background-size: 100% 100%;
+  margin-right: 5px;
+}
+.ht1::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/baidu.png');
+  background-size: 100% 100%;
+  margin-right: 5px;
+}
+.ht3::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/yuedu.png');
+  background-size: 100% 100%;
+  margin-right: 5px;
+}
+.ht4::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/taolun.png');
+  background-size: 100% 100%;
+  margin-right: 5px;
+}
+.ht6::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/douban.png');
+  background-size: 100% 100%;
+  margin-right: 5px;
+}
+.wt1::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/total.png');
+  background-size: 100% 100%;
+  margin-right: 5px;
+}
+.wt2::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/tengxun.png');
+  background-size: 100% 100%;
+  margin-right: 5px;
+}
+.wt3::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/youku.png');
+  background-size: 100% 100%;
+  margin-right: 5px;
+}
+.wt4::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/iqiyi.png');
+  background-size: 100% 100%;
+  margin-right: 5px;
+}
+.wt5::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/miaopai.png');
+  background-size: 100% 100%;
+  margin-right: 5px;
+}
+.itime::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/shiguang.png');
+  background-size: 100% 100%;
+  margin-right: 5px;
 }
 .wanted-item {
   margin-top: 10px;
@@ -204,14 +298,26 @@
   height: 8px;
 }
 .sex-my-male {
+  position: relative;
   border-radius: 4px 0 0 4px;
   background: #108EE9;
   width: 100px;
 }
 .sex-my-female {
+  position: relative;
   border-radius: 0 4px 4px 0;
   background: #F03D38;
   width: 80px;
+}
+.m_tip {
+  position: absolute;
+  top: -20px;
+  left: 20px;
+}
+.f_tip {
+  position: absolute;
+  top: -20px;
+  right: 30px;
 }
 .user-sex p {
   font-size: 14px;
@@ -349,4 +455,13 @@
 .del-groups_btns span:last-child{
   color: white;
   background: #F03D38;
+}
+.kb-item_t span{
+  display: inline-block;
+  width: 33%;
+  font-size: 14px;
+  color: #999999;
+}
+.user-sex_div {
+  margin-bottom: 20px
 }

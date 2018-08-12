@@ -49,7 +49,8 @@ class Group extends React.Component{
     this.props.history.push('/login')
   }
   goHomePage() {
-    this.props.history.push('/')
+    let u = JSON.parse(localStorage.getItem('user'))
+    this.props.history.push(`/home/${u.id}`)
   }
   addMainitem(item, index) {
     let {selectMain, groups} = this.state
@@ -197,7 +198,7 @@ class Group extends React.Component{
     return (
       <div className="home-group">
          <div className="group-header"> 
-          <span className="header-back">返回</span>
+          <span className="header-back" onClick={()=>{this.goHomePage()}}>返回</span>
           {/* <input type="search" placeholder="请输入影片" /> */}
           <SearchBar
             className="group-saerch"
