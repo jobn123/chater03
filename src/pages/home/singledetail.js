@@ -25,6 +25,7 @@ class SingleDetail extends React.Component {
       })
     })
   }
+  
   render() {
     let { showItem1, showItem2, showItem3, showItem4, showItem5, showItem6, data } = this.state
     if (data === null) {
@@ -64,7 +65,7 @@ class SingleDetail extends React.Component {
     return (
       <div className="singleDetail">
           <div className="singleDetail_title">
-          <span style={{float: 'left', marginLeft:'9px'}}onClick={()=>{this.setState({showSingleFlag: false})}}>返回</span>
+          <span style={{float: 'left', marginLeft:'9px'}}onClick={()=>{this.props.hideSingleDetail()}}>返回</span>
           <span>{dl.title}</span></div>
           <div className="singleDetail_sub">{dl.show_time}上映</div>
 
@@ -95,7 +96,7 @@ class SingleDetail extends React.Component {
               
           <div className="single-wanted">
             <div className={showItem3 ? "wanted-title_up" : "wanted-title"}><span>物料</span><span className={showItem3 ? "up-pic" : "down-pic"} onClick={()=>{this.setState({
-    showItem3: !this.state.showItem3})}}></span><span style={{display: showItem3 ? 'block' : 'none'}} className="checkHistory" onClick={()=>{this.showHistory(true)}}>查看历史</span></div>
+    showItem3: !this.state.showItem3})}}></span><span style={{display: showItem3 ? 'block' : 'none'}} className="checkHistory" onClick={()=>{this.props.showHistory(true)}}>查看历史</span></div>
             <div ref="mate-body" style={{display: showItem3 ? 'block' : 'none'}}>
             <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>增量值</span><span>日环比</span></div>
             <div className="wanted-item"><span className="wt1">总播放</span><span>{dl.play_total_count}</span><span>{dl.play_total_up}</span><span>{dl.play_total_percent}</span></div>

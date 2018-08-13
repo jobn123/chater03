@@ -9,22 +9,22 @@ import './comparedetail.css'
 
 const TA = [{
   title: '想看',
-  subtitle:['猫眼想看','豆瓣想看', '时光网想看', '淘票票想看', '微博想看']
+  subtitle:[{name:'猫眼想看', api: 'maoyan_wish_'}, {name: '豆瓣想看', api: 'douban_wish_'}, {name: '时光网想看', api: 'mtime_wish_'}, {name: '淘票票想看', api: 'taopiaopiao_wish_'}, {name: '微博想看', api: 'weibo_wish_'}]
   },{
   title: '热度',
-  subtitle:['微信指数', '百度指数', '微博指数', '微博阅读', '微博讨论']
+  subtitle:[{name: '微信指数', api: 'weixin_index'}, {name: '百度指数', api: 'baidu_index'} , {name: '微博指数', api: 'weibo_index'},{name: '微博阅读', api: 'weibo_view_count'}, {name: '微博讨论', api: 'weibo_discuss_count'}]
   }, {
   title: '画像',
   subtitle:[]
   },{
   title: '物料',
-  subtitle: ['总量', '优酷', '腾讯视频', '爱奇艺', '秒拍']
+  subtitle: [{name: '总量', api: ''},{name: '优酷', api: ''}, {name: '腾讯视频', api: ''} , {name: '爱奇艺', api: ''}, {name: '秒拍', api: ''} ]
   }, {
   title: '预售',
-  subtitle: ['每日票房', '首日拍片', '首日场次', '大盘场次']
+  subtitle: [{name: '每日票房', api: ''}, {name: '首日拍片', api: ''} , {name: '首日场次', api: ''} , {name: '大盘场次', api: ''} ]
   },{
   title: '口碑',
-  subtitle: ['猫眼', '淘票票', '豆瓣', '时光网', '微博']
+  subtitle: [{name: '猫眼', api: ''}, {name: '淘票票', api: ''},{name: '豆瓣', api: ''} ,{name: '时光网', api: ''}, {name: '微博', api: ''} ]
 }]
 
 class Compare extends React.Component{
@@ -64,7 +64,7 @@ class Compare extends React.Component{
     arr.unshift(first)
     
     let movieStr = arr.toString()
-    let url = `http://123.56.14.124:918/trend/?format=json&pid=78405&pid=78429&pid=246083&start=2015-04-20&end=2015-05-10&target=maoyan_wish_count`
+    let url = `http://123.56.14.124:918/compare_all/?format=json&target=wish&type=count&id=423,910,788&start=2018-01-08&end=2018-01-10`
     this.setState({
       movies:  movieStr
     }, ()=>{
@@ -73,11 +73,13 @@ class Compare extends React.Component{
   }
   fetchData(url) {
     axios.get(url).then(res =>{
-      this.setState({dataLists: res.data.data, showCalender: false})
+      // debugger
+      this.setState({dataLists: res.data.data.data, showCalender: false})
     }).catch(err =>{
       console.log('----err----')
     })
   }
+
   fomartDate = (str) => {
     var d = new Date(str);
     var ts = d.getTime() - d.getTimezoneOffset()*60*1000;
@@ -172,13 +174,40 @@ class Compare extends React.Component{
     // let url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=${movies}&start=${start}&end=${end}`
     // this.fetchData(url)
   }
+  fetchMainTitle(i) {
+    let {segIndex, start, end, segZero, start2, end2} = this.state
+
+    this.setState(
+      {firsTitleIndex: i, secondTitleIndex: 0}, ()=>{
+
+        switch (i) {
+          case 0:
+          case 1:
+          case 3:
+          case 4:
+            console.log('+++++++++++')
+
+            break;
+          case 2:
+            console.log('画像')
+            break;
+          case 5:
+            console.log('口碑')
+            break;
+          default:
+            break;
+        } 
+        let item = TA[i].subtitle[0]
+
+    })
+  }
   renderMainTitle() {
     let { firsTitleIndex } = this.state
     let arr = []
     for (let i = 0; i < TA.length; i++) {
       let cname = i === firsTitleIndex ? 'mainActive' : ''
       let item = (
-        <li key={i} className={cname} onClick={()=>{this.setState({firsTitleIndex: i, secondTitleIndex: 0})}}> {TA[i].title} </li>
+        <li key={i} className={cname} onClick={()=>{this.fetchMainTitle(i)}}> {TA[i].title} </li>
       )
       arr.push(item)
     }
@@ -195,7 +224,7 @@ class Compare extends React.Component{
     for(let i = 0; i < d.length; i++) {
       let cname = i === secondTitleIndex ? 'secondActive' : ''
       let item = (
-        <li key={i} className={cname} onClick={()=>{this.setState({secondTitleIndex: i})}}>{d[i]}</li>
+        <li key={i} className={cname} onClick={()=>{this.setState({secondTitleIndex: i})}}>{d[i].name}</li>
       )
       arr.push(item)
     }
@@ -205,7 +234,7 @@ class Compare extends React.Component{
     )
   }
   getOption = (d) => {
-    let xArr = d[0].date.split(',')
+    let xArr = d[0].data.date.split(',')
     return {
       tooltip: {
         trigger: 'axis'
@@ -233,13 +262,13 @@ class Compare extends React.Component{
           return {
             name:item['title'],
             type:'line',
-            data: item.value.split(',')
+            data: item.data.value.split(',')
           }
       })
     };
 };
 renderCharts() {
-  let { dataLists, dataCls } = this.state
+  let { dataLists } = this.state
   if (dataLists.length === 0) return
     return (
       <div className="wish-item_box">
@@ -316,12 +345,12 @@ renderCharts() {
             width: 180
           },
       ]
-      let dArr = data[0].date.split(',')
+      let dArr = data[0].data.date.split(',')
 
       for(let i = 0; i < dArr.length; i++) {
         let item = parseInt(dArr[i])
         let str = item > 0 ? `映后${item}天` : `映前${Math.abs(item)}天`
-
+        debugger
         let obj = {
           Header: str,
           accessor: `${item}`,
@@ -337,18 +366,18 @@ renderCharts() {
       if (data.length === 0) return []
       let  allArr = [
         {
-            Header: "片名(累计))",
+            Header: "片名(累计)",
             accessor: "title",
             width: 180
           },
       ]
-      let dArr = data[0].date.split(',')
+      let dArr = data[0].data.date.split(',')
         for(let i = 0; i < dArr.length; i++) {
           let obj = {
             Header: dArr[i],
             accessor: `${dArr[i]}`,
             Cell: props => <div style={{textAlign: "right"}}>
-            <div>{props.value == null ? 0 : parseInt(props.value).toLocaleString()}</div>
+            <div>{props.value == null ? console.log(props) : parseInt(props.value).toLocaleString()}</div>
             <div>22.22%</div>
             </div>,
             // height: 30

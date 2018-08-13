@@ -4,6 +4,7 @@ import { SearchBar } from 'antd-mobile'
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid} from 'recharts'
 import ListContent from './listContent'
 import SingleDetail from './singledetail'
+import History from './History'
 
 import './index.css'
 
@@ -122,15 +123,19 @@ class Home extends React.Component{
       showHistory: flag
     })
   }
+  hideSingleDetail() {
+    this.setState({showSingleFlag: false})
+  }
   render(){
     let { showSingleFlag, showHistory } = this.state
     
     if (showSingleFlag) {
       return (
-        <SingleDetail sindleDetails={this.sindleDetails} aid={this.sindleDetails.id}/>
+        <SingleDetail sindleDetails={this.sindleDetails} aid={this.sindleDetails.id} hideSingleDetail={this.hideSingleDetail.bind(this)} showHistory={this.showHistory.bind(this)} />
       )
     } else if(showHistory) {
-      return (<div onClick={()=>{this.showHistory(false)}}>历史记录</div>)
+      return (<History showHistory={this.showHistory.bind(this)}/>)
+      // return (<div onClick={()=>{this.showHistory(false)}}>历史记录</div>)
     }
     return (
       <div>
