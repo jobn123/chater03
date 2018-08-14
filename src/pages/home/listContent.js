@@ -43,7 +43,7 @@ class ListContent extends React.Component{
           <div ref="wanted-body" className="list-content_right" onClick={()=>{this.goCompoareDetail(lists[i])}}>
             <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>日环比</span><span>组排名</span></div>
             <div className="wanted-item"><span className="st1">猫眼想看</span><span>122</span><span>12</span><span>12</span></div>
-            <div className="wanted-item"><span className="st2">百度指数</span><span>12</span><span>12</span><span>12</span></div>
+            <div className="wanted-item"><span className="ht1">百度指数</span><span>12</span><span>12</span><span>12</span></div>
             <div className="wanted-item"><span className="st3">微博指数</span><span>12</span><span>12</span><span>12</span></div>
             <div className="wanted-item"><span className="st4">微信指数</span><span>12</span><span>12</span><span>12</span></div>
           </div>

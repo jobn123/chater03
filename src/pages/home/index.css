@@ -124,9 +124,12 @@
   font-size: 16px;
   color: #108EE9;;
 }
+.wanted-item_t span:first-child {
+  width: 37%;
+}
 .wanted-item_t span{
   display: inline-block;
-  width: 25%;
+  width: 21%;
   font-size: 14px;
   color: #999999;
 }
@@ -136,9 +139,12 @@
   font-size: 14px;
   color: #999999;
 }
+.wanted-item span:first-child {
+  width: 37%;
+}
 .wanted-item span {
   display: inline-block;
-  width: 25%;
+  width: 21%;
   font-size: 14px;
   color: #151515;
 }
@@ -146,7 +152,7 @@
   width: 94.52%;
   margin: 15px auto;
 }
-.single-wanted .st1::before{
+.st1::before{
   content: '';
   display: inline-block;
   width: 20px;
@@ -155,7 +161,7 @@
   background-size: 100% 100%;
   margin-right: 5px;
 }
-.single-wanted .st2::before{
+.st2::before{
   content: '';
   display: inline-block;
   width: 20px;
@@ -164,7 +170,7 @@
   background-size: 100% 100%;
   margin-right: 5px;
 }
-.single-wanted .st3::before{
+.st3::before{
   content: '';
   display: inline-block;
   width: 20px;
@@ -173,7 +179,7 @@
   background-size: 100% 100%;
   margin-right: 5px;
 }
-.single-wanted .st4::before{
+.st4::before{
   content: '';
   display: inline-block;
   width: 20px;
@@ -342,6 +348,7 @@
   text-align: center;
   background: #108EE9;
   margin-left: 8px;
+  margin-top: 15px;
 }
 .list-left_title{
   margin-top: 30px;
@@ -369,12 +376,18 @@
   margin-bottom: 12px;
 }
 .compare-header {
+  position: relative;
   width: 100%;
   height: 44px;
   line-height: 44px;
   background: #108EE9;
   font-size: 18px;
   color: #FFFFFF;
+  text-align: center;
+}
+.compare-header span:first-child {
+  position: absolute;
+  left: 15px;
 }
 .compare-edit {
   width: 20px;
@@ -502,4 +515,30 @@
   padding-left: 15px;
   font-size: 14px;
   color: #222327;
+}
+.kb-title {
+  width: 100%;
+  height: 36px;
+  background: #EBEBEB;
+  line-height: 36px;
+  font-size: 14px;
+  color: #2D2E33;
+}
+.kb-title span:first-child, .kb_item span:first-child {
+  width: 50%;
+}
+.kb-title span, .kb_item span{
+  display: inline-block;
+  text-align: center;
+  width: 25%;
+}
+.kb_item {
+  width: 100%;
+  height: 36px;
+  line-height: 36px;
+  font-size: 14px;
+  color: #2D2E33;
+}
+.kb_item span:last-child {
+  color: red
 }

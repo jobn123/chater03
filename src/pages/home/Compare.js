@@ -4,12 +4,13 @@ import ReactEcharts from 'echarts-for-react'
 import ReactTable from "react-table"
 import "react-table/react-table.css"
 import axios from 'axios'
+import UserPhoto from './UserPhoto'
 
 import './comparedetail.css'
 
 const TA = [{
   title: '想看',
-  subtitle:[{name:'猫眼想看', api: 'maoyan_wish_'}, {name: '豆瓣想看', api: 'douban_wish_'}, {name: '时光网想看', api: 'mtime_wish_'}, {name: '淘票票想看', api: 'taopiaopiao_wish_'}, {name: '微博想看', api: 'weibo_wish_'}]
+  subtitle:[{name:'猫眼想看', api: 'wish'}, {name: '豆瓣想看', api: 'douban_wish'}, {name: '时光网想看', api: 'mtime_wish'}, {name: '淘票票想看', api: 'taopiaopiao_wish'}, {name: '微博想看', api: 'weibo_wish'}]
   },{
   title: '热度',
   subtitle:[{name: '微信指数', api: 'weixin_index'}, {name: '百度指数', api: 'baidu_index'} , {name: '微博指数', api: 'weibo_index'},{name: '微博阅读', api: 'weibo_view_count'}, {name: '微博讨论', api: 'weibo_discuss_count'}]
@@ -18,13 +19,13 @@ const TA = [{
   subtitle:[]
   },{
   title: '物料',
-  subtitle: [{name: '总量', api: ''},{name: '优酷', api: ''}, {name: '腾讯视频', api: ''} , {name: '爱奇艺', api: ''}, {name: '秒拍', api: ''} ]
+  subtitle: [{name: '总量', api: 'play_total'},{name: '优酷', api: 'play_youku'}, {name: '腾讯视频', api: 'play_qq'} , {name: '爱奇艺', api: 'play_iqiyi'}, {name: '秒拍', api: 'play_miaopai'} ]
   }, {
   title: '预售',
-  subtitle: [{name: '每日票房', api: ''}, {name: '首日拍片', api: ''} , {name: '首日场次', api: ''} , {name: '大盘场次', api: ''} ]
+  subtitle: [{name: '每日票房', api: 'first_box'}, {name: '首日拍片', api: 'first_num_percent'} , {name: '首日场次', api: 'first_num'} , {name: '大盘场次', api: 'first_num_total'} ]
   },{
   title: '口碑',
-  subtitle: [{name: '猫眼', api: ''}, {name: '淘票票', api: ''},{name: '豆瓣', api: ''} ,{name: '时光网', api: ''}, {name: '微博', api: ''} ]
+  subtitle: [{name: '猫眼', api: 'rating'}, {name: '淘票票', api: 'tpp_rating'},{name: '豆瓣', api: 'douban_rating'} ,{name: '时光网', api: 'mtime_rating'}, {name: '微博', api: 'weibo_rating'} ]
 }]
 
 class Compare extends React.Component{
@@ -53,7 +54,8 @@ class Compare extends React.Component{
       firsTitleIndex: 0,
       secondTitleIndex: 0,
       dataLists:[],
-      movies: ''
+      movies: '',
+      kbData:[]
     }
   }
   componentDidMount() {
@@ -64,7 +66,9 @@ class Compare extends React.Component{
     arr.unshift(first)
     
     let movieStr = arr.toString()
-    let url = `http://123.56.14.124:918/compare_all/?format=json&target=wish&type=count&id=423,910,788&start=2018-01-08&end=2018-01-10`
+    // let url = `http://123.56.14.124:918/compare_all/?format=json&target=wish&type=count&id=${movieStr}&start=${start}&end=${end}`
+    let url = 'http://123.56.14.124:918/compare/?format=json&target=wish&type=count&id=423,910,788&start=2018-01-08&end=2018-01-10'
+
     this.setState({
       movies:  movieStr
     }, ()=>{
@@ -73,8 +77,15 @@ class Compare extends React.Component{
   }
   fetchData(url) {
     axios.get(url).then(res =>{
-      // debugger
       this.setState({dataLists: res.data.data.data, showCalender: false})
+    }).catch(err =>{
+      console.log('----err----')
+    })
+  }
+
+  fetchKbData(url) {
+    axios.get(url).then(res =>{
+      this.setState({kbData: res.data.data.data, showCalender: false})
     }).catch(err =>{
       console.log('----err----')
     })
@@ -104,50 +115,33 @@ class Compare extends React.Component{
   }
   onValueChange(e) {
     console.log(e)
-    // const d = ['绝对时间', '相对时间']
     const index = e
     let flag = index === 1 ? true : false
-    // debugger
-    let {segIndex, start, end, segZero, start2, end2} = this.state
-    // let pids = ""
-    // this.props.pidlist.map((pid)=>{
-    //   pids += "&pid="
-    //   pids += pid
-    // })
-    // console.log(this.props.platform)
-    // let platform = segZero == 0 ? this.props.platform : this.props.platform.replace('count', 'up')
-    
+    let {segIndex, start, end, segZero, start2, end2, movies, firsTitleIndex, secondTitleIndex} = this.state
+
     this.setState({
       showRange: flag,
       segIndex: index
     }, ()=> {
-      // let url = ''
-      // if(this.state.segIndex === 1) {
-      //     url = `http://123.56.14.124:918/trend/?format=json${pids}&start_days=${start2}&end_days=${end2}&target=${platform}`
-      //   } else {
-      //     url = `http://123.56.14.124:918/trend/?format=json${pids}&start=${start}&end=${end}&target=${platform}`
-      // }
-      // this.fetchTrend(url)
+      let target = TA[firsTitleIndex].subtitle[secondTitleIndex].api
+      let type = segZero === 0 ? 'count' : 'up'
+      let dateStr = segIndex === 1 ? `start=${start}&end=${end}` : `start_days=${start2}&end_days=${end2}`
+
+      let url = `http://123.56.14.124:918/compare/?format=json&target=${target}&type=${type}&id=${movies}&${dateStr}`
+      this.fetchData(url)
     })
   }
   setZeroSeg(e) {
-    let {segIndex, start, end, segZero, start2, end2} = this.state
-    // let pids = ""
-    // this.props.pidlist.map((pid)=>{
-    //   pids += "&pid="
-    //   pids += pid
-    // })
+    let {segIndex, start, end, segZero, start2, end2, movies, firsTitleIndex, secondTitleIndex} = this.state
     this.setState({
       segZero: e,
     }, ()=> {
-      // let platform = this.state.segZero == 0 ? this.props.platform : this.props.platform.replace('count', 'up')
-      // let url = ''
-      // if(segIndex === 1) {
-      //     url = `http://123.56.14.124:918/trend/?format=json${pids}&start_days=${start2}&end_days=${end2}&target=${platform}`
-      //   } else {
-      //     url = `http://123.56.14.124:918/trend/?format=json${pids}&start=${start}&end=${end}&target=${platform}`
-      // }
-      // this.fetchTrend(url)
+      let target = TA[firsTitleIndex].subtitle[secondTitleIndex].api
+      let type = segZero === 1 ? 'count' : 'up'
+      let dateStr = segIndex === 0 ? `start=${start}&end=${end}` : `start_days=${start2}&end_days=${end2}`
+
+      let url = `http://123.56.14.124:918/compare/?format=json&target=${target}&type=${type}&id=${movies}&${dateStr}`
+      this.fetchData(url)
     })
   }
   showCanlender() {
@@ -175,30 +169,60 @@ class Compare extends React.Component{
     // this.fetchData(url)
   }
   fetchMainTitle(i) {
-    let {segIndex, start, end, segZero, start2, end2} = this.state
+    let {segIndex, start, end, segZero, start2, end2, movies} = this.state
 
     this.setState(
-      {firsTitleIndex: i, secondTitleIndex: 0}, ()=>{
-
+      {firsTitleIndex: i, secondTitleIndex: 0, segIndex: 0, segZero: 0}, ()=>{
         switch (i) {
           case 0:
           case 1:
           case 3:
           case 4:
             console.log('+++++++++++')
-
+            let target = TA[i].subtitle[0].api
+            let type = segZero === 0 ? 'count' : 'up'
+            let url = `http://123.56.14.124:918/compare/?format=json&target=${target}&type=${type}&id=${movies}&start=${start}&end=${end}`
+            this.fetchData(url)
             break;
           case 2:
             console.log('画像')
             break;
           case 5:
             console.log('口碑')
+            this.fetchKbData('http://123.56.14.124:918/compare/?format=json&target=mtime_rating&id=423,910,788')
             break;
           default:
             break;
         } 
-        let item = TA[i].subtitle[0]
+    })
+  }
+  fetSubTitleData(i) {
+    let {segIndex, start, end, segZero, start2, end2, movies, firsTitleIndex} = this.state
 
+    this.setState({secondTitleIndex: i}, ()=>{
+      switch (firsTitleIndex) {
+        case 0:
+        case 1:
+        case 3:
+        case 4:
+          console.log('+++++++++++')
+          let target = TA[firsTitleIndex].subtitle[i].api
+          let type = segZero === 0 ? 'count' : 'up'
+          let dateStr = segIndex === 0 ? `start=${start}&end=${end}` : `start_days=${start2}&end_days=${end2}`
+
+          let url = `http://123.56.14.124:918/compare/?format=json&target=${target}&type=${type}&id=${movies}&${dateStr}`
+          this.fetchData(url)
+          break;
+        case 2:
+          console.log('画像')
+          break;
+        case 5:
+          this.fetchKbData('http://123.56.14.124:918/compare/?format=json&target=mtime_rating&id=423,910,788')
+          console.log('口碑')
+          break;
+        default:
+          break;
+      }
     })
   }
   renderMainTitle() {
@@ -224,7 +248,7 @@ class Compare extends React.Component{
     for(let i = 0; i < d.length; i++) {
       let cname = i === secondTitleIndex ? 'secondActive' : ''
       let item = (
-        <li key={i} className={cname} onClick={()=>{this.setState({secondTitleIndex: i})}}>{d[i].name}</li>
+        <li key={i} className={cname} onClick={()=>{this.fetSubTitleData(i)}}>{d[i].name}</li>
       )
       arr.push(item)
     }
@@ -234,7 +258,8 @@ class Compare extends React.Component{
     )
   }
   getOption = (d) => {
-    let xArr = d[0].data.date.split(',')
+
+    let xArr = d[0].date.split(',')
     return {
       tooltip: {
         trigger: 'axis'
@@ -262,7 +287,7 @@ class Compare extends React.Component{
           return {
             name:item['title'],
             type:'line',
-            data: item.data.value.split(',')
+            data: item.value.split(',')
           }
       })
     };
@@ -345,12 +370,12 @@ renderCharts() {
             width: 180
           },
       ]
-      let dArr = data[0].data.date.split(',')
-
+      let dArr = data[0].date.split(',')
+      // debugger
       for(let i = 0; i < dArr.length; i++) {
         let item = parseInt(dArr[i])
+        
         let str = item > 0 ? `映后${item}天` : `映前${Math.abs(item)}天`
-        debugger
         let obj = {
           Header: str,
           accessor: `${item}`,
@@ -371,18 +396,21 @@ renderCharts() {
             width: 180
           },
       ]
-      let dArr = data[0].data.date.split(',')
+      let dArr = data[0].date.split(',')
         for(let i = 0; i < dArr.length; i++) {
-          let obj = {
-            Header: dArr[i],
-            accessor: `${dArr[i]}`,
-            Cell: props => <div style={{textAlign: "right"}}>
-            <div>{props.value == null ? console.log(props) : parseInt(props.value).toLocaleString()}</div>
-            <div>22.22%</div>
-            </div>,
-            // height: 30
+          let per = data[i].percent.split(',')
+          for (let j = 0; j < per.length; j++) {
+            let obj = {
+              Header: dArr[i],
+              accessor: `${dArr[i]}`,
+              Cell: props => <div style={{textAlign: "right"}}>
+              <div>{props.value === undefined ? 0 : parseInt(props.value).toLocaleString()}</div>
+              <div>{per[j]}</div>
+              </div>,
+              // height: 30
+            }
+            allArr.push(obj)
           }
-          allArr.push(obj)
         }
       return allArr
     }
@@ -413,9 +441,52 @@ renderCharts() {
           />
     )
   }
+
+  renderBody() {
+    let { segZero, segIndex, firsTitleIndex, kbData, movies} = this.state
+
+    if (firsTitleIndex === 2) {
+      return (<UserPhoto movies={movies} />)
+    } 
+
+    if (firsTitleIndex === 5) {
+      let arr = []
+      for (let i = 0; i < kbData.length; i++) {
+        let d = kbData[i]
+        let item = (
+          <div className="kb_item"><span>{d.title}</span><span>{d.date}</span><span>{d.value}</span></div>
+        )
+        arr.push(item)
+      }
+      return(<div>
+        <div className="kb-title"><span>标题</span><span>上映日期</span><span>评分</span></div>
+        {arr}</div>)
+    }
+
+    return (<div className="com-sub_header">
+      <div style={{display: 'inline-block', width:'40%'}}>
+        <span className={segIndex == 0 ? 'segSpanActive' : 'segSpan'} onClick={()=>{this.onValueChange(0)}}> 绝对时间 </span>
+        <span className={segIndex == 1 ? 'segSpanActive' : 'segSpan'} onClick={()=>{this.onValueChange(1)}}> 相对时间 </span>
+      </div>
+      <div style={{display: 'inline-block', width:'40%', marginLeft: '18%'}}>
+        <span className={segZero == 0 ? 'segSpanActive' : 'segSpan'} onClick={()=>{this.setZeroSeg(0)}}> 累计 </span>
+        <span className={segZero == 1 ? 'segSpanActive' : 'segSpan'} onClick={()=>{this.setZeroSeg(1)}}> 新增 </span>
+      </div>
+
+      {this.renderDateDiv()}
+      {this.renderCalender()}
+      {this.renderRange()}
+      <div style={{clear: 'both'}}></div>
+
+      {this.renderCharts()}
+      {this.renderTable()}
+    </div>)
+  }
   render(){
-    let cw = document.body.clientWidth
-    let { editFlag, segZero, segIndex } = this.state
+    // let cw = document.body.clientWidth
+    // let { segZero, segIndex, firsTitleIndex } = this.state
+
+
     return (
       <div className="comparedetail">
         <div className="compare2-header">
@@ -427,26 +498,9 @@ renderCharts() {
           </ul>
         </div>
         { this.renderThirdTitle() }
+        
+        {this.renderBody()}
 
-        <div className="com-sub_header">
-          <div style={{display: 'inline-block', width:'40%'}}>
-            <span className={segIndex == 0 ? 'segSpanActive' : 'segSpan'} onClick={()=>{this.onValueChange(0)}}> 绝对时间 </span>
-            <span className={segIndex == 1 ? 'segSpanActive' : 'segSpan'} onClick={()=>{this.onValueChange(1)}}> 相对时间 </span>
-          </div>
-          <div style={{display: 'inline-block', width:'40%', marginLeft: '18%'}}>
-            <span className={segZero == 0 ? 'segSpanActive' : 'segSpan'} onClick={()=>{this.setZeroSeg(0)}}> 累计 </span>
-            <span className={segZero == 1 ? 'segSpanActive' : 'segSpan'} onClick={()=>{this.setZeroSeg(1)}}> 新增 </span>
-          </div>
-
-          {/* <div className="compare-date" onClick={()=>{this.showCanlender()}}>2018-12-12/2018-12-12</div> */}
-          {this.renderDateDiv()}
-          {this.renderCalender()}
-          {this.renderRange()}
-          <div style={{clear: 'both'}}></div>
-
-          {this.renderCharts()}
-          {this.renderTable()}
-        </div>
       </div>
     )
   }
