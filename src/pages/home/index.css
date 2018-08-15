@@ -542,3 +542,14 @@
 .kb_item span:last-child {
   color: red
 }
+.user-sex_title {
+  margin-bottom: 25px;
+  font-size: 15px;
+  color: #9B9B9B;
+  margin-left: 20px;
+}
+.split-line {
+  border: 1px solid  #E3E3E3;
+  width: 94.67%;
+  margin: 25px auto 20px auto;
+}
