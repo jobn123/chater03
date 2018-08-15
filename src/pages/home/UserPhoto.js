@@ -1,12 +1,14 @@
 import React from 'react'
 import axios from "axios/index"
+import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts'
 
 class UserPhoto extends React.Component{
   constructor(props) {
     super(props)
 
     this.state = {
-      data: []
+      data: [],
+      ageIndex: 0
     }
   }
 
@@ -57,68 +59,103 @@ class UserPhoto extends React.Component{
   }
 
   renderAge(data) {
+    let { ageIndex } = this.state
     let myAge = []
     let tppAge = []
-    // const data2 = [{
-    //   name: '20岁以下', my: dl.maoyan_0_19 * 100, tpp: dl.tpp_0_19 * 100
-    // },{
-    //   name: '20-24', my: dl.maoyan_20_24 * 100, tpp: dl.tpp_20_24 * 100
-    // },{
-    //   name: '25-29', my: dl.maoyan_25_29 * 100, tpp: dl.tpp_25_29* 100
-    // },{
-    //   name: '30-34', my: dl.maoyan_30_34 * 100, tpp: dl.tpp_30_34* 100
-    // },{
-    //   name: '35-39', my: dl.maoyan_35_39 * 100, tpp: dl.tpp_35_39* 100
-    // },{
-    //   name: '40岁以上', my: dl.maoyan_40_100 * 100, tpp: dl.tpp_40_100* 100
-    // }]
+    
     let ages = [{name: '20岁以下', index: 'maoyan_0_19'}, {name: '20-24', index: 'maoyan_20_24'}, {name: '25-29', index: 'maoyan_25_29'}, {name: '30-34', index: 'maoyan_30_34'} , {name: '35-39', index: 'maoyan_35_39'}, {name: '40岁以上', index: 'maoyan_40_100'}]
 
     let arr = []
     for (let i = 0; i < ages.length; i++) {
       (function(i){
         let name = ages[i].name
-        let index = ages[i].index
+        let index = ageIndex === 0 ? ages[i].index : ages[i].index.replace('maoyan', 'tpp')
         for (let j = 0; j < data.length; j++) {
-          let item = data[j]
-          let title = item.title
-          // debugger
-          if (arr.length === 0) {
+
+          (function(j){
+            let item = data[j]
+            let title = item.title
+
+            for (let val of arr) {
+              if(val.name === name) {
+                val[`${title}`] = item[index] * 100
+                return
+              }
+            }
             let obj = {}
             obj.name = name
-            obj[`${title}`] = item[index]
+            obj[`${title}`] = item[index] * 100
             arr.push(obj)
-            // arr[i] = obj
-            // break;
-          }
-          
-          for (let val of arr) {
-            if(val.name === name) {
-               val[`${title}`] = item[index]
-               break;
-            }
-          }
-
-
-          // arr.every(val => {
-          //   // debugger
-          //   if(val.name === name) {
-          //      val[`${title}`] = item[index]
-          //      return false
-          //   } else {
-          //     let obj = {}
-          //     obj.name = name
-          //     obj[`${title}`] = item[index]
-
-          //     arr.push(obj)
-          //     return false
-          //   }
-          // })
+          })(j)
         }
       })(i)
     }
-    debugger
-    return arr
+
+    return (
+      <div>
+        <p style={{fontSize: '14px',marginTop: '24px', marginBottom: '36px', marginLeft: '15px', color: '#108EE9'}}>受众年龄分布</p>
+        <div className="agetitle"><span className={ageIndex === 0 ? 'ageActive' : ''} onClick={()=>{this.setState({ageIndex: 0})}}>猫眼</span><span className={ageIndex === 1 ? 'ageActive' : ''} onClick={()=>{this.setState({ageIndex: 1})}}>淘票票</span></div>
+        <BarChart width={600} height={300} data={arr}
+              margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+        <CartesianGrid strokeDasharray="3 3"/>
+        <XAxis dataKey="name"/>
+        <YAxis/>
+        <Tooltip/>
+        <Legend />
+        <Bar dataKey="三块广告牌" fill="#8884d8" />
+        <Bar dataKey="爱在记忆消逝前" fill="#82ca9d" />
+        <Bar dataKey="金钱世界" fill="#82ca9d" />
+        </BarChart>
+      </div>
+    )
+  }
+
+  renderArea(data) {
+    let areas = [{name: '一线城市', index: 'tpp_city1'},{name: '二线城市', index: 'tpp_city2'},{name: '三线城市', index: 'tpp_city3'},{name: '四线城市', index: 'tpp_city4'}]
+
+    let arr = []
+    for (let i = 0; i < areas.length; i++) {
+      (function(i){
+        let name = areas[i].name
+        let index = areas[i].index
+        for (let j = 0; j < data.length; j++) {
+
+          (function(j){
+            let item = data[j]
+            let title = item.title
+
+            for (let val of arr) {
+              if(val.name === name) {
+                val[`${title}`] = item[index] * 100
+                return
+              }
+            }
+            let obj = {}
+            obj.name = name
+            obj[`${title}`] = item[index] * 100
+            arr.push(obj)
+          })(j)
+        }
+      })(i)
+    }
+    
+    return (
+      <div>
+        <p style={{fontSize: '14px',marginTop: '24px', marginBottom: '36px', marginLeft: '15px', color: '#108EE9'}}>淘票票地域分布</p>
+        
+        <BarChart width={600} height={300} data={arr}
+              margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+        <CartesianGrid strokeDasharray="3 3"/>
+        <XAxis dataKey="name"/>
+        <YAxis/>
+        <Tooltip/>
+        <Legend />
+        <Bar dataKey="三块广告牌" fill="#8884d8" />
+        <Bar dataKey="爱在记忆消逝前" fill="#82ca9d" />
+        <Bar dataKey="金钱世界" fill="#82ca9d" />
+        </BarChart>
+      </div>
+    )
   }
 
   render(){
@@ -129,6 +166,8 @@ class UserPhoto extends React.Component{
         {this.renderSex(data)}
         <div className="split-line"></div>
         {this.renderAge(data)}
+        <div className="split-line"></div>
+        {this.renderArea(data)}
         {/*  */}
       </div>
     )
