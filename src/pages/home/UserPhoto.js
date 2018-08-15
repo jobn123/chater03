@@ -123,7 +123,7 @@ class UserPhoto extends React.Component{
           (function(j){
             let item = data[j]
             let title = item.title
-
+            
             for (let val of arr) {
               if(val.name === name) {
                 val[`${title}`] = item[index] * 100
@@ -138,7 +138,7 @@ class UserPhoto extends React.Component{
         }
       })(i)
     }
-    
+
     return (
       <div>
         <p style={{fontSize: '14px',marginTop: '24px', marginBottom: '36px', marginLeft: '15px', color: '#108EE9'}}>淘票票地域分布</p>
