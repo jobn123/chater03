@@ -66,8 +66,8 @@ class Compare extends React.Component{
     arr.unshift(first)
     
     let movieStr = arr.toString()
-    // let url = `http://123.56.14.124:918/compare_all/?format=json&target=wish&type=count&id=${movieStr}&start=${start}&end=${end}`
-    let url = 'http://123.56.14.124:918/compare/?format=json&target=wish&type=count&id=423,910,788&start=2018-01-08&end=2018-01-10'
+    let url = `http://123.56.14.124:918/compare/?format=json&target=wish&type=count&id=${movieStr}&start=${start}&end=${end}`
+    // let url = 'http://123.56.14.124:918/compare/?format=json&target=wish&type=count&id=423,910,788&start=2018-01-08&end=2018-01-10'
 
     this.setState({
       movies:  movieStr
@@ -117,9 +117,10 @@ class Compare extends React.Component{
     console.log(e)
     const index = e
     let flag = index === 1 ? true : false
-    let {segIndex, start, end, segZero, start2, end2, movies, firsTitleIndex, secondTitleIndex} = this.state
+    let { segIndex, start, end, segZero, start2, end2, movies, firsTitleIndex, secondTitleIndex } = this.state
 
     this.setState({
+      dataLists: [],      
       showRange: flag,
       segIndex: index
     }, ()=> {
@@ -189,7 +190,8 @@ class Compare extends React.Component{
             break;
           case 5:
             console.log('口碑')
-            this.fetchKbData('http://123.56.14.124:918/compare/?format=json&target=mtime_rating&id=423,910,788')
+            let kt = TA[i].subtitle[0].api
+            this.fetchKbData(`http://123.56.14.124:918/compare/?format=json&target=${kt}&id=${movies}`)
             break;
           default:
             break;
@@ -217,7 +219,8 @@ class Compare extends React.Component{
           console.log('画像')
           break;
         case 5:
-          this.fetchKbData('http://123.56.14.124:918/compare/?format=json&target=mtime_rating&id=423,910,788')
+          let kbt = TA[firsTitleIndex].subtitle[i].api
+          this.fetchKbData(`http://123.56.14.124:918/compare/?format=json&target=${kbt}&id=${movies}`)
           console.log('口碑')
           break;
         default:
@@ -365,13 +368,12 @@ renderCharts() {
       
       let  allArr = [
         {
-            Header: "片名(每日增长量)",
-            accessor: "title",
-            width: 180
-          },
+          Header: "片名(每日增长量)",
+          accessor: "title",
+          width: 180
+        },
       ]
       let dArr = data[0].date.split(',')
-      // debugger
       for(let i = 0; i < dArr.length; i++) {
         let item = parseInt(dArr[i])
         
@@ -391,27 +393,29 @@ renderCharts() {
       if (data.length === 0) return []
       let  allArr = [
         {
-            Header: "片名(累计)",
-            accessor: "title",
-            width: 180
-          },
+          Header: "片名(累计)",
+          accessor: "title",
+          width: 180
+        },
       ]
       let dArr = data[0].date.split(',')
         for(let i = 0; i < dArr.length; i++) {
-          let per = data[i].percent.split(',')
-          for (let j = 0; j < per.length; j++) {
-            let obj = {
-              Header: dArr[i],
-              accessor: `${dArr[i]}`,
-              Cell: props => <div style={{textAlign: "right"}}>
-              <div>{props.value === undefined ? 0 : parseInt(props.value).toLocaleString()}</div>
-              <div>{per[j]}</div>
-              </div>,
-              // height: 30
+          // (function(i){
+            let per = data[i].percent.split(',')
+            // for (let j = 0; j < per.length; j++) {
+              let obj = {
+                Header: dArr[i],
+                accessor: `${dArr[i]}`,
+                Cell: props => <div style={{textAlign: "right"}}>
+                <div>{props.value === undefined ? 0 : parseInt(props.value).toLocaleString()}</div>
+                <div>{console.log(props)}</div>
+                </div>,
+                // height: 30
+              }
+              allArr.push(obj)
             }
-            allArr.push(obj)
-          }
-        }
+          // })(i)
+        // }
       return allArr
     }
   }

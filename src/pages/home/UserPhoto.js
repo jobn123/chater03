@@ -8,10 +8,11 @@ class UserPhoto extends React.Component{
 
     this.state = {
       data: [],
-      ageIndex: 0
+      ageIndex: 0,
+      color: ['#FF574D', '#3F8EF2', '#2BC7FF', '#F5A623', '#F8E71C', '#7ED321', '#417505', '#BD10E0']
     }
   }
-
+  
   componentDidMount(){
     let url = 'http://123.56.14.124:918/compare/?format=json&target=profile&id=423,910,788'
 
@@ -59,13 +60,15 @@ class UserPhoto extends React.Component{
   }
 
   renderAge(data) {
-    let { ageIndex } = this.state
+    let { ageIndex, color } = this.state
     let myAge = []
     let tppAge = []
     
     let ages = [{name: '20岁以下', index: 'maoyan_0_19'}, {name: '20-24', index: 'maoyan_20_24'}, {name: '25-29', index: 'maoyan_25_29'}, {name: '30-34', index: 'maoyan_30_34'} , {name: '35-39', index: 'maoyan_35_39'}, {name: '40岁以上', index: 'maoyan_40_100'}]
 
     let arr = []
+    let titleArr = []
+
     for (let i = 0; i < ages.length; i++) {
       (function(i){
         let name = ages[i].name
@@ -91,26 +94,33 @@ class UserPhoto extends React.Component{
       })(i)
     }
 
+    // bar 
+    for (let k = 0; k < data.length; k++) {
+      let t = data[k].title
+      let c = color[k]
+      titleArr.push(<Bar dataKey={t} fill={c} />)
+    }
+
     return (
       <div>
         <p style={{fontSize: '14px',marginTop: '24px', marginBottom: '36px', marginLeft: '15px', color: '#108EE9'}}>受众年龄分布</p>
         <div className="agetitle"><span className={ageIndex === 0 ? 'ageActive' : ''} onClick={()=>{this.setState({ageIndex: 0})}}>猫眼</span><span className={ageIndex === 1 ? 'ageActive' : ''} onClick={()=>{this.setState({ageIndex: 1})}}>淘票票</span></div>
         <BarChart width={600} height={300} data={arr}
               margin={{top: 5, right: 30, left: 20, bottom: 5}}>
-        <CartesianGrid strokeDasharray="3 3"/>
+        <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name"/>
-        <YAxis/>
-        <Tooltip/>
+        <YAxis />
+        <Tooltip />
         <Legend />
-        <Bar dataKey="三块广告牌" fill="#8884d8" />
-        <Bar dataKey="爱在记忆消逝前" fill="#82ca9d" />
-        <Bar dataKey="金钱世界" fill="#82ca9d" />
+        {titleArr}
         </BarChart>
       </div>
     )
   }
 
   renderArea(data) {
+    let { color } = this.state
+
     let areas = [{name: '一线城市', index: 'tpp_city1'},{name: '二线城市', index: 'tpp_city2'},{name: '三线城市', index: 'tpp_city3'},{name: '四线城市', index: 'tpp_city4'}]
 
     let arr = []
@@ -139,6 +149,14 @@ class UserPhoto extends React.Component{
       })(i)
     }
 
+    // bar 
+    let titleArr = []
+    for (let k = 0; k < data.length; k++) {
+      let t = data[k].title
+      let c = color[k]
+      titleArr.push(<Bar dataKey={t} fill={c} />)
+    }
+
     return (
       <div>
         <p style={{fontSize: '14px',marginTop: '24px', marginBottom: '36px', marginLeft: '15px', color: '#108EE9'}}>淘票票地域分布</p>
@@ -150,9 +168,7 @@ class UserPhoto extends React.Component{
         <YAxis/>
         <Tooltip/>
         <Legend />
-        <Bar dataKey="三块广告牌" fill="#8884d8" />
-        <Bar dataKey="爱在记忆消逝前" fill="#82ca9d" />
-        <Bar dataKey="金钱世界" fill="#82ca9d" />
+        {titleArr}
         </BarChart>
       </div>
     )
