@@ -24,7 +24,7 @@ class CompareDetail extends React.Component{
       showRange: false,
       segZero: 0,
       segIndex: 0,
-      data: [{id : 1, prefix:'wish', title: '猫眼想看'},{id : 2, prefix:'wish', title: '淘票票想看'},{id : 3, prefix:'wish', title: '百度指数'},{id : 4, prefix:'wish', title: '微博指数'},{id : 5, prefix:'wish', title: '微信指数'},{id : 6, prefix:'wish', title: '预售票房'}],
+      data: [{id : 1, prefix:'wish', title: '猫眼想看', disabled: false},{id : 2, prefix:'wish', title: '淘票票想看', disabled: false},{id : 3, prefix:'wish', title: '百度指数', disabled: false},{id : 4, prefix:'wish', title: '微博指数', disabled: false},{id : 5, prefix:'wish', title: '微信指数', disabled: false},{id : 6, prefix:'wish', title: '预售票房', disabled: false}],
       dataCls: {wish: '猫眼想看', tpp_wish: '淘票票想看', baidu_index: '百度指数', weibo_index: '微博指数', weixin_index: '微信指数', first_box: '预售票房'},
       showDate: [30, 0],
       dateStr: dateStr,
@@ -118,18 +118,23 @@ class CompareDetail extends React.Component{
   }
   up(i) {
     let { data } = this.state
-    if (i === 0) return
 
-    let val = data[i]
-    let preVal = data[i-1]
-    data[i-1] = val
-    data[i] = preVal
+    if (i === 0 || data[i].disabled) return
+    let arr = data
+    let val = arr[i]
+    let preVal = arr[i-1]
 
-    this.setState({data: data})
+    arr[i-1] = val
+    arr[i] = preVal
+    // debugger
+    // if (arr[i]) {}
+    this.setState({data: arr})
   }
   down(i) {
     let { data } = this.state
-    if (i === data.length - 1) return
+    if (i === data.length - 1 || data[i].disabled) return
+
+    if (data[i+1].disabled) return
 
     let val = data[i]
     let nextVal = data[i+1]
@@ -145,12 +150,31 @@ class CompareDetail extends React.Component{
     //trend_add_gray
     let str = `trend_add${i}`
     if (this.refs[str].className === "trend_item_add") {
-      baseData.splice(i, 1)
-      this.refs[str].className = "trend_add_gray"
+      // baseData.splice(i, 1)
+      let d = data
+      let item = d[i]
+      item.disabled = true
+      d[i] = item
+
+      this.setState({
+        data: d
+      }, ()=>{
+        this.refs[str].className = "trend_add_gray"
+      })
     } else {
-      let item = data[i]
-      baseData.push(item)
-      this.refs[str].className = "trend_item_add"
+      let d = data
+      let item = d[i]
+      item.disabled = false
+      d[i] = item
+      
+      this.setState({
+        data: d
+      }, ()=>{
+        this.refs[str].className = "trend_item_add"
+      })
+      // let item = data[i]
+      // baseData.push(item)
+      // this.refs[str].className = "trend_item_add"
     }
   }
   back() {
@@ -162,13 +186,14 @@ class CompareDetail extends React.Component{
     console.log(baseData)
     this.setState({editFlag: false})
   }
+
   renderEditTrendItem() {
     let arr = this.state.data
     let trendArr = []
     for (let i = 0; i < arr.length; i++) {
       // let title = arr[i]
-      let upClassName = i === 0 ? 'trend_item_up' : 'trend_item_canup'
-      let downClassName = i === arr.length - 1 ? 'trend_item_cndown' : 'trend_item_down'
+      let upClassName = (i === 0 || arr[i].disabled)? 'trend_item_up' : 'trend_item_canup'
+      let downClassName = (i === arr.length - 1 || arr[i].disabled) ? 'trend_item_cndown' : 'trend_item_down'
       let rid = `trend_add${i}`
 
       let item =  (
@@ -185,6 +210,7 @@ class CompareDetail extends React.Component{
 
     return trendArr
   }
+
   showCanlender() {
     this.setState({
       showCalender: !this.state.showCalender
