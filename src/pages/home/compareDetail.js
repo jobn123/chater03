@@ -24,8 +24,9 @@ class CompareDetail extends React.Component{
       showRange: false,
       segZero: 0,
       segIndex: 0,
-      data: [{id : 1, prefix:'wish', title: '猫眼想看', disabled: false},{id : 2, prefix:'wish', title: '淘票票想看', disabled: false},{id : 3, prefix:'wish', title: '百度指数', disabled: false},{id : 4, prefix:'wish', title: '微博指数', disabled: false},{id : 5, prefix:'wish', title: '微信指数', disabled: false},{id : 6, prefix:'wish', title: '预售票房', disabled: false}],
+      data: [{id : 1, prefix:'wish', title: '猫眼想看', disabled: false},{id : 2, prefix:'tpp_wish', title: '淘票票想看', disabled: false},{id : 3, prefix:'baidu_index', title: '百度想看', disabled: false},{id : 4, prefix:'weibo_index', title: '微博指数', disabled: false},{id : 5, prefix:'weixin_index', title: '微信指数', disabled: false},{id : 6, prefix:'first_box', title: '预售票房', disabled: false}],
       dataCls: {wish: '猫眼想看', tpp_wish: '淘票票想看', baidu_index: '百度指数', weibo_index: '微博指数', weixin_index: '微信指数', first_box: '预售票房'},
+      displayIndex:['wish',  'tpp_wish', 'baidu_index', 'weibo_index', 'weixin_index', 'first_box'],
       showDate: [30, 0],
       dateStr: dateStr,
       start: start,
@@ -134,14 +135,13 @@ class CompareDetail extends React.Component{
       this.refs[str].className = "trend_add_gray"
       this.refs[str_].className = "trend_item_add"
     }
-    // if (arr[i]) {}
+
     this.setState({data: arr})
   }
   down(i) {
     let { data } = this.state
     if (i === data.length - 1 || data[i].disabled) return
 
-    // if (data[i+1].disabled) return
     let val = data[i]
     let nextVal = data[i+1]
 
@@ -186,33 +186,38 @@ class CompareDetail extends React.Component{
       }, ()=>{
         this.refs[str].className = "trend_item_add"
       })
-      // let item = data[i]
-      // baseData.push(item)
-      // this.refs[str].className = "trend_item_add"
     }
   }
+
   back() {
     console.log('---back-')
     this.setState({editFlag: false})
   }
+
   save() {
-    console.log('save')
-    console.log(baseData)
-    this.setState({editFlag: false})
+    let { data } = this.state
+    let arr = []
+    for(let i = 0; i < data.length; i++) {
+      if(!data[i].disabled) {
+        arr.push(data[i].prefix)
+      }
+    }
+    this.setState({editFlag: false, displayIndex: arr})
   }
 
   renderEditTrendItem() {
-    let arr = this.state.data
+    let {data} = this.state
+
     let trendArr = []
-    for (let i = 0; i < arr.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       // let title = arr[i]
-      let upClassName = (i === 0 || arr[i].disabled)? 'trend_item_up' : 'trend_item_canup'
-      let downClassName = (i === arr.length - 1 || arr[i].disabled) ? 'trend_item_cndown' : 'trend_item_down'
+      let upClassName = (i === 0 || data[i].disabled) ? 'trend_item_up' : 'trend_item_canup'
+      let downClassName = (i === data.length - 1 || data[i].disabled) ? 'trend_item_cndown' : 'trend_item_down'
       let rid = `trend_add${i}`
 
       let item =  (
         <div className="edit-trend_item">
-          <span>{ arr[i].title }</span>
+          <span>{ data[i].title }</span>
           <div style={{float: 'right'}}>
           <span className={upClassName} onClick={()=>{this.up(i)}}></span>
           <span className={downClassName} onClick={()=>{this.down(i)}}></span>
@@ -230,12 +235,15 @@ class CompareDetail extends React.Component{
       showCalender: !this.state.showCalender
     })
   }
+
   onChange = (e) => {
     console.log(e)
   }
+
   rangeChange() {
     console.log('range change')
   }
+
   afteRangeChange = (arr) => {
     console.log(arr)
     let { segZero, movies } = this.state
@@ -268,12 +276,14 @@ class CompareDetail extends React.Component{
     let url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=${movies}&start=${start}&end=${end}`
     this.fetchData(url)
   }
+
   goEvent(data) {
     this.props.history.push({
       pathname: '/event',
       query: data
     })
   }
+
   renderCalender() {
     const MDate = new Date(new Date() - 2592000000)
     const MinDate = new Date('2014-01-01')
@@ -297,6 +307,7 @@ class CompareDetail extends React.Component{
       )
     }
   }
+
   renderRange = () => {
     let {showRange, showDate} = this.state
 
@@ -317,6 +328,7 @@ class CompareDetail extends React.Component{
      </div>)
     }
   }
+
   renderDateDiv() {
     if(this.state.segIndex === 0) {
       return (
@@ -330,6 +342,7 @@ class CompareDetail extends React.Component{
       )
     }
   }
+
   getOption = (d) => {
       let xArr = d.data[0].data.date.split(',')
       return {
@@ -364,12 +377,16 @@ class CompareDetail extends React.Component{
         })
       };
   };
+
   renderCharts() {
-    let { dataLists, dataCls } = this.state
+    let { dataLists, dataCls, displayIndex } = this.state
     if (dataLists.length === 0) return
+    // let lists = []
     let arr = []
+    
     for (let i = 0; i < dataLists.length; i++) {
       let d = dataLists[i]
+      if(displayIndex.indexOf(d.target_code) > -1) {
       let item = (
         <div className="wish-item_box">
           <div className="wish-title"><span className={`${d.target_code}_icon`}>
@@ -379,9 +396,11 @@ class CompareDetail extends React.Component{
         </div>
       )
       arr.push(item)
+      }
     }
     return arr
   }
+
   render(){
     let { editFlag, segZero, segIndex } = this.state
     if (editFlag) {
