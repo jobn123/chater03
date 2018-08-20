@@ -126,7 +126,14 @@ class CompareDetail extends React.Component{
 
     arr[i-1] = val
     arr[i] = preVal
-    // debugger
+
+    if(arr[i].disabled) {
+      let str = `trend_add${i}`
+      let str_ = `trend_add${i-1}`
+      arr[i-1].disabled = false
+      this.refs[str].className = "trend_add_gray"
+      this.refs[str_].className = "trend_item_add"
+    }
     // if (arr[i]) {}
     this.setState({data: arr})
   }
@@ -134,14 +141,21 @@ class CompareDetail extends React.Component{
     let { data } = this.state
     if (i === data.length - 1 || data[i].disabled) return
 
-    if (data[i+1].disabled) return
-
+    // if (data[i+1].disabled) return
     let val = data[i]
     let nextVal = data[i+1]
 
     data[i] = nextVal
     data[i+1] = val
-    
+
+    if(data[i].disabled) {
+      let str = `trend_add${i}`
+      let str_ = `trend_add${i+1}`
+      data[i+1].disabled = false
+      this.refs[str].className = "trend_add_gray"
+      this.refs[str_].className = "trend_item_add"
+    }
+
     this.setState({data: data})
   }
   add(i) {
