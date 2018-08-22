@@ -202,6 +202,8 @@ class CompareDetail extends React.Component{
         arr.push(data[i].prefix)
       }
     }
+    
+    sessionStorage.setItem('wish', JSON.stringify(arr))
     this.setState({editFlag: false, displayIndex: arr})
   }
 
@@ -383,7 +385,7 @@ class CompareDetail extends React.Component{
     if (dataLists.length === 0) return
     // let lists = []
     let arr = []
-    
+
     for (let i = 0; i < dataLists.length; i++) {
       let d = dataLists[i]
       if(displayIndex.indexOf(d.target_code) > -1) {

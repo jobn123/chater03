@@ -1,5 +1,5 @@
 import React from 'react'
-import {BarChart, Bar, XAxis, YAxis, CartesianGrid} from 'recharts'
+import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, Tooltip} from 'recharts'
 import axios from 'axios'
 
 class SingleDetail extends React.Component {
@@ -15,6 +15,7 @@ class SingleDetail extends React.Component {
       data: null
     }
   }
+
   componentDidMount() {
     let { aid } = this.props
     let url = `http://123.56.14.124:918/albums/${aid}/?format=json`
@@ -40,34 +41,34 @@ class SingleDetail extends React.Component {
     let cw = document.body.clientWidth - 30
 
     const data2 = [{
-      name: '20岁以下', my: dl.maoyan_0_19 * 100, tpp: dl.tpp_0_19 * 100
+      name: '20岁以下', '猫眼': dl.maoyan_0_19 * 100, '淘票票': dl.tpp_0_19 * 100
     },{
-      name: '20-24', my: dl.maoyan_20_24 * 100, tpp: dl.tpp_20_24 * 100
+      name: '20-24', '猫眼': dl.maoyan_20_24 * 100, '淘票票': dl.tpp_20_24 * 100
     },{
-      name: '25-29', my: dl.maoyan_25_29 * 100, tpp: dl.tpp_25_29* 100
+      name: '25-29', '猫眼': dl.maoyan_25_29 * 100, '淘票票': dl.tpp_25_29* 100
     },{
-      name: '30-34', my: dl.maoyan_30_34 * 100, tpp: dl.tpp_30_34* 100
+      name: '30-34', '猫眼': dl.maoyan_30_34 * 100, '淘票票': dl.tpp_30_34* 100
     },{
-      name: '35-39', my: dl.maoyan_35_39 * 100, tpp: dl.tpp_35_39* 100
+      name: '35-39', '猫眼': dl.maoyan_35_39 * 100, '淘票票': dl.tpp_35_39* 100
     },{
-      name: '40岁以上', my: dl.maoyan_40_100 * 100, tpp: dl.tpp_40_100* 100
+      name: '40岁以上', '猫眼': dl.maoyan_40_100 * 100, '淘票票': dl.tpp_40_100* 100
     }]
 
     const data3 = [{
-      tppc: '一线城市', tppv: dl.tpp_city1 * 100
+      tppc: '一线城市', '淘票票': dl.tpp_city1 * 100
     },{
-      tppc: '二线城市', tppv: dl.tpp_city2 * 100
+      tppc: '二线城市', '淘票票': dl.tpp_city2 * 100
     },{
-      tppc: '三线城市', tppv: dl.tpp_city3 * 100
+      tppc: '三线城市', '淘票票': dl.tpp_city3 * 100
     },{
-      tppc: '四线城市', tppv: dl.tpp_city4 * 100
+      tppc: '四线城市', '淘票票': dl.tpp_city4 * 100
     }]
     return (
       <div className="singleDetail">
           <div className="singleDetail_title">
           <span style={{float: 'left', marginLeft:'9px'}}onClick={()=>{this.props.hideSingleDetail()}}>返回</span>
           <span>{dl.title}</span></div>
-          <div className="singleDetail_sub">{dl.show_time}上映</div>
+          <div className="singleDetail_sub">{dl.show_time}/{dl.show_country}上映</div>
 
           <div className="single-wanted" ref="wanted">
             <div className={showItem1 ? "wanted-title_up" : "wanted-title"}>
@@ -133,7 +134,13 @@ class SingleDetail extends React.Component {
             <div className={showItem5 ? "wanted-title_up" : "wanted-title"}><span>口碑</span><span className={showItem5 ? "up-pic" : "down-pic"} onClick={()=>{this.setState({
     showItem5: !this.state.showItem5})}}></span></div>
             <div ref="kb-body" style={{display: showItem5 ? 'block' : 'none'}}>
-            <div className="kb-item_t"><span className="st2">淘票票  {dl.taopiaopiao_rating}</span><span className="st1">猫眼  {dl.rating}</span><span className="st3">微博大V推荐  {dl.weibo_v_rating}</span><span className="itime">时光网  {dl.mtime_rating}</span><span className="ht6">豆瓣  {dl.douban_rating}</span><span className="st2">微博好评率  {dl.weibo_rating}</span></div></div>
+            <div className="kb-item_t">
+            <span className="st1">猫眼  {dl.rating}</span>
+            <span className="ht6">豆瓣  {dl.douban_rating}</span>
+            <span className="st3">微博大V推荐  {dl.weibo_v_rating}</span>
+            <span className="st2">淘票票  {dl.taopiaopiao_rating}</span>
+            <span className="itime">时光网  {dl.mtime_rating}</span>
+            <span className="st3">微博好评率  {dl.weibo_rating}</span></div></div>
           </div>
           
           <div className="single-wanted">
@@ -161,10 +168,10 @@ class SingleDetail extends React.Component {
               <CartesianGrid strokeDasharray="3 3"/>
               <XAxis dataKey="name"/>
               <YAxis/>
-              {/* <Tooltip/> */}
-              {/* <Legend /> */}
-              <Bar dataKey="my" fill="#FF574D" barSize={10}/>
-              <Bar dataKey="tpp" fill="#108EE9" barSize={10}/>
+              <Tooltip/>
+              <Legend />
+              <Bar dataKey="猫眼" fill="#FF574D" barSize={10}/>
+              <Bar dataKey="淘票票" fill="#108EE9" barSize={10}/>
               </BarChart>
             </div>
             
@@ -175,7 +182,9 @@ class SingleDetail extends React.Component {
               <CartesianGrid strokeDasharray="3 3"/>
               <XAxis dataKey="tppc" stroke="#8884d8"/>
               <YAxis/>
-              <Bar dataKey="tppv" fill="#FF574D" barSize={10}/>
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="淘票票" fill="#FF574D" barSize={10}/>
               </BarChart>
             </div>
             </div>
