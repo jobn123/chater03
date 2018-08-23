@@ -25,7 +25,7 @@ const TA = [{
   subtitle: [{name: '每日票房', api: 'first_box'}, {name: '首日拍片', api: 'first_num_percent'} , {name: '首日场次', api: 'first_num'} , {name: '大盘场次', api: 'first_num_total'} ]
   },{
   title: '口碑',
-  subtitle: [{name: '猫眼', api: 'rating'}, {name: '淘票票', api: 'tpp_rating'},{name: '豆瓣', api: 'douban_rating'} ,{name: '时光网', api: 'mtime_rating'}, {name: '微博', api: 'weibo_rating'} ]
+  subtitle: [{name: '猫眼', api: 'maoyan_rating'}, {name: '淘票票', api: 'tpp_rating'},{name: '豆瓣', api: 'douban_rating'} ,{name: '时光网', api: 'mtime_rating'}, {name: '微博', api: 'weibo_rating'} ]
 }]
 
 class Compare extends React.Component{
@@ -66,7 +66,7 @@ class Compare extends React.Component{
     arr.unshift(first)
     
     let movieStr = arr.toString()
-    let url = `http://123.56.14.124:918/compare/?format=json&target=wish&type=count&id=${movieStr}&start=${start}&end=${end}`
+    let url = `http://123.56.14.124:918/compare/?format=json&target=maoyan_wish&type=count&id=${movieStr}&start=${start}&end=${end}`
     // let url = 'http://123.56.14.124:918/compare/?format=json&target=wish&type=count&id=423,910,788&start=2018-01-08&end=2018-01-10'
 
     this.setState({
@@ -489,7 +489,6 @@ renderCharts() {
   render(){
     // let cw = document.body.clientWidth
     // let { segZero, segIndex, firsTitleIndex } = this.state
-
 
     return (
       <div className="comparedetail">

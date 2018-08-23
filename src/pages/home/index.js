@@ -35,6 +35,7 @@ class Home extends React.Component{
   componentDidMount(){
   }
   onChange= (value) => {
+    
     this.setState({ value });
     if(value === "") {
       return this.setState({searchResults: []})
@@ -51,6 +52,8 @@ class Home extends React.Component{
     })
   };
   clear = () => {
+    let {searchResults, listHomeContent} = this.state
+    // debugger
     this.setState({ value: '' });
   };
   search(val) {

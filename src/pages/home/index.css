@@ -127,9 +127,12 @@
 .wanted-item_t span:first-child {
   width: 37%;
 }
+.wanted-item_t span:last-child {
+  width: 17%;
+}
 .wanted-item_t span{
   display: inline-block;
-  width: 21%;
+  width: 23%;
   font-size: 14px;
   color: #999999;
 }
@@ -142,9 +145,12 @@
 .wanted-item span:first-child {
   width: 37%;
 }
+.wanted-item span:last-child {
+  width: 10%;
+}
 .wanted-item span {
   display: inline-block;
-  width: 21%;
+  width: 26%;
   font-size: 14px;
   color: #151515;
 }

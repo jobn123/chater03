@@ -24,9 +24,9 @@ class CompareDetail extends React.Component{
       showRange: false,
       segZero: 0,
       segIndex: 0,
-      data: [{id : 1, prefix:'wish', title: '猫眼想看', disabled: false},{id : 2, prefix:'tpp_wish', title: '淘票票想看', disabled: false},{id : 3, prefix:'baidu_index', title: '百度想看', disabled: false},{id : 4, prefix:'weibo_index', title: '微博指数', disabled: false},{id : 5, prefix:'weixin_index', title: '微信指数', disabled: false},{id : 6, prefix:'first_box', title: '预售票房', disabled: false}],
-      dataCls: {wish: '猫眼想看', tpp_wish: '淘票票想看', baidu_index: '百度指数', weibo_index: '微博指数', weixin_index: '微信指数', first_box: '预售票房'},
-      displayIndex:['wish',  'tpp_wish', 'baidu_index', 'weibo_index', 'weixin_index', 'first_box'],
+      data: [{id : 1, prefix:'maoyan_wish', title: '猫眼想看', disabled: false},{id : 2, prefix:'tpp_wish', title: '淘票票想看', disabled: false},{id : 3, prefix:'baidu_index', title: '百度想看', disabled: false},{id : 4, prefix:'weibo_index', title: '微博指数', disabled: false},{id : 5, prefix:'weixin_index', title: '微信指数', disabled: false},{id : 6, prefix:'first_box', title: '预售票房', disabled: false}],
+      dataCls: {maoyan_wish: '猫眼想看', tpp_wish: '淘票票想看', baidu_index: '百度指数', weibo_index: '微博指数', weixin_index: '微信指数', first_box: '预售票房'},
+      displayIndex:['maoyan_wish',  'tpp_wish', 'baidu_index', 'weibo_index', 'weixin_index', 'first_box'],
       showDate: [30, 0],
       dateStr: dateStr,
       start: start,
@@ -45,7 +45,7 @@ class CompareDetail extends React.Component{
     arr.unshift(first)
     
     let movieStr = arr.toString()
-    let url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=count&id=${movieStr}&start=${start}&end=${end}`
+    let url = `http://123.56.14.124:918/compare_all/?format=json&target=maoyan_wish,baidu_index,weixin_index,tpp_wish,first_box&type=count&id=${movieStr}&start=${start}&end=${end}`
     this.setState({
       movies:  movieStr
     }, ()=>{
@@ -89,9 +89,9 @@ class CompareDetail extends React.Component{
       let type = segZero === 0 ? 'up' : 'count'
       let url = ''
       if(segIndex === 0) {
-          url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=${movies}&start=${start}&end=${end}`
+          url = `http://123.56.14.124:918/compare_all/?format=json&target=maoyan_wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=${movies}&start=${start}&end=${end}`
         } else {
-          url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=${movies}&start_days=${start2}&end_days=${end2}`
+          url = `http://123.56.14.124:918/compare_all/?format=json&target=maoyan_wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=${movies}&start_days=${start2}&end_days=${end2}`
       }
       this.fetchData(url)
     })
@@ -110,9 +110,9 @@ class CompareDetail extends React.Component{
       let url = ''
       let type = segZero === 0 ? 'count' : 'up'
       if(segIndex === 1) {
-          url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=${movies}&start=${start}&end=${end}`
+          url = `http://123.56.14.124:918/compare_all/?format=json&target=maoyan_wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=${movies}&start=${start}&end=${end}`
         } else {
-          url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=${movies}&start_days=${start2}&end_days=${end2}`
+          url = `http://123.56.14.124:918/compare_all/?format=json&target=maoyan_wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=${movies}&start_days=${start2}&end_days=${end2}`
       }
       this.fetchData(url)
     })
@@ -202,7 +202,7 @@ class CompareDetail extends React.Component{
         arr.push(data[i].prefix)
       }
     }
-    
+
     sessionStorage.setItem('wish', JSON.stringify(arr))
     this.setState({editFlag: false, displayIndex: arr})
   }
@@ -256,7 +256,7 @@ class CompareDetail extends React.Component{
     }, () => {
       let type = segZero === 0 ? 'count' : 'up'
 
-      let url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=${movies}&start_days=${arr[0]}&end_days=${arr[1]}`
+      let url = `http://123.56.14.124:918/compare_all/?format=json&target=maoyan_wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=${movies}&start_days=${arr[0]}&end_days=${arr[1]}`
       this.fetchData(url)
     })
   }
@@ -275,7 +275,7 @@ class CompareDetail extends React.Component{
     
     let type = segZero === 0 ? 'count' : 'up'
 
-    let url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=${movies}&start=${start}&end=${end}`
+    let url = `http://123.56.14.124:918/compare_all/?format=json&target=maoyan_wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=${movies}&start=${start}&end=${end}`
     this.fetchData(url)
   }
 
@@ -385,7 +385,7 @@ class CompareDetail extends React.Component{
     if (dataLists.length === 0) return
     // let lists = []
     let arr = []
-
+    
     for (let i = 0; i < dataLists.length; i++) {
       let d = dataLists[i]
       if(displayIndex.indexOf(d.target_code) > -1) {
