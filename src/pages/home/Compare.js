@@ -10,7 +10,7 @@ import './comparedetail.css'
 
 const TA = [{
   title: '想看',
-  subtitle:[{name:'猫眼想看', api: 'wish'}, {name: '豆瓣想看', api: 'douban_wish'}, {name: '时光网想看', api: 'mtime_wish'}, {name: '淘票票想看', api: 'taopiaopiao_wish'}, {name: '微博想看', api: 'weibo_wish'}]
+  subtitle:[{name:'猫眼想看', api: 'maoyan_wish'}, {name: '豆瓣想看', api: 'douban_wish'}, {name: '时光网想看', api: 'mtime_wish'}, {name: '淘票票想看', api: 'tpp_wish'}, {name: '微博想看', api: 'weibo_wish'}]
   },{
   title: '热度',
   subtitle:[{name: '微信指数', api: 'weixin_index'}, {name: '百度指数', api: 'baidu_index'} , {name: '微博指数', api: 'weibo_index'},{name: '微博阅读', api: 'weibo_view_count'}, {name: '微博讨论', api: 'weibo_discuss_count'}]
@@ -66,8 +66,8 @@ class Compare extends React.Component{
     arr.unshift(first)
     
     let movieStr = arr.toString()
-    let url = `http://123.56.14.124:918/compare/?format=json&target=maoyan_wish&type=count&id=${movieStr}&start=${start}&end=${end}`
-    // let url = 'http://123.56.14.124:918/compare/?format=json&target=wish&type=count&id=423,910,788&start=2018-01-08&end=2018-01-10'
+    // let url = `http://123.56.14.124:918/compare/?format=json&target=maoyan_wish&type=count&id=${movieStr}&start=${start}&end=${end}`
+    let url = 'http://123.56.14.124:918/compare/?format=json&target=maoyan_wish&type=count&id=423,910,788&start=2018-01-08&end=2018-01-10'
 
     this.setState({
       movies:  movieStr
@@ -160,14 +160,14 @@ class Compare extends React.Component{
     })
   }
   onConfirm = (a, b) => {
-    // let { segZero, movies } = this.state
-    // let start = this.fomartDate(a)
-    // let end = this.fomartDate(b)
+    let { segZero, movies } = this.state
+    let start = this.fomartDate(a)
+    let end = this.fomartDate(b)
     
-    // let type = segZero === 0 ? 'count' : 'up'
+    let type = segZero === 0 ? 'count' : 'up'
 
-    // let url = `http://123.56.14.124:918/compare_all/?format=json&target=wish,baidu_index,weixin_index,tpp_wish,first_box&type=${type}&id=${movies}&start=${start}&end=${end}`
-    // this.fetchData(url)
+    let url = `http://123.56.14.124:918/compare/?format=json&target=maoyan_wish&type=${type}&id=${movies}&start=${start}&end=${end}`
+    this.fetchData(url)
   }
   fetchMainTitle(i) {
     let {segIndex, start, end, segZero, start2, end2, movies} = this.state
@@ -361,7 +361,7 @@ renderCharts() {
     }
   }
   _setColumns =()=>{
-    const {segIndex, dataLists} = this.state 
+    const {segIndex, dataLists, firsTitleIndex} = this.state 
     let data = dataLists
     if (segIndex == 1) {
       if (data.length === 0) return []
@@ -398,24 +398,36 @@ renderCharts() {
           width: 180
         },
       ]
-      let dArr = data[0].date.split(',')
+      if (firsTitleIndex === 0) {
+        let dArr = data[0].date.split(',')
         for(let i = 0; i < dArr.length; i++) {
-          // (function(i){
-            let per = data[i].percent.split(',')
-            // for (let j = 0; j < per.length; j++) {
+            // let per = data[i].percent.split(',')
               let obj = {
                 Header: dArr[i],
                 accessor: `${dArr[i]}`,
                 Cell: props => <div style={{textAlign: "right"}}>
                 <div>{props.value === undefined ? 0 : parseInt(props.value).toLocaleString()}</div>
-                <div>{console.log(props)}</div>
+                <div>{props.value === undefined ? 0 : props.value[1] * 100 + '%'}</div>
                 </div>,
                 // height: 30
               }
               allArr.push(obj)
             }
-          // })(i)
-        // }
+          return allArr
+      }
+      let dArr = data[0].date.split(',')
+        for(let i = 0; i < dArr.length; i++) {
+            // let per = data[i].percent.split(',')
+              let obj = {
+                Header: dArr[i],
+                accessor: `${dArr[i]}`,
+                Cell: props => <div style={{textAlign: "right"}}>
+                <div>{props.value === undefined ? 0 : parseInt(props.value).toLocaleString()}</div>
+                </div>,
+                // height: 30
+              }
+              allArr.push(obj)
+            }
       return allArr
     }
   }
