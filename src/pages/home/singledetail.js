@@ -33,10 +33,15 @@ class SingleDetail extends React.Component {
       return (<div></div>)
     }
     let dl = data
-    let m_M = dl.maoyan_M.toFixed(2) * 100 + "%"
-    let m_F = dl.maoyan_F.toFixed(2) * 100 + "%"
-    let t_M = dl.tpp_M.toFixed(2) * 100 + "%"
-    let t_F = dl.tpp_F.toFixed(2) * 100 + "%"
+    let mm = dl.maoyan_M === null ? 0 : dl.maoyan_M
+    let mf = dl.maoyan_F === null ? 0 : dl.maoyan_F
+    let tm = dl.tpp_M    === null ? 0 : dl.tpp_M
+    let tf = dl.tpp_F    === null ? 0 : dl.tpp_F
+
+    let m_M = mm.toFixed(2) * 100 + "%"
+    let m_F = mf.toFixed(2) * 100 + "%"
+    let t_M = tm.toFixed(2) * 100 + "%"
+    let t_F = tf.toFixed(2) * 100 + "%"
 
     let cw = document.body.clientWidth - 30
 
@@ -76,10 +81,10 @@ class SingleDetail extends React.Component {
     showItem1: !this.state.showItem1})}}></span></div>
             <div ref="wanted-body" style={{display: showItem1 ? 'block' : 'none'}}>
             <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>变化值</span><span>日环比</span></div>
-            <div className="wanted-item"><span className="st1">猫眼</span><span>{dl.maoyan_wish_count}</span><span>{dl.maoyan_wish_up}</span><span>{dl.maoyan_wish_percent}</span></div>
-            <div className="wanted-item"><span className="st2">淘票票</span><span>{dl.tpp_wish_count}</span><span>{dl.tpp_wish_up}</span><span>{dl.tpp_wish_percent}</span></div>
-            <div className="wanted-item"><span className="st3">微博</span><span>{dl.weibo_wish_count}</span><span>{dl.weibo_wish_up}</span><span>{dl.weibo_wish_percent}</span></div>
-            <div className="wanted-item"><span className="st4">微信</span><span>{dl.weixin_index_count}</span><span>{dl.weixin_index_up}</span><span>{dl.weixin_index_percent}</span></div>
+            <div className="wanted-item"><span className="st1">猫眼</span><span>{dl.maoyan_wish_count}</span><span>{dl.maoyan_wish_up}</span><span>{dl.maoyan_wish_up_percent * 100 + '%'}</span></div>
+            <div className="wanted-item"><span className="st2">淘票票</span><span>{dl.tpp_wish_count}</span><span>{dl.tpp_wish_up}</span><span>{dl.tpp_wish_up_percent * 100 + '%'}</span></div>
+            <div className="wanted-item"><span className="st3">微博</span><span>{dl.weibo_wish_count}</span><span>{dl.weibo_wish_up}</span><span>{dl.weibo_wish_up_percent * 100 + '%'}</span></div>
+            <div className="wanted-item"><span className="st4">微信</span><span>{dl.weixin_index_count}</span><span>{dl.weixin_index_up}</span><span>{dl.weixin_index_up_percent * 100 + '%'}</span></div>
           </div></div>
 
           <div className="single-wanted">
@@ -87,12 +92,12 @@ class SingleDetail extends React.Component {
     showItem2: !this.state.showItem2})}}></span></div>
             <div ref="hot-body" style={{display: showItem2 ? 'block' : 'none'}}>
             <div className="hot-item_t"><span>观测指标</span><span>当前值</span><span>日环比</span></div>
-            <div className="wanted-item"><span className="ht1">百度</span><span>{dl.baidu_index_count}</span><span>{dl.baidu_index_up}</span><span>{dl.baidu_index_percent}</span></div>
-            <div className="wanted-item"><span className="st3">微博</span><span>{dl.weibo_wish_count}</span><span>{dl.weibo_wish_up}</span><span>{dl.weibo_wish_percent}</span></div>
-            <div className="wanted-item"><span className="ht3">阅读</span><span>{dl.weibo_view_count}</span><span>{dl.weibo_view_up}</span><span>{dl.weibo_view_percent}</span></div>
-            <div className="wanted-item"><span className="ht4">讨论</span><span>{dl.weibo_discuss_count}</span><span>{dl.weibo_discuss_up}</span><span>{dl.weibo_discuss_percent}</span></div>
-            <div className="wanted-item"><span className="st4">微信</span><span>{dl.weixin_index_count}</span><span>{dl.weixin_index_up}</span><span>{dl.weixin_index_percent}</span></div>
-            <div className="wanted-item"><span className="ht6">豆瓣</span><span>{dl.douban_wish_count}</span><span>{dl.douban_wish_up}</span><span>{dl.douban_wish_percent}</span></div></div>
+            <div className="wanted-item"><span className="ht1">百度</span><span>{dl.baidu_index_count}</span><span>{dl.baidu_index_up}</span><span>{dl.baidu_index_up_percent * 100 + '%'}</span></div>
+            <div className="wanted-item"><span className="st3">微博</span><span>{dl.weibo_wish_count}</span><span>{dl.weibo_wish_up}</span><span>{dl.weibo_wish_up_percent * 100 + '%'}</span></div>
+            <div className="wanted-item"><span className="ht3">阅读</span><span>{dl.weibo_view_count}</span><span>{dl.weibo_view_up}</span><span>{dl.weibo_view_up_percent * 100 + '%'}</span></div>
+            <div className="wanted-item"><span className="ht4">讨论</span><span>{dl.weibo_discuss_count}</span><span>{dl.weibo_discuss_up}</span><span>{dl.weibo_discuss_up_percent * 100 + '%'}</span></div>
+            <div className="wanted-item"><span className="st4">微信</span><span>{dl.weixin_index_count}</span><span>{dl.weixin_index_up}</span><span>{dl.weixin_index_up_percent * 100 + '%'}</span></div>
+            <div className="wanted-item"><span className="ht6">豆瓣</span><span>{dl.douban_wish_count}</span><span>{dl.douban_wish_up}</span><span>{dl.douban_wish_up_percent * 100 + '%'}</span></div></div>
           </div>
               
           <div className="single-wanted">
@@ -100,13 +105,11 @@ class SingleDetail extends React.Component {
     showItem3: !this.state.showItem3})}}></span><span style={{display: showItem3 ? 'block' : 'none'}} className="checkHistory" onClick={()=>{this.props.showHistory(true)}}>查看历史</span></div>
             <div ref="mate-body" style={{display: showItem3 ? 'block' : 'none'}}>
             <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>增量值</span><span>日环比</span></div>
-            <div className="wanted-item"><span className="wt1">总播放</span><span>{dl.play_total_count}</span><span>{dl.play_total_up}</span><span>{dl.play_total_percent}</span></div>
-            <div className="wanted-item"><span className="wt2">腾讯</span><span>{dl.play_qq_count}</span><span>{dl.play_qq_up}</span><span>{dl.play_qq_percent
-}</span></div>
-            <div className="wanted-item"><span className="wt3">优酷</span><span>{dl.play_youku_count}</span>{dl.play_youku_up}<span></span><span>{dl.play_youku_percent}</span></div>
-            <div className="wanted-item"><span className="wt4">爱奇艺</span><span>{dl.play_iqiyi_count}</span><span>{dl.play_iqiyi_up}</span><span>{dl.play_iqiyi_percent
-}</span></div>
-            <div className="wanted-item"><span className="wt5">秒拍</span><span>{dl.play_miaopai_count}</span><span>{dl.play_miaopai_up}</span><span>{dl.play_miaopai_percent}</span></div>
+            <div className="wanted-item"><span className="wt1">总播放</span><span>{dl.play_total_count}</span><span>{dl.play_total_up}</span><span>{dl.play_total_up_percent * 100 + '%'}</span></div>
+            <div className="wanted-item"><span className="wt2">腾讯</span><span>{dl.play_qq_count}</span><span>{dl.play_qq_up}</span><span>{dl.play_qq_up_percent * 100 + '%'}</span></div>
+            <div className="wanted-item"><span className="wt3">优酷</span><span>{dl.play_youku_count}</span>{dl.play_youku_up}<span></span><span>{dl.play_youku_up_percent * 100 + '%'}</span></div>
+            <div className="wanted-item"><span className="wt4">爱奇艺</span><span>{dl.play_iqiyi_count}</span><span>{dl.play_iqiyi_up}</span><span>{dl.play_iqiyi_up_percent * 100 + '%'}</span></div>
+            <div className="wanted-item"><span className="wt5">秒拍</span><span>{dl.play_miaopai_count}</span><span>{dl.play_miaopai_up}</span><span>{dl.play_miaopai_up_percent * 100 + '%'}</span></div>
             </div>
           </div>
 
@@ -119,15 +122,15 @@ class SingleDetail extends React.Component {
               <span>零点场</span>
               <span>{dl.zero_box_count}</span>
               <span>{dl.zero_box_up}</span>
-              <span>{dl.zero_box_percent}</span>
+              <span>{dl.zero_box_percent * 100 + '%'}</span>
             </div>
             <div className="wanted-item"><span>首日票房</span>
             <span>{dl.first_box_count}</span>
             <span>{dl.first_box_up}</span>
-            <span>{dl.first_box_percent}</span></div>
-            <div className="wanted-item"><span>首日排片</span><span>{dl.first_num_percent_count}</span><span>{dl.first_num_percent_up}</span><span>{dl.first_num_percent_percent}</span></div>
-            <div className="wanted-item"><span>首日场次</span><span>{dl.first_num_count}</span><span>{dl.first_num_percent_count}</span><span>{dl.first_num_percent}</span></div>
-            <div className="wanted-item"><span>大盘场次</span><span>{dl.first_num_total_count}</span><span>{dl.first_num_total_up}</span><span>{dl.first_num_total_percent}</span></div></div>
+            <span>{dl.first_box_percent * 100 + '%'}</span></div>
+            <div className="wanted-item"><span>首日排片</span><span>{dl.first_num_percent_count}</span><span>{dl.first_num_percent_up}</span><span>{dl.first_num_percent_up_percent * 100 + '%'}</span></div>
+            <div className="wanted-item"><span>首日场次</span><span>{dl.first_num_count}</span><span>{dl.first_num_percent_count}</span><span>{dl.first_num_up_percent * 100 + '%'}</span></div>
+            <div className="wanted-item"><span>大盘场次</span><span>{dl.first_num_total_count}</span><span>{dl.first_num_total_up}</span><span>{dl.first_num_total_up_percent * 100 + '%'}</span></div></div>
           </div>
 
           <div className="single-wanted">
