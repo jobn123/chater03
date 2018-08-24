@@ -112,7 +112,7 @@ class SingleDetail extends React.Component {
             <div className="wanted-item"><span className="wt5">秒拍</span><span>{dl.play_miaopai_count}</span><span>{dl.play_miaopai_up}</span><span>{dl.play_miaopai_up_percent * 100 + '%'}</span></div>
             </div>
           </div>
-
+          
           <div className="single-wanted">
             <div className={showItem4 ? "wanted-title_up" : "wanted-title"}><span>预售</span><span className={showItem4 ? "up-pic" : "down-pic"} onClick={()=>{this.setState({
     showItem4: !this.state.showItem4})}}></span></div>
