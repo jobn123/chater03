@@ -54,7 +54,7 @@ class Login extends React.Component{
       return (
         <div>
         <div className="login-header">
-          <span className="login-back" onClick={()=>{this.goHomePage()}}>back</span>
+          <span className="login-back" onClick={()=>{this.goHomePage()}}>返回</span>
           <span className="login-regis" onClick={()=>{this.goRegisPage()}}>注册</span>
         </div>
 

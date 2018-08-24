@@ -12,6 +12,7 @@
   content: '';
   float: left;
   margin-left: 12px; 
+  font-size: 15px;
 }
 .login-header .login-regis {
   display: inline-block;

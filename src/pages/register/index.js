@@ -9,7 +9,7 @@ class Register extends React.Component{
   }
 
   goRegisPage() {
-    this.props.history.push('./register')
+    this.props.history.push('/login')
   }
 
   regis() {
@@ -35,7 +35,7 @@ class Register extends React.Component{
     return (
       <div>
         <div className="login-header">
-          <span className="login-back">back</span>
+          <span className="login-back" onClick={()=>{this.goRegisPage()}}>返回</span>
           <span className="login-regis" onClick={()=>{this.goRegisPage()}}>登录</span>
         </div>
 
