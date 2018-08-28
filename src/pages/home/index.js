@@ -52,7 +52,7 @@ class Home extends React.Component{
     })
   };
   clear = () => {
-    let {searchResults, listHomeContent} = this.state
+    // let {searchResults, listHomeContent} = this.state
     // debugger
     this.setState({ value: '' });
   };

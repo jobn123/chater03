@@ -204,7 +204,6 @@ class Genius extends React.Component {
     }
   }
   getOption = () => {
-    debugger
     if (this.state.data.length) {
       let obj = [...this.state.data]
       let xArr = obj[0].date.split(',')

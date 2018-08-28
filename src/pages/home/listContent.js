@@ -16,6 +16,7 @@ class ListContent extends React.Component{
       lists: []
     }
   }
+  
   componentDidMount() {
     let id = this.props.uid
     axios.get(`http://123.56.14.124:918/group/?format=json&userid=${id}`)
@@ -36,6 +37,7 @@ class ListContent extends React.Component{
 
   renderItems(data) {
     let arr = []
+    
     for(let i = 0; i < data.length; i++) {
       let item = data[i]
       let name = item.name
@@ -47,6 +49,12 @@ class ListContent extends React.Component{
   renderLists() {
     let { lists } = this.state
     let arr = []
+    if(lists.length === 0) {
+      return (<div>
+        <p>请选择右上角『+』按钮创影片建对比组</p>
+          <div className="home-bg"> </div>
+      </div>)
+    }
     for(let i = 0; i < lists.length; i++) {
       let item = lists[i]
 
@@ -63,10 +71,6 @@ class ListContent extends React.Component{
             <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>日环比</span><span>组排名</span></div>
 
             {this.renderItems(item.movie_base_info)}
-            {/* <div className="wanted-item"><span className="st1">猫眼想看</span><span>122</span><span>12</span><span>12</span></div>
-            <div className="wanted-item"><span className="ht1">百度指数</span><span>12</span><span>12</span><span>12</span></div>
-            <div className="wanted-item"><span className="st3">微博指数</span><span>12</span><span>12</span><span>12</span></div>
-            <div className="wanted-item"><span className="st4">微信指数</span><span>12</span><span>12</span><span>12</span></div> */}
           </div>
           <div style={{clear: 'both'}}></div>
           <div className="split-line"></div>

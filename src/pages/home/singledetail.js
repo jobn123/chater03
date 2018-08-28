@@ -68,6 +68,7 @@ class SingleDetail extends React.Component {
     },{
       tppc: '四线城市', '淘票票': dl.tpp_city4 * 100
     }]
+
     return (
       <div className="singleDetail">
           <div className="singleDetail_title">
@@ -80,7 +81,7 @@ class SingleDetail extends React.Component {
               <span>想看</span><span className={showItem1 ? "up-pic" : "down-pic"} onClick={()=>{this.setState({
     showItem1: !this.state.showItem1})}}></span></div>
             <div ref="wanted-body" style={{display: showItem1 ? 'block' : 'none'}}>
-            <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>变化值</span><span>日环比</span></div>
+            <div className="wanted-item_t"><span>观测指标</span><span>当前值  </span><span>变化值</span><span>日环比</span></div>
             <div className="wanted-item"><span className="st1">猫眼</span><span>{dl.maoyan_wish_count}</span><span>{dl.maoyan_wish_up}</span><span>{dl.maoyan_wish_up_percent * 100 + '%'}</span></div>
             <div className="wanted-item"><span className="st2">淘票票</span><span>{dl.tpp_wish_count}</span><span>{dl.tpp_wish_up}</span><span>{dl.tpp_wish_up_percent * 100 + '%'}</span></div>
             <div className="wanted-item"><span className="st3">微博</span><span>{dl.weibo_wish_count}</span><span>{dl.weibo_wish_up}</span><span>{dl.weibo_wish_up_percent * 100 + '%'}</span></div>
