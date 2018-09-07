@@ -178,12 +178,20 @@ class Compare extends React.Component{
           case 0:
           case 1:
           case 3:
-          case 4:
             console.log('+++++++++++')
             let target = TA[i].subtitle[0].api
             let type = segZero === 0 ? 'count' : 'up'
             let url = `http://123.56.14.124:918/compare/?format=json&target=${target}&type=${type}&id=${movies}&start=${start}&end=${end}`
             this.fetchData(url)
+            break;
+          case 4:
+            let target4 = TA[i].subtitle[0].api
+            // let type4 = segZero === 0 ? 'count' : 'up'
+            // let url = `http://123.56.14.124:918/compare/?format=json&target=${target}&type=${type}&id=${movies}&start=${start}&end=${end}`
+            let url4 = 'http://123.56.14.124:918/compare/?id=176,382,564,59,504,68,465&start_days=-6&end_days=-2&target=first_box&type=count&format=json'
+            this.setState({segIndex: 1, showRange: true}, ()=>{
+              this.fetchData(url4)
+            })
             break;
           case 2:
             console.log('画像')
@@ -261,9 +269,9 @@ class Compare extends React.Component{
     )
   }
   getOption = (d) => {
-    let { segIndex } = this.state
+    let { segIndex, firsTitleIndex } = this.state
     let xArr = d[0].date.split(',')
-    if (segIndex == 1) { 
+    if (segIndex == 1 && firsTitleIndex !== 4) { 
       let arr = []
       for (let i = 0; i < xArr.length; i++) {
         let v = +xArr[i]
@@ -372,9 +380,9 @@ renderCharts() {
   _setColumns =()=>{
     const {segIndex, dataLists, firsTitleIndex} = this.state 
     let data = dataLists
-    if (segIndex == 1) {
+    // debugger
+    if (segIndex === 1 && firsTitleIndex !== 4) {
       if (data.length === 0) return []
-      
       let  allArr = [
         {
           Header: "片名(每日增长量)",
@@ -410,10 +418,9 @@ renderCharts() {
       if (firsTitleIndex === 0) {
         let dArr = data[0].date.split(',')
         for(let i = 0; i < dArr.length; i++) {
-            // let per = data[i].percent.split(',')
               let obj = {
                 Header: dArr[i],
-                accessor: `${dArr[i]}`,
+                accessor: dArr[i],
                 Cell: props => <div style={{textAlign: "right"}}>
                 <div>{props.value === undefined ? 0 : parseInt(props.value).toLocaleString()}</div>
                 <div>{props.value === undefined ? 0 : props.value[1] * 100 + '%'}</div>
@@ -426,10 +433,10 @@ renderCharts() {
       }
       let dArr = data[0].date.split(',')
         for(let i = 0; i < dArr.length; i++) {
-            // let per = data[i].percent.split(',')
+          let str = dArr[i]
               let obj = {
-                Header: dArr[i],
-                accessor: `${dArr[i]}`,
+                Header: str,
+                accessor: str,
                 Cell: props => <div style={{textAlign: "right"}}>
                 <div>{props.value === undefined ? 0 : parseInt(props.value).toLocaleString()}</div>
                 </div>,
@@ -490,12 +497,12 @@ renderCharts() {
 
     return (<div className="com-sub_header">
       <div style={{display: 'inline-block', width:'40%'}}>
-        <span className={segIndex == 0 ? 'segSpanActive' : 'segSpan'} onClick={()=>{this.onValueChange(0)}}> 绝对时间 </span>
+        <span className={segIndex == 0 ? 'segSpanActive' : 'segSpan'} onClick={()=>{this.onValueChange(0)}} style={firsTitleIndex === 4 ? {display: 'none'}: {display: 'inline-block'}} > 绝对时间 </span>
         <span className={segIndex == 1 ? 'segSpanActive' : 'segSpan'} onClick={()=>{this.onValueChange(1)}}> 相对时间 </span>
       </div>
       <div style={{display: 'inline-block', width:'40%', marginLeft: '18%'}}>
         <span className={segZero == 0 ? 'segSpanActive' : 'segSpan'} onClick={()=>{this.setZeroSeg(0)}}> 累计 </span>
-        <span className={segZero == 1 ? 'segSpanActive' : 'segSpan'} onClick={()=>{this.setZeroSeg(1)}}> 新增 </span>
+        <span className={segZero == 1 ? 'segSpanActive' : 'segSpan'} onClick={()=>{this.setZeroSeg(1)}} style={firsTitleIndex === 4 ? {display: 'none'}: {display: 'inline-block'}} > 新增 </span>
       </div>
 
       {this.renderDateDiv()}
