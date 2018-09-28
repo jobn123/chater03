@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from "axios/index"
 import { SearchBar } from 'antd-mobile'
-import {BarChart, Bar, XAxis, YAxis, CartesianGrid} from 'recharts'
+// import {BarChart, Bar, XAxis, YAxis, CartesianGrid} from 'recharts'
 import ListContent from './listContent'
 import SingleDetail from './singledetail'
 import History from './History'
@@ -129,6 +129,13 @@ class Home extends React.Component{
   hideSingleDetail() {
     this.setState({showSingleFlag: false})
   }
+  goGroup () {
+    let u = JSON.parse(localStorage.getItem('user'))
+    if (u === null) {
+      return alert('请先登录')
+    }
+    this.props.history.push('/group')
+  }
   render(){
     let { showSingleFlag, showHistory } = this.state
     
@@ -145,7 +152,7 @@ class Home extends React.Component{
           <div className="header">
             首页
             <span className="header-user" onClick={()=>{this.props.history.push('/login')}}></span>
-            <span className="header-add" onClick={()=>{this.props.history.push('/group')}}></span>
+            <span className="header-add" onClick={()=>{this.goGroup()}}></span>
           </div>
 
           <div className="home-content">

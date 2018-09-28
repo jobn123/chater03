@@ -50,6 +50,9 @@ class Group extends React.Component{
   }
   goHomePage() {
     let u = JSON.parse(localStorage.getItem('user'))
+    if (u === null) {
+      return this.props.history.push(`/home`)
+    }
     this.props.history.push(`/home/${u.id}`)
   }
   addMainitem(item, index) {
