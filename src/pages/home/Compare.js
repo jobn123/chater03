@@ -22,7 +22,7 @@ const TA = [{
   subtitle: [{name: '总量', api: 'play_total'},{name: '优酷', api: 'play_youku'}, {name: '腾讯视频', api: 'play_qq'} , {name: '爱奇艺', api: 'play_iqiyi'}, {name: '秒拍', api: 'play_miaopai'} ]
   }, {
   title: '预售',
-  subtitle: [{name: '每日票房', api: 'first_box'}, {name: '首日拍片', api: 'first_num_percent'} , {name: '首日场次', api: 'first_num'} , {name: '大盘场次', api: 'first_num_total'} ]
+  subtitle: [{name: '每日票房', api: 'first_box'}, {name: '首日排片', api: 'first_num_percent'} , {name: '首日场次', api: 'first_num'} , {name: '零点场', api: 'zero_box'} ]
   },{
   title: '口碑',
   subtitle: [{name: '猫眼', api: 'maoyan_rating'}, {name: '淘票票', api: 'tpp_rating'},{name: '豆瓣', api: 'douban_rating'} ,{name: '时光网', api: 'mtime_rating'}, {name: '微博', api: 'weibo_rating'} ]
@@ -66,9 +66,8 @@ class Compare extends React.Component{
     arr.unshift(first)
     
     let movieStr = arr.toString()
-    // let url = `http://123.56.14.124:918/compare/?format=json&target=maoyan_wish&type=count&id=${movieStr}&start=${start}&end=${end}`
-    let url = 'http://123.56.14.124:918/compare/?format=json&target=maoyan_wish&type=count&id=423,910,788&start=2018-01-08&end=2018-01-10'
-
+    let url = `http://123.56.14.124:918/compare/?format=json&target=maoyan_wish&type=count&id=${movieStr}&start=${start}&end=${end}`
+    // let url = 'http://123.56.14.124:918/compare/?format=json&target=maoyan_wish&type=count&id=423,910,788&start=2018-01-08&end=2018-01-10'
     this.setState({
       movies:  movieStr
     }, ()=>{
@@ -186,9 +185,9 @@ class Compare extends React.Component{
             break;
           case 4:
             let target4 = TA[i].subtitle[0].api
-            // let type4 = segZero === 0 ? 'count' : 'up'
-            // let url = `http://123.56.14.124:918/compare/?format=json&target=${target}&type=${type}&id=${movies}&start=${start}&end=${end}`
-            let url4 = 'http://123.56.14.124:918/compare/?id=176,382,564,59,504,68,465&start_days=-6&end_days=-2&target=first_box&type=count&format=json'
+            let type4 = segZero === 0 ? 'count' : 'up'
+            let url4 = `http://123.56.14.124:918/compare/?format=json&target=${target4}&type=${type4}&id=${movies}&start=${start}&end=${end}`
+            // let url4 = 'http://123.56.14.124:918/compare/?id=176,382,564,59,504,68,465&start_days=-6&end_days=-2&target=first_box&type=count&format=json'
             this.setState({segIndex: 1, showRange: true}, ()=>{
               this.fetchData(url4)
             })
@@ -380,7 +379,6 @@ renderCharts() {
   _setColumns =()=>{
     const {segIndex, dataLists, firsTitleIndex} = this.state 
     let data = dataLists
-    // debugger
     if (segIndex === 1 && firsTitleIndex !== 4) {
       if (data.length === 0) return []
       let  allArr = [

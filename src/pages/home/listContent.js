@@ -41,11 +41,14 @@ class ListContent extends React.Component{
     for(let i = 0; i < data.length; i++) {
       let item = data[i]
       let name = item.name
-      arr.push(<div className="wanted-item"><span className={cls[name]}>{name}</span><span>{item.count}</span><span>{item.percent}</span><span>{item.rank}</span></div>)
+      let coun = this.toThousands(item.count)
+      arr.push(<div className="wanted-item"><span className={cls[name]}>{name}</span><span>{coun}</span><span>{item.percent}</span><span>{item.rank}</span></div>)
     }
     return arr
   }
-
+  toThousands(num) {
+    return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+  }
   renderLists() {
     let { lists } = this.state
     let arr = []

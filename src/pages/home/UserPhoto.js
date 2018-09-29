@@ -61,8 +61,8 @@ class UserPhoto extends React.Component{
 
   renderAge(data) {
     let { ageIndex, color } = this.state
-    let myAge = []
-    let tppAge = []
+    // let myAge = []
+    // let tppAge = []
     
     let ages = [{name: '20岁以下', index: 'maoyan_0_19'}, {name: '20-24', index: 'maoyan_20_24'}, {name: '25-29', index: 'maoyan_25_29'}, {name: '30-34', index: 'maoyan_30_34'} , {name: '35-39', index: 'maoyan_35_39'}, {name: '40岁以上', index: 'maoyan_40_100'}]
 
@@ -105,7 +105,7 @@ class UserPhoto extends React.Component{
       <div>
         <p style={{fontSize: '14px',marginTop: '24px', marginBottom: '36px', marginLeft: '15px', color: '#108EE9'}}>受众年龄分布</p>
         <div className="agetitle"><span className={ageIndex === 0 ? 'ageActive' : ''} onClick={()=>{this.setState({ageIndex: 0})}}>猫眼</span><span className={ageIndex === 1 ? 'ageActive' : ''} onClick={()=>{this.setState({ageIndex: 1})}}>淘票票</span></div>
-        <BarChart width={600} height={300} data={arr}
+        <BarChart width={375} height={300} data={arr}
               margin={{top: 5, right: 30, left: 20, bottom: 5}}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name"/>
@@ -161,7 +161,7 @@ class UserPhoto extends React.Component{
       <div>
         <p style={{fontSize: '14px',marginTop: '24px', marginBottom: '36px', marginLeft: '15px', color: '#108EE9'}}>淘票票地域分布</p>
         
-        <BarChart width={600} height={300} data={arr}
+        <BarChart width={375} height={300} data={arr}
               margin={{top: 5, right: 30, left: 20, bottom: 5}}>
         <CartesianGrid strokeDasharray="3 3"/>
         <XAxis dataKey="name"/>

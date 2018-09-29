@@ -6,7 +6,7 @@ import axios from 'axios'
 import './comparedetail.css'
 
 
-const baseData = [{id : 1, prefix:'wish', title: '猫眼想看'},{id : 2, prefix:'wish', title: '淘票票想看'},{id : 3, prefix:'wish', title: '百度指数'},{id : 4, prefix:'wish', title: '微博指数'},{id : 5, prefix:'wish', title: '微信指数'},{id : 6, prefix:'wish', title: '预售票房'}]
+// const baseData = [{id : 1, prefix:'wish', title: '猫眼想看'},{id : 2, prefix:'wish', title: '淘票票想看'},{id : 3, prefix:'wish', title: '百度指数'},{id : 4, prefix:'wish', title: '微博指数'},{id : 5, prefix:'wish', title: '微信指数'},{id : 6, prefix:'wish', title: '预售票房'}]
 
 class CompareDetail extends React.Component{
   constructor(props) {
@@ -357,6 +357,7 @@ class CompareDetail extends React.Component{
           })
         },
         grid: {
+          top: 85,
           left: '3%',
           right: '4%',
           bottom: '3%',
