@@ -23,6 +23,15 @@ class Event extends React.Component{
 
   getOption = (d) => {
     let xArr = d.data.date.split(',')
+    if (xArr[0].length < 4) {
+      let arr = []
+      for (let i = 0; i < xArr.length; i++) {
+        let v = +xArr[i]
+        let str = v > 0 ? `映后${v}天` : '映前' + Math.abs(v) + '天'
+        arr.push(str)
+      }
+      xArr = arr
+    }
     return {
       tooltip: {
         trigger: 'axis'
@@ -33,6 +42,7 @@ class Event extends React.Component{
         bottom: '3%',
         containLabel: true
       },
+      calculable : true,
       xAxis: {
         type: 'category',
         boundaryGap: false,
@@ -44,8 +54,32 @@ class Event extends React.Component{
       series: {
         name: d['title'],
         type:'line',
-        data: d.data.value.split(',')
-      }
+        data: d.data.value.split(','),
+        markPoint: {
+          itemStyle: {
+            normal: {
+              borderWidth: 1,
+              borderColor: '#000',
+              color: '#777',
+              label: {
+                show: false,
+                position: 'inside',
+                textStyle: {
+                  color: 'black'
+                }
+            }
+            },
+        },
+          data: [
+              { name: 'ok'}
+          ]
+        },
+        markLine: {
+            data: [
+                {type: 'average', name: '平均值'}
+            ]
+        }
+      },
     };
   };
 

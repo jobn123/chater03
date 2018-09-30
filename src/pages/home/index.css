@@ -116,6 +116,12 @@
   color: white;
   background: #108EE9;
 }
+.wanted-title span:first-child {
+  margin-left: 10px;
+}
+.wanted-title_up span:first-child {
+  margin-left: 10px;
+}
 .wanted-title_up {
   height: 30px;
   line-height: 30px;
@@ -295,6 +301,7 @@
   background: url('../../assets/downwhite.png');
   background-size: 100% 100%;
   margin-top: 10px;
+  margin-right: 10px;
 }
 .up-pic{
   float: right;
@@ -304,6 +311,7 @@
   background: url('../../assets/upblue.png');
   background-size: 100% 100%;
   margin-top: 10px;
+  margin-right: 10px;
 }
 .user-sex_div span{
   display: inline-block;

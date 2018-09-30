@@ -346,7 +346,17 @@ class CompareDetail extends React.Component{
   }
 
   getOption = (d) => {
+      let { segIndex } = this.state
       let xArr = d.data[0].data.date.split(',')
+      if (segIndex === 1) { 
+        let arr = []
+        for (let i = 0; i < xArr.length; i++) {
+          let v = +xArr[i]
+          let str = v > 0 ? `映后${v}天` : '映前' + Math.abs(v) + '天'
+          arr.push(str)
+        }
+        xArr = arr
+      }
       return {
         tooltip: {
           trigger: 'axis'

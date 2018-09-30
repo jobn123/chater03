@@ -6,7 +6,7 @@ class SingleDetail extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showItem1: false,
+      showItem1: true,
       showItem2: false,
       showItem3: false,
       showItem4: false,
@@ -87,7 +87,8 @@ class SingleDetail extends React.Component {
             <div className="wanted-item"><span className="st1">猫眼</span><span>{this.toThousands(dl.maoyan_wish_count)}</span><span>{this.toThousands(dl.maoyan_wish_up)}</span><span>{dl.maoyan_wish_up_percent * 100 + '%'}</span></div>
             <div className="wanted-item"><span className="st2">淘票票</span><span>{this.toThousands(dl.tpp_wish_count)}</span><span>{this.toThousands(dl.tpp_wish_up)}</span><span>{dl.tpp_wish_up_percent * 100 + '%'}</span></div>
             <div className="wanted-item"><span className="st3">微博</span><span>{this.toThousands(dl.weibo_wish_count)}</span><span>{this.toThousands(dl.weibo_wish_up)}</span><span>{dl.weibo_wish_up_percent * 100 + '%'}</span></div>
-            <div className="wanted-item"><span className="st4">微信</span><span>{this.toThousands(dl.weixin_index_count)}</span><span>{dl.weixin_index_up}</span><span>{dl.weixin_index_up_percent * 100 + '%'}</span></div>
+            {/* <div className="wanted-item"><span className="st4">微信</span><span>{this.toThousands(dl.weixin_index_count)}</span><span>{dl.weixin_index_up}</span><span>{dl.weixin_index_up_percent * 100 + '%'}</span></div> */}
+            <div className="wanted-item"><span className="ht6">豆瓣</span><span>{this.toThousands(dl.douban_wish_count)}</span><span>{dl.douban_wish_up}</span><span>{dl.douban_wish_up_percent * 100 + '%'}</span></div>
           </div></div>
 
           <div className="single-wanted">
@@ -100,7 +101,7 @@ class SingleDetail extends React.Component {
             <div className="wanted-item"><span className="ht3">阅读</span><span>{this.toThousands(dl.weibo_view_count)}</span><span>{dl.weibo_view_up}</span><span>{dl.weibo_view_up_percent * 100 + '%'}</span></div>
             <div className="wanted-item"><span className="ht4">讨论</span><span>{this.toThousands(dl.weibo_discuss_count)}</span><span>{dl.weibo_discuss_up}</span><span>{dl.weibo_discuss_up_percent * 100 + '%'}</span></div>
             <div className="wanted-item"><span className="st4">微信</span><span>{this.toThousands(dl.weixin_index_count)}</span><span>{dl.weixin_index_up}</span><span>{dl.weixin_index_up_percent * 100 + '%'}</span></div>
-            <div className="wanted-item"><span className="ht6">豆瓣</span><span>{this.toThousands(dl.douban_wish_count)}</span><span>{dl.douban_wish_up}</span><span>{dl.douban_wish_up_percent * 100 + '%'}</span></div></div>
+            </div>
           </div>
               
           <div className="single-wanted">
@@ -141,12 +142,12 @@ class SingleDetail extends React.Component {
     showItem5: !this.state.showItem5})}}></span></div>
             <div ref="kb-body" style={{display: showItem5 ? 'block' : 'none'}}>
             <div className="kb-item_t">
-            <span className="st1">猫眼  {dl.rating}</span>
-            <span className="ht6">豆瓣  {dl.douban_rating}</span>
-            <span className="st3">微博大V推荐  {dl.weibo_v_rating}</span>
-            <span className="st2">淘票票  {dl.taopiaopiao_rating}</span>
-            <span className="itime">时光网  {dl.mtime_rating}</span>
-            <span className="st3">微博好评率  {dl.weibo_rating}</span></div></div>
+            <span className="st1">猫眼  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{dl.rating}</span>
+            <span className="ht6">豆瓣  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{dl.douban_rating}</span>
+            <span className="st3">微博大V推荐  &nbsp;&nbsp;&nbsp;&nbsp;{dl.weibo_v_rating}</span>
+            <span className="st2">淘票票 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {dl.taopiaopiao_rating}</span>
+            <span className="itime">时光网 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{dl.mtime_rating}</span>
+            <span className="st3">微博好评率 &nbsp;&nbsp;&nbsp;&nbsp; {dl.weibo_rating}</span></div></div>
           </div>
           
           <div className="single-wanted">
