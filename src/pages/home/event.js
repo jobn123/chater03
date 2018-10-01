@@ -55,30 +55,40 @@ class Event extends React.Component{
         name: d['title'],
         type:'line',
         data: d.data.value.split(','),
-        markPoint: {
-          itemStyle: {
-            normal: {
-              borderWidth: 1,
-              borderColor: '#000',
-              color: '#777',
-              label: {
-                show: false,
-                position: 'inside',
-                textStyle: {
-                  color: 'black'
-                }
-            }
-            },
-        },
-          data: [
-              { name: 'ok'}
-          ]
-        },
-        markLine: {
-            data: [
-                {type: 'average', name: '平均值'}
-            ]
-        }
+        // markPoint: {
+          // symbol: 'path://m 0,0 h 48 v 20 h -30 l -6,10 l -6,-10 h -6 z', // 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow', path://m 0,0 h 48 v 20 h -30 l -6,10 l -6,-10 h -6 z,  path://m 0,0 h 48 v 20 h -34 l -6,10 l -6,-10 h -2 z
+          // symbolSize: function(val){
+          //     return [textSize(toHSpeed(val, 2),"12px").width+5,40]
+          // },
+          // symbolSize: 10,
+          // symbolOffset: ['34%', '-50%'],
+        //   symbolKeepAspect: true,
+        //   showDelay:0,          
+        //   itemStyle: {
+        //     normal: {
+        //       label: {
+        //         show: true,
+        //         formatter: function (params,ticket,callback) {//格式化展现（标签+值）
+        //           return `${params.name} 
+        //                      ${params.value}`;
+        //          },
+        //          position: "Top",
+        //         textStyle: {
+        //           color: 'red',
+        //           fontSize: 12
+        //         }
+        //     }
+        //     },
+        // },
+        // data: [
+        //   { name: '哈哈哈哈哈哈', value: 222, xAxis: 3, yAxis: 40000}
+        // ]
+      // },
+      // markLine: {
+      //     data: [
+      //         {type: 'average', name: '平均值'}
+      //     ]
+      // }
       },
     };
   };
