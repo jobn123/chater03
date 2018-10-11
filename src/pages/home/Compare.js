@@ -10,7 +10,7 @@ import './comparedetail.css'
 
 const TA = [{
   title: '想看',
-  subtitle:[{name:'猫眼想看', api: 'maoyan_wish'}, {name: '豆瓣想看', api: 'douban_wish'}, {name: '时光网想看', api: 'mtime_wish'}, {name: '淘票票想看', api: 'tpp_wish'}, {name: '微博想看', api: 'weibo_wish'}]
+  subtitle:[{name:'猫眼想看', api: 'maoyan_wish'}, {name: '淘票票想看', api: 'tpp_wish'}, {name: '豆瓣想看', api: 'douban_wish'}, {name: '时光网想看', api: 'mtime_wish'}, {name: '微博想看', api: 'weibo_wish'}]
   },{
   title: '热度',
   subtitle:[{name: '微信指数', api: 'weixin_index'}, {name: '百度指数', api: 'baidu_index'} , {name: '微博指数', api: 'weibo_index'},{name: '微博阅读', api: 'weibo_view_count'}, {name: '微博讨论', api: 'weibo_discuss_count'}]
@@ -68,6 +68,7 @@ class Compare extends React.Component{
     let movieStr = arr.toString()
     let url = `http://123.56.14.124:918/compare/?format=json&target=maoyan_wish&type=count&id=${movieStr}&start=${start}&end=${end}`
     // let url = 'http://123.56.14.124:918/compare/?format=json&target=maoyan_wish&type=count&id=423,910,788&start=2018-01-08&end=2018-01-10'
+    // debugger
     this.setState({
       movies:  movieStr
     }, ()=>{
@@ -75,7 +76,26 @@ class Compare extends React.Component{
     })
   }
   fetchData(url) {
-    axios.get(url).then(res =>{
+    // debugger
+    let d = JSON.parse(localStorage.getItem('movies'))
+    let {start, end, segZero, segIndex, start2, end2} = this.state
+    let arr = d.movies
+    let first = d.movie_base
+    arr.unshift(first)
+    let movieStr = arr.toString()
+
+    let dateStr = segIndex === 0 ? `start=${start}&end=${end}` : `start_days=${start2}&end_days=${end2}`
+    let type = segZero === 1 ? 'count' : 'up'
+
+    let url2 = typeof url === 'object' ? `http://123.56.14.124:918/compare/?format=json&target=maoyan_wish&type=${type}&id=${movieStr}&${dateStr}` : url
+
+    // let target = TA[firsTitleIndex].subtitle[secondTitleIndex].api
+    // let type = segZero === 1 ? 'count' : 'up'
+    // let dateStr = segIndex === 0 ? `start=${start}&end=${end}` : `start_days=${start2}&end_days=${end2}`
+
+    // let url = `http://123.56.14.124:918/compare/?format=json&target=${target}&type=${type}&id=${movies}&${dateStr}`
+
+    axios.get(url2).then(res =>{
       this.setState({dataLists: res.data.data.data, showCalender: false})
     }).catch(err =>{
       console.log('----err----')
@@ -376,7 +396,7 @@ renderCharts() {
       )
     }
   }
-  _setColumns =()=>{
+  _setColumns = () => {
     const {segIndex, dataLists, firsTitleIndex} = this.state 
     let data = dataLists
     if (segIndex === 1 && firsTitleIndex !== 4) {
@@ -388,7 +408,7 @@ renderCharts() {
           width: 180
         },
       ]
-      let dArr = data[0].date.split(',')
+      let dArr = data[0].date.split(',').reverse()
       for(let i = 0; i < dArr.length; i++) {
         let item = parseInt(dArr[i])
         
@@ -414,7 +434,7 @@ renderCharts() {
         },
       ]
       if (firsTitleIndex === 0) {
-        let dArr = data[0].date.split(',')
+        let dArr = data[0].date.split(',').reverse()
         for(let i = 0; i < dArr.length; i++) {
               let obj = {
                 Header: dArr[i],
@@ -429,7 +449,7 @@ renderCharts() {
             }
           return allArr
       }
-      let dArr = data[0].date.split(',')
+      let dArr = data[0].date.split(',').reverse()
         for(let i = 0; i < dArr.length; i++) {
           let str = dArr[i]
               let obj = {
@@ -456,7 +476,7 @@ renderCharts() {
             data={dataLists}
             resolveData={this.resolveData}
             loading={false} // Display the loading overlay when we need it
-            onFetchData={this.fetchData} // Request new data when things change
+            onFetchData={this.fetchData.bind(this)} // Request new data when things change
             // filterable
             defaultPageSize={2}
             showPagination={false}

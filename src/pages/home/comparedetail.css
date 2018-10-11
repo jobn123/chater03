@@ -210,6 +210,18 @@
   margin-left: 12px;
   margin-right: 5px;
 }
+.weibo_index_icon::before {
+  position: relative;
+  top: 3px;
+  display: inline-block;
+  content: '';
+  width: 20px;
+  height: 20px;
+  background: url('../../assets/weibo.png');
+  background-size: 100% 100%;
+  margin-left: 12px;
+  margin-right: 5px;
+}
 .weixin_index_icon::before  {
   position: relative;
   top: 3px;
@@ -241,7 +253,7 @@
   content: '';
   width: 20px;
   height: 20px;
-  background: url('../../assets/yuhshou.png');
+  background: url('../../assets/yushou.png');
   background-size: 100% 100%;
   margin-left: 12px;
   margin-right: 5px;

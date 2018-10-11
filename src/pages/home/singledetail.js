@@ -7,11 +7,11 @@ class SingleDetail extends React.Component {
     super(props)
     this.state = {
       showItem1: true,
-      showItem2: false,
-      showItem3: false,
-      showItem4: false,
-      showItem5: false,
-      showItem6: false,
+      showItem2: true,
+      showItem3: true,
+      showItem4: true,
+      showItem5: true,
+      showItem6: true,
       data: null
     }
   }
@@ -79,9 +79,8 @@ class SingleDetail extends React.Component {
           <div className="singleDetail_sub">{dl.show_time}/{dl.show_country}上映</div>
 
           <div className="single-wanted" ref="wanted">
-            <div className={showItem1 ? "wanted-title_up" : "wanted-title"}>
-              <span>想看</span><span className={showItem1 ? "up-pic" : "down-pic"} onClick={()=>{this.setState({
-    showItem1: !this.state.showItem1})}}></span></div>
+            <div className={showItem1 ? "wanted-title_up" : "wanted-title"} onClick={()=>{this.setState({showItem1: !this.state.showItem1})}}>
+              <span>想看</span><span className={showItem1 ? "up-pic" : "down-pic"}></span></div>
             <div ref="wanted-body" style={{display: showItem1 ? 'block' : 'none'}}>
             <div className="wanted-item_t"><span>观测指标</span><span>当前值  </span><span>变化值</span><span>日环比</span></div>
             <div className="wanted-item"><span className="st1">猫眼</span><span>{this.toThousands(dl.maoyan_wish_count)}</span><span>{this.toThousands(dl.maoyan_wish_up)}</span><span>{dl.maoyan_wish_up_percent * 100 + '%'}</span></div>
@@ -92,8 +91,7 @@ class SingleDetail extends React.Component {
           </div></div>
 
           <div className="single-wanted">
-            <div className={showItem2 ? "wanted-title_up" : "wanted-title"}><span>热度</span><span className={showItem2 ? "up-pic" : "down-pic"} onClick={()=>{this.setState({
-    showItem2: !this.state.showItem2})}}></span></div>
+            <div className={showItem2 ? "wanted-title_up" : "wanted-title"} onClick={()=>{this.setState({showItem2: !this.state.showItem2})}}><span>热度</span><span className={showItem2 ? "up-pic" : "down-pic"}></span></div>
             <div ref="hot-body" style={{display: showItem2 ? 'block' : 'none'}}>
             <div className="hot-item_t"><span>观测指标</span><span>当前值</span><span>日环比</span></div>
             <div className="wanted-item"><span className="ht1">百度</span><span>{this.toThousands(dl.baidu_index_count)}</span><span>{dl.baidu_index_up}</span><span>{dl.baidu_index_up_percent * 100 + '%'}</span></div>
@@ -105,8 +103,7 @@ class SingleDetail extends React.Component {
           </div>
               
           <div className="single-wanted">
-            <div className={showItem3 ? "wanted-title_up" : "wanted-title"}><span>物料</span><span className={showItem3 ? "up-pic" : "down-pic"} onClick={()=>{this.setState({
-    showItem3: !this.state.showItem3})}}></span><span style={{display: showItem3 ? 'block' : 'none'}} className="checkHistory" onClick={()=>{this.props.showHistory(true)}}>查看历史</span></div>
+            <div className={showItem3 ? "wanted-title_up" : "wanted-title"} onClick={()=>{this.setState({showItem3: !this.state.showItem3})}}><span>物料</span><span className={showItem3 ? "up-pic" : "down-pic"}></span><span style={{display: showItem3 ? 'block' : 'none'}} className="checkHistory" onClick={()=>{this.props.showHistory(true)}}>查看历史</span></div>
             <div ref="mate-body" style={{display: showItem3 ? 'block' : 'none'}}>
             <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>增量值</span><span>日环比</span></div>
             <div className="wanted-item"><span className="wt1">总播放</span><span>{this.toThousands(dl.play_total_count)}</span><span>{dl.play_total_up}</span><span>{dl.play_total_up_percent * 100 + '%'}</span></div>
@@ -118,8 +115,7 @@ class SingleDetail extends React.Component {
           </div>
           
           <div className="single-wanted">
-            <div className={showItem4 ? "wanted-title_up" : "wanted-title"}><span>预售</span><span className={showItem4 ? "up-pic" : "down-pic"} onClick={()=>{this.setState({
-    showItem4: !this.state.showItem4})}}></span></div>
+            <div className={showItem4 ? "wanted-title_up" : "wanted-title"} onClick={()=>{this.setState({showItem4: !this.state.showItem4})}}><span>预售</span><span className={showItem4 ? "up-pic" : "down-pic"}></span></div>
             <div ref="sale-body" style={{display: showItem4 ? 'block' : 'none'}}>
             <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>昨日值</span><span>日环比</span></div>
             <div className="wanted-item">
@@ -138,8 +134,7 @@ class SingleDetail extends React.Component {
           </div>
 
           <div className="single-wanted">
-            <div className={showItem5 ? "wanted-title_up" : "wanted-title"}><span>口碑</span><span className={showItem5 ? "up-pic" : "down-pic"} onClick={()=>{this.setState({
-    showItem5: !this.state.showItem5})}}></span></div>
+            <div className={showItem5 ? "wanted-title_up" : "wanted-title"} onClick={()=>{this.setState({showItem5: !this.state.showItem5})}}><span>口碑</span><span className={showItem5 ? "up-pic" : "down-pic"}></span></div>
             <div ref="kb-body" style={{display: showItem5 ? 'block' : 'none'}}>
             <div className="kb-item_t">
             <span className="st1">猫眼  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{dl.rating}</span>
@@ -151,8 +146,7 @@ class SingleDetail extends React.Component {
           </div>
           
           <div className="single-wanted">
-            <div className={showItem6 ? "wanted-title_up" : "wanted-title"}><span>用户画像</span><span className={showItem6 ? "up-pic" : "down-pic"} onClick={()=>{this.setState({
-    showItem6: !this.state.showItem6})}}></span></div>
+            <div className={showItem6 ? "wanted-title_up" : "wanted-title"} onClick={()=>{this.setState({showItem6: !this.state.showItem6})}}><span>用户画像</span><span className={showItem6 ? "up-pic" : "down-pic"}></span></div>
             <div ref="user-body" style={{display: showItem6 ? 'block' : 'none'}}>
             <div className="user-sex">
               <p style={{fontSize: '14px',marginTop: '24px', marginBottom: '36px'}}>受众性别</p>

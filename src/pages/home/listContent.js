@@ -7,7 +7,10 @@ const cls = {
   '微博指数': 'st3',
   '微信指数': 'st4',
   '淘票票想看': 'st2',
+  '预售票房': 'st5'
 }
+
+const dataCls = {'猫眼想看': 'maoyan_wish', '淘票票想看': 'tpp_wish',  '百度指数' :'baidu_index', '微博指数': 'weibo_index', '微信指数': 'weixin_index', '预售票房': 'first_box'}
 
 class ListContent extends React.Component{
   constructor() {
@@ -32,6 +35,12 @@ class ListContent extends React.Component{
   }
 
   goCompoareDetail(item) {
+    let arr = []
+    let bi = item.movie_base_info
+    for(let i = 0; i < bi.length; i++) {
+      arr.push(dataCls[bi[i].name])
+    }
+    sessionStorage.setItem('wish', JSON.stringify(arr))
     this.props.goCompoareDetail(item)
   }
 

@@ -1,10 +1,15 @@
 import React from 'react'
 import ReactEcharts from 'echarts-for-react'
+import axios from 'axios'
 import './event.css'
 
 class Event extends React.Component{
   constructor() {
     super()
+    this.state = {
+      dataLists: [],
+      segZero: 0,
+    }
   }
 
   componentWillMount() {
@@ -14,6 +19,33 @@ class Event extends React.Component{
         isLogin: true
       })
     }
+  }
+
+  componentDidMount() {
+    let url = this.props.location.query
+    let flag = url.indexOf('count') === -1 ? 1 : 0
+
+    axios.get(url).then(res =>{
+      this.setState({
+        segZero: flag,
+        dataLists: res.data.data.data})
+    }).catch(err =>{
+      console.log('----err----')
+    })
+  }
+
+  setZeroSeg(index) {
+    // let { segZero } = this.state
+    let url = this.props.location.query
+    // let flag = url.indexOf('count') === -1 ? 1 : 0
+    let url2 = index === 0 ? url.replace('up', 'count') : url.replace('count', 'up')
+    axios.get(url2).then(res =>{
+      this.setState({
+        segZero: index,
+        dataLists: res.data.data.data})
+    }).catch(err =>{
+      console.log('----err----')
+    })
   }
 
   backHome() {
@@ -73,27 +105,28 @@ class Event extends React.Component{
           data: [
               { name: 'ok'}
           ]
-        },
-        markLine: {
-            data: [
-                {type: 'average', name: '平均值'}
-            ]
         }
+        // markLine: {
+        //     data: [
+        //         {type: 'average', name: '平均值'}
+        //     ]
+        // }
       },
     };
   };
 
   renderEventLists() {
-    let data = this.props.location.query.data
-
+    // let data = this.props.location.query.data
+    let { dataLists } = this.state
+    if (dataLists.length === 0) return
     let arr = []
 
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < dataLists.length; i++) {
       let item = (
         <div className="wish-item_box">
           <div className="wish-title_event"><span>
-            {data[i].title}</span></div>
-          <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption(data[i])}/>
+            {dataLists[i].title}</span></div>
+          <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption(dataLists[i])}/>
         </div>
       )
       arr.push(item)
@@ -103,11 +136,16 @@ class Event extends React.Component{
   }
   
   render() {
+    let { segZero } = this.state
     return (
       <div>
         <div className="comparedetail-header">
           <span className="detail-back" onClick={()=>{this.backHome()}}>返回</span>
           <span>猫眼想看事件</span>
+        </div>
+        <div style={{display: 'inline-block', width:'100%', textAlign: 'center' }}>
+            <span className={segZero == 0 ? 'segSpanActive' : 'segSpan'} onClick={()=>{this.setZeroSeg(0)}}> 累计 </span>
+            <span className={segZero == 1 ? 'segSpanActive' : 'segSpan'} onClick={()=>{this.setZeroSeg(1)}}> 新增 </span>
         </div>
         {this.renderEventLists()}
       </div>
