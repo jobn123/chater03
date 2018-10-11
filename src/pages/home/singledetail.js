@@ -40,10 +40,10 @@ class SingleDetail extends React.Component {
     let tm = dl.tpp_M    === null ? 0 : dl.tpp_M
     let tf = dl.tpp_F    === null ? 0 : dl.tpp_F
 
-    let m_M = mm.toFixed(2) * 100 + "%"
-    let m_F = mf.toFixed(2) * 100 + "%"
-    let t_M = tm.toFixed(2) * 100 + "%"
-    let t_F = tf.toFixed(2) * 100 + "%"
+    let m_M = mm.toFixed(1) * 100 + "%"
+    let m_F = mf.toFixed(1) * 100 + "%"
+    let t_M = tm.toFixed(1) * 100 + "%"
+    let t_F = tf.toFixed(1) * 100 + "%"
 
     let cw = document.body.clientWidth - 30
 
