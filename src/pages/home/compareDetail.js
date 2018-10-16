@@ -188,9 +188,19 @@ class CompareDetail extends React.Component{
       item.disabled = true
       d[i] = item
 
+      let arr = []
+      let arr2 = []
+      for(let i = 0; i < d.length; i++) {
+        if(!d[i].disabled) {
+          arr.push(d[i].prefix)
+          // indexArr.push(d[i].id)
+        }
+      }
+
       sessionStorage.setItem('displayLists', JSON.stringify(d))
       this.setState({
-        data: d
+        data: d,
+        displayIndex: arr
       }, ()=>{
         this.refs[str].className = "trend_add_gray"
       })
@@ -199,10 +209,17 @@ class CompareDetail extends React.Component{
       let item = d[i]
       item.disabled = false
       d[i] = item
-
+      let arr = []
+      for(let i = 0; i < d.length; i++) {
+        if(!d[i].disabled) {
+          arr.push(d[i].prefix)
+          // indexArr.push(d[i].id)
+        }
+      }
       sessionStorage.setItem('displayLists', JSON.stringify(d))
       this.setState({
-        data: d
+        data: d,
+        displayIndex: arr
       }, ()=>{
         this.refs[str].className = "trend_item_add"
       })
@@ -219,12 +236,17 @@ class CompareDetail extends React.Component{
     let { data, segIndex, start, end, segZero, start2, end2, movies } = this.state
     let arr = []
     let indexArr = []
+    // let arr2 = []
+    //var b = a.splice(1,0,5)
     for(let i = 0; i < data.length; i++) {
       if(!data[i].disabled) {
         arr.push(data[i].prefix)
         indexArr.push(data[i].id)
+        // arr2.push(data[i])
       }
+      // arr2.splice(i, 0, data[i])
     }
+    // debugger
     sessionStorage.setItem('wish', JSON.stringify(arr))
     this.setState({editFlag: false, displayIndex: arr})
 
