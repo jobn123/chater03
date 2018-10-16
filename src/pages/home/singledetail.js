@@ -138,10 +138,10 @@ class SingleDetail extends React.Component {
             <div ref="kb-body" style={{display: showItem5 ? 'block' : 'none'}}>
             <div className="kb-item_t">
             <span className="st1">猫眼  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{dl.rating}</span>
-            <span className="ht6">豆瓣  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{dl.douban_rating}</span>
-            <span className="st3">微博大V推荐  &nbsp;&nbsp;&nbsp;&nbsp;{dl.weibo_v_rating}</span>
             <span className="st2">淘票票 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {dl.taopiaopiao_rating}</span>
+            <span className="ht6">豆瓣  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{dl.douban_rating}</span>
             <span className="itime">时光网 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{dl.mtime_rating}</span>
+            <span className="st3">微博大V推荐  &nbsp;&nbsp;&nbsp;&nbsp;{dl.weibo_v_rating}</span>
             <span className="st3">微博好评率 &nbsp;&nbsp;&nbsp;&nbsp; {dl.weibo_rating}</span></div></div>
           </div>
           
