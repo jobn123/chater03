@@ -108,7 +108,7 @@ class SingleDetail extends React.Component {
             <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>增量值</span><span>日环比</span></div>
             <div className="wanted-item"><span className="wt1">总播放</span><span>{this.toThousands(dl.play_total_count)}</span><span>{dl.play_total_up}</span><span>{dl.play_total_up_percent * 100 + '%'}</span></div>
             <div className="wanted-item"><span className="wt2">腾讯</span><span>{this.toThousands(dl.play_qq_count)}</span><span>{dl.play_qq_up}</span><span>{dl.play_qq_up_percent * 100 + '%'}</span></div>
-            <div className="wanted-item"><span className="wt3">优酷</span><span>{this.toThousands(dl.play_youku_count)}</span>{dl.play_youku_up}<span></span><span>{dl.play_youku_up_percent * 100 + '%'}</span></div>
+            <div className="wanted-item"><span className="wt3">优酷</span><span>{this.toThousands(dl.play_youku_count)}</span><span>{dl.play_youku_up}</span><span>{dl.play_youku_up_percent * 100 + '%'}</span></div>
             <div className="wanted-item"><span className="wt4">爱奇艺</span><span>{this.toThousands(dl.play_iqiyi_count)}</span><span>{dl.play_iqiyi_up}</span><span>{dl.play_iqiyi_up_percent * 100 + '%'}</span></div>
             <div className="wanted-item"><span className="wt5">秒拍</span><span>{this.toThousands(dl.play_miaopai_count)}</span><span>{dl.play_miaopai_up}</span><span>{dl.play_miaopai_up_percent * 100 + '%'}</span></div>
             </div>

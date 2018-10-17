@@ -33,14 +33,16 @@ class History extends React.Component{
       this.fetchData(index)
     })
   }
-
+  toThousands(num) {
+    return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+  }
   renderLists() {
     let { lists } = this.state
     let arr = []
     for(let i = 0; i < lists.length; i++) {
       let item = lists[i]
 
-      arr.push(<div><span>{item.title}</span><span>{item.info}</span><span>{item.count}</span></div>) 
+      arr.push(<div><span>{item.title}</span><span>{item.info}</span><span>{this.toThousands(item.count)}</span></div>) 
     }
     return arr
   }

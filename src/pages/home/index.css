@@ -325,6 +325,7 @@
 .user-sex_div span{
   display: inline-block;
   height: 8px;
+  white-space: nowrap;
 }
 .sex-my-male {
   position: relative;

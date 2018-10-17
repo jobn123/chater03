@@ -1,7 +1,54 @@
 import React from 'react'
 import ReactEcharts from 'echarts-for-react'
+import EchartsForReact from './EchartsForReact';
 import axios from 'axios'
 import './event.css'
+const dataInfo = {
+  title : {
+      text: '未来一周气温变化',
+      subtext: '纯属虚构'
+  },
+  tooltip : {
+      trigger: 'axis'
+  },
+  // legend: {
+  //     data:['最高气温','最低气温']
+  // },
+  calculable : true,
+  xAxis : [
+      {
+          type : 'category',
+          boundaryGap : false,
+          data : ['周一','周二','周三','周四','周五','周六','周日']
+      }
+  ],
+  yAxis : [
+      {
+          type : 'value',
+          axisLabel : {
+              formatter: '{value} °C'
+          }
+      }
+  ],
+  series : [
+      {
+          name:'最高气温',
+          type:'line',
+          data:[11, 11, 15, 13, 12, 13, 10],
+          markPoint : {
+              data : [
+                  {type : 'max', name: '最大值'},
+                  {type : 'min', name: '最小值'}
+              ]
+          },
+          markLine : {
+              data : [
+                  {type : 'average', name: '平均值'}
+              ]
+          }
+      }
+  ]
+};
 
 class Event extends React.Component{
   constructor() {
@@ -64,65 +111,70 @@ class Event extends React.Component{
       }
       xArr = arr
     }
+    // return {
+    //   tooltip: {
+    //     trigger: 'axis'
+    //   },
+    //   grid: {
+    //     left: '3%',
+    //     right: '4%',
+    //     bottom: '3%',
+    //     containLabel: true
+    //   },
+    //   calculable : true,
+    //   xAxis: {
+    //     type: 'category',
+    //     boundaryGap: false,
+    //     data:  xArr
+    //   },
+    //   yAxis: {
+    //     type: 'value'
+    //   },
+    //   series: {
+    //     name: d['title'],
+    //     type:'line',
+    //     data: d.data.value.split(',')
+    //   },
+    // };
     return {
-      tooltip: {
+    tooltip : {
         trigger: 'axis'
-      },
-      grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-      },
-      calculable : true,
-      xAxis: {
-        type: 'category',
-        boundaryGap: false,
-        data:  xArr
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: {
-        name: d['title'],
-        type:'line',
-        data: d.data.value.split(','),
-        // markPoint: {
-          // symbol: 'path://m 0,0 h 48 v 20 h -30 l -6,10 l -6,-10 h -6 z', // 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow', path://m 0,0 h 48 v 20 h -30 l -6,10 l -6,-10 h -6 z,  path://m 0,0 h 48 v 20 h -34 l -6,10 l -6,-10 h -2 z
-          // symbolSize: function(val){
-          //     return [textSize(toHSpeed(val, 2),"12px").width+5,40]
-          // },
-          // symbolSize: 10,
-          // symbolOffset: ['34%', '-50%'],
-        //   symbolKeepAspect: true,
-        //   showDelay:0,          
-        //   itemStyle: {
-        //     normal: {
-        //       label: {
-        //         show: true,
-        //         formatter: function (params,ticket,callback) {//格式化展现（标签+值）
-        //           return `${params.name} 
-        //                      ${params.value}`;
-        //          },
-        //          position: "Top",
-        //         textStyle: {
-        //           color: 'red',
-        //           fontSize: 12
-        //         }
-        //     }
-        //     },
-        // },
-        // data: [
-        //   { name: '哈哈哈哈哈哈', value: 222, xAxis: 3, yAxis: 40000}
-        // ]
-      // },
-      // markLine: {
-      //     data: [
-      //         {type: 'average', name: '平均值'}
-      //     ]
-      // }
-      },
-    };
+    },
+    calculable : true,
+    xAxis : [
+        {
+            type : 'category',
+            boundaryGap : false,
+            data : xArr
+        }
+    ],
+    yAxis : [
+        {
+          type : 'value',
+        }
+    ],
+    series : [
+        {
+            name: d['title'],
+            type: 'line',
+            data: d.data.value.split(',') ,
+            markPoint : {
+                // data : [
+                //     {type : 'max', name: '最大值'}
+                //     // {type : 'min', name: '最小值'}
+                // ],
+                data: [
+                  {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
+              ]
+            },
+            // markLine : {
+            //     data : [
+            //         {type : 'average', name: '平均值'}
+            //     ]
+            // }
+        }
+    ]
+    }
   };
 
   renderEventLists() {
@@ -130,13 +182,14 @@ class Event extends React.Component{
     let { dataLists } = this.state
     if (dataLists.length === 0) return
     let arr = []
-
+    let cw = document.body.clientWidth + 50
     for (let i = 0; i < dataLists.length; i++) {
       let item = (
         <div className="wish-item_box">
           <div className="wish-title_event"><span>
             {dataLists[i].title}</span></div>
-          <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption(dataLists[i])}/>
+          {/* <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption(dataLists[i])}/> */}
+          <EchartsForReact style={{ width: cw, height: 350 }} option={this.getOption(dataLists[i])}  showLoading={false} />
         </div>
       )
       arr.push(item)
