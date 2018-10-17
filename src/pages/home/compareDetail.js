@@ -189,15 +189,14 @@ class CompareDetail extends React.Component{
       d[i] = item
 
       let arr = []
-      let arr2 = []
+      // let arr2 = []
       for(let i = 0; i < d.length; i++) {
         if(!d[i].disabled) {
           arr.push(d[i].prefix)
           // indexArr.push(d[i].id)
         }
       }
-
-      sessionStorage.setItem('displayLists', JSON.stringify(d))
+      // sessionStorage.setItem('displayLists', JSON.stringify(d))
       this.setState({
         data: d,
         displayIndex: arr
@@ -216,7 +215,7 @@ class CompareDetail extends React.Component{
           // indexArr.push(d[i].id)
         }
       }
-      sessionStorage.setItem('displayLists', JSON.stringify(d))
+      // sessionStorage.setItem('displayLists', JSON.stringify(d))
       this.setState({
         data: d,
         displayIndex: arr
@@ -236,19 +235,21 @@ class CompareDetail extends React.Component{
     let { data, segIndex, start, end, segZero, start2, end2, movies } = this.state
     let arr = []
     let indexArr = []
-    // let arr2 = []
-    //var b = a.splice(1,0,5)
+    let arr2 = []
+    let aindex = 0
     for(let i = 0; i < data.length; i++) {
       if(!data[i].disabled) {
         arr.push(data[i].prefix)
         indexArr.push(data[i].id)
-        // arr2.push(data[i])
+        arr2.splice(aindex, 0, data[i])
+        aindex += 1
+      } else {
+        arr2.push(data[i])
       }
-      // arr2.splice(i, 0, data[i])
     }
-    // debugger
+    sessionStorage.setItem('displayLists', JSON.stringify(arr2))
     sessionStorage.setItem('wish', JSON.stringify(arr))
-    this.setState({editFlag: false, displayIndex: arr})
+    this.setState({editFlag: false, displayIndex: arr, data: arr2})
 
     axios.patch(`http://123.56.14.124:918/user/${user.id}/`, {
       "targets": indexArr
