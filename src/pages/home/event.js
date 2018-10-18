@@ -101,8 +101,9 @@ class Event extends React.Component{
   }
 
   getOption = (d) => {
-    let xArr = d.data.date.split(',')
-    if (xArr[0].length < 4) {
+    let xArr = d.date.split(',')
+    // debugger
+    if (xArr[0].length < 4 && xArr[0].length !== 0) {
       let arr = []
       for (let i = 0; i < xArr.length; i++) {
         let v = +xArr[i]
@@ -110,6 +111,23 @@ class Event extends React.Component{
         arr.push(str)
       }
       xArr = arr
+    }
+    //marketing
+    let marketing = []
+    for (let i = 0; i < d.marketing.length; i++ ) {
+      let it = d.marketing[i]
+      let xz = ""
+      if (it.xAxis.length < 4) {
+        xz = +it.xAxis > 0 ? `映后${it.xAxis}天` : '映前' + Math.abs(it.xAxis) + '天'
+      } else {
+        xz = it.xAxis
+      }
+      let item = {
+        name: it.name,
+        xAxis: xz,
+        yAxis: it.yAxis
+      }
+      marketing.push(item)
     }
     // return {
     //   tooltip: {
@@ -157,15 +175,16 @@ class Event extends React.Component{
         {
             name: d['title'],
             type: 'line',
-            data: d.data.value.split(',') ,
+            data: d.value.split(',') ,
             markPoint : {
                 // data : [
                 //     {type : 'max', name: '最大值'}
                 //     // {type : 'min', name: '最小值'}
                 // ],
-                data: [
-                  {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
-              ]
+              //   data: [
+              //     {name: '周最低', value: '', xAxis: '映前20天', yAxis: 5000}
+              // ]
+              data: marketing
             },
             // markLine : {
             //     data : [

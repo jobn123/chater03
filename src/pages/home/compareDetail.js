@@ -356,13 +356,14 @@ class CompareDetail extends React.Component{
   }
 
   goEvent(data) {
+    // debugger
     let {segIndex, start, end, segZero, start2, end2, movies} = this.state
     let url = ''
     let type = segZero === 0 ? 'count' : 'up'
-    if(segIndex === 1) {
-        url = `http://123.56.14.124:918/compare_all/?format=json&target=maoyan_wish&type=${type}&id=${movies}&start=${start}&end=${end}`
+    if(segIndex === 0) {
+        url = `http://123.56.14.124:918/compare/?format=json&target=maoyan_wish_info&type=${type}&id=${movies}&start=${start}&end=${end}`
       } else {
-        url = `http://123.56.14.124:918/compare_all/?format=json&target=maoyan_wish&type=${type}&id=${movies}&start_days=${start2}&end_days=${end2}`
+        url = `http://123.56.14.124:918/compare/?format=json&target=maoyan_wish_info&type=${type}&id=${movies}&start_days=${start2}&end_days=${end2}`
     }
     this.props.history.push({
       pathname: '/event',
