@@ -1,6 +1,7 @@
 import React from 'react'
 import { Calendar, Range, Button } from 'antd-mobile'
-import ReactEcharts from 'echarts-for-react'
+// import ReactEcharts from 'echarts-for-react'
+import EchartsForReact from './EchartsForReact'
 import ReactTable from "react-table"
 import "react-table/react-table.css"
 import axios from 'axios'
@@ -45,7 +46,7 @@ class Compare extends React.Component{
       showRange: false,
       segZero: 0,
       segIndex: 0,
-      showDate: [30, 0],
+      showDate: [90, 0],
       dateStr: dateStr,
       start: start,
       end: end,
@@ -68,7 +69,6 @@ class Compare extends React.Component{
     let movieStr = arr.toString()
     let url = `http://123.56.14.124:918/compare/?format=json&target=maoyan_wish&type=count&id=${movieStr}&start=${start}&end=${end}`
     // let url = 'http://123.56.14.124:918/compare/?format=json&target=maoyan_wish&type=count&id=423,910,788&start=2018-01-08&end=2018-01-10'
-    // debugger
     this.setState({
       movies:  movieStr
     }, ()=>{
@@ -289,7 +289,7 @@ class Compare extends React.Component{
   }
   getOption = (d) => {
     let { segIndex, firsTitleIndex } = this.state
-    let xArr = d[0].date.split(',')
+    let xArr = d[0].date.split(',').reverse()
     if (segIndex == 1 && firsTitleIndex !== 4) { 
       let arr = []
       for (let i = 0; i < xArr.length; i++) {
@@ -331,12 +331,32 @@ class Compare extends React.Component{
       })
     };
 };
+rangeChange() {
+  console.log('range change')
+}
+
+afteRangeChange = (arr) => {
+  console.log(arr)
+  let { segZero, movies, firsTitleIndex, secondTitleIndex} = this.state
+  this.setState({
+    showDate: arr,
+    start2: arr[0],
+    end2: arr[1]
+  }, () => {
+    let type = segZero === 0 ? 'count' : 'up'
+    let target = TA[firsTitleIndex].subtitle[secondTitleIndex].api
+    let url = `http://123.56.14.124:918/compare/?format=json&target=${target}&type=${type}&id=${movies}&start_days=${arr[0]}&end_days=${arr[1]}`
+    this.fetchData(url)
+  })
+}
 renderCharts() {
   let { dataLists } = this.state
+  let cw = document.body.clientWidth
   if (dataLists.length === 0) return
     return (
       <div className="wish-item_box">
-        <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption(dataLists)}/>
+        {/* <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption(dataLists)}/> */}
+        <EchartsForReact style={{ width: cw, height: 350 }} option={this.getOption(dataLists)}  showLoading={false} />
       </div>
     )
   }
@@ -361,9 +381,9 @@ renderCharts() {
       <div style={{marginTop: 20}}>
       <Range
           style={{ marginLeft: 30, marginRight: 30 }}
-          min={-30}
+          min={-90}
           max={30}
-          defaultValue={[-30, 0]}
+          defaultValue={[-90, 0]}
           onChange={this.rangeChange}
           onAfterChange={this.afteRangeChange}
      /> 

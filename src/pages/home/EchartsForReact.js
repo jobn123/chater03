@@ -39,7 +39,7 @@ import 'echarts/component/tooltip';
 import 'echarts/component/valueAxis';
 
 import PropTypes from 'prop-types';
-import elementResizeEvent from 'element-resize-event';
+// import elementResizeEvent from 'element-resize-event';
 
 
 export default class EchartsForReact extends React.Component {
@@ -57,11 +57,11 @@ export default class EchartsForReact extends React.Component {
     this.bindEvents(echartObj, onEvents);
     // on chart ready
     if (typeof this.props.onChartReady === 'function') this.props.onChartReady(echartObj);
-    
+
     // on resize
-   elementResizeEvent(this.echartsElement, () => {
-     echartObj.resize();
-   });
+  //  elementResizeEvent(this.echartsElement, () => {
+  //    echartObj.resize();
+  //  });
   }
 
   // update
@@ -76,18 +76,18 @@ export default class EchartsForReact extends React.Component {
     if (typeof this.props.onChartReady === 'function') this.props.onChartReady(echartObj);
 
     // on resize
-    elementResizeEvent(this.echartsElement, () => {
-      echartObj.resize();
-    });
+    // elementResizeEvent(this.echartsElement, () => {
+    //   echartObj.resize();
+    // });
   }
 
   // remove
   componentWillUnmount() {
     if (this.echartsElement) {
       // if elementResizeEvent.unbind exist, just do it.
-      if (typeof elementResizeEvent.unbind === 'function') {
-        elementResizeEvent.unbind(this.echartsElement);
-      }
+      // if (typeof elementResizeEvent.unbind === 'function') {
+      //   elementResizeEvent.unbind(this.echartsElement);
+      // }
       const echartObj = this.renderEchartDom();
       echartObj.dispose(this.echartsElement);
     }

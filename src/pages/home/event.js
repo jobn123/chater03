@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactEcharts from 'echarts-for-react'
+// import ReactEcharts from 'echarts-for-react'
 import EchartsForReact from './EchartsForReact';
 import axios from 'axios'
 import './event.css'
@@ -184,6 +184,7 @@ class Event extends React.Component{
               //   data: [
               //     {name: '周最低', value: '', xAxis: '映前20天', yAxis: 5000}
               // ]
+              symbolSize: 4,
               data: marketing
             },
             // markLine : {
@@ -201,7 +202,7 @@ class Event extends React.Component{
     let { dataLists } = this.state
     if (dataLists.length === 0) return
     let arr = []
-    let cw = document.body.clientWidth + 50
+    let cw = document.body.clientWidth
     for (let i = 0; i < dataLists.length; i++) {
       let item = (
         <div className="wish-item_box">

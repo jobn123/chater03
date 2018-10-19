@@ -14,8 +14,8 @@ class UserPhoto extends React.Component{
   }
   
   componentDidMount(){
-    let url = 'http://123.56.14.124:918/compare/?format=json&target=profile&id=423,910,788'
-
+    let url = `http://123.56.14.124:918/compare/?format=json&target=profile&id=${this.props.movies}`
+    
     axios.get(url)
     .then(res => {
       this.setState({data: res.data.data.data})

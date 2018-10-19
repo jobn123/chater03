@@ -1,6 +1,7 @@
 import React from 'react'
 import { Calendar, Range, Button } from 'antd-mobile'
-import ReactEcharts from 'echarts-for-react'
+// import ReactEcharts from 'echarts-for-react'
+import EchartsForReact from './EchartsForReact'
 import axios from 'axios'
 
 import './comparedetail.css'
@@ -356,7 +357,6 @@ class CompareDetail extends React.Component{
   }
 
   goEvent(data) {
-    // debugger
     let {segIndex, start, end, segZero, start2, end2, movies} = this.state
     let url = ''
     let type = segZero === 0 ? 'count' : 'up'
@@ -436,7 +436,7 @@ class CompareDetail extends React.Component{
 
   getOption = (d) => {
       let { segIndex } = this.state
-      let xArr = d.data[0].data.date.split(',')
+      let xArr = d.data[0].data.date.split(',').reverse()
       if (segIndex === 1) { 
         let arr = []
         for (let i = 0; i < xArr.length; i++) {
@@ -482,6 +482,7 @@ class CompareDetail extends React.Component{
 
   renderCharts() {
     let { dataLists, dataCls, displayIndex } = this.state
+    let cw = document.body.clientWidth
     if (dataLists.length === 0) return
     // let lists = []
     let arr = []
@@ -493,7 +494,8 @@ class CompareDetail extends React.Component{
           <div className="wish-title"><span className={`${d.target_code}_icon`}>
             {dataCls[d.target_code]}</span>
             <span className="check-event" style={{display: i === 0 ? 'inline-block' : 'none'}} onClick={()=>{this.goEvent(d)}}>查看事件</span></div>
-          <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption(d)}/>
+          {/* <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption(d)}/> */}
+          <EchartsForReact style={{ width: cw, height: 350 }} option={this.getOption(d)}  showLoading={false} />
         </div>
       )
       arr.push(item)
