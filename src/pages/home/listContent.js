@@ -51,7 +51,8 @@ class ListContent extends React.Component{
       let item = data[i]
       let name = item.name
       let coun = this.toThousands(item.count)
-      arr.push(<div className="wanted-item"><span className={cls[name]}>{name}</span><span>{coun}</span><span>{item.percent}</span><span>{item.rank}</span></div>)
+      let percent = (item.percent*100) + '%'
+      arr.push(<div className="wanted-item"><span className={cls[name]}>{name}</span><span>{coun}</span><span>{percent}</span><span>{item.rank}</span></div>)
     }
     return arr
   }

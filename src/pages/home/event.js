@@ -156,7 +156,8 @@ class Event extends React.Component{
     // };
     return {
     tooltip : {
-        trigger: 'axis'
+        trigger: 'axis',
+        extraCssText:'width:160px;height:40px;background:rgba(0, 0, 0, 0.7);'
     },
     calculable : true,
     xAxis : [

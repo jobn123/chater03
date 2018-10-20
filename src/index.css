@@ -86,7 +86,7 @@ body {
 /*=================reset============ */
 .ReactTable .rt-tr-group {
     flex: initial !important;
-    height: 40px !important;
+    height: 65px !important;
 }
 .am-list-item {
     height: 35px !important;
@@ -115,3 +115,7 @@ body {
     bottom: 40px;
     width: 100%;
 } */
+.echarts-tooltip {
+    width: 160px;
+    white-space: initial !important;
+}

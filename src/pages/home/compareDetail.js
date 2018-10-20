@@ -28,11 +28,11 @@ class CompareDetail extends React.Component{
       data: [{id : 1, prefix:'maoyan_wish', title: '猫眼想看', disabled: false},{id : 2, prefix:'tpp_wish', title: '淘票票想看', disabled: false},{id : 3, prefix:'baidu_index', title: '百度想看', disabled: false},{id : 4, prefix:'weibo_index', title: '微博指数', disabled: false},{id : 5, prefix:'weixin_index', title: '微信指数', disabled: false},{id : 6, prefix:'first_box', title: '预售票房', disabled: false}],
       dataCls: {maoyan_wish: '猫眼想看', tpp_wish: '淘票票想看', baidu_index: '百度指数', weibo_index: '微博指数', weixin_index: '微信指数', first_box: '预售票房'},
       displayIndex:['maoyan_wish',  'tpp_wish', 'baidu_index', 'weibo_index', 'weixin_index', 'first_box'],
-      showDate: [30, 0],
+      showDate: [90, 0],
       dateStr: dateStr,
       start: start,
       end: end,
-      start2: '-30',
+      start2: '-90',
       end2: '0',
       dataLists: [],
       movies: '',
@@ -407,9 +407,9 @@ class CompareDetail extends React.Component{
       <div style={{marginTop: 20}}>
       <Range
           style={{ marginLeft: 30, marginRight: 30 }}
-          min={-30}
+          min={-90}
           max={30}
-          defaultValue={[-30, 0]}
+          defaultValue={[-90, 0]}
           onChange={this.rangeChange}
           onAfterChange={this.afteRangeChange}
      /> 

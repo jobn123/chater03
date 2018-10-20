@@ -436,7 +436,7 @@ renderCharts() {
         let obj = {
           Header: str,
           accessor: `${item}`,
-          Cell: props => <div style={{textAlign: "right"}}>
+          Cell: props => <div style={{textAlign: "right", height: "100%"}}>
           {props.value == null ? 0 : parseInt(props.value).toLocaleString()}
           </div>,
           // height: 30
@@ -459,11 +459,11 @@ renderCharts() {
               let obj = {
                 Header: dArr[i],
                 accessor: dArr[i],
-                Cell: props => <div style={{textAlign: "right"}}>
-                <div>{props.value === undefined ? 0 : parseInt(props.value).toLocaleString()}</div>
-                <div>{props.value === undefined ? 0 : props.value[1] * 100 + '%'}</div>
+                Cell: props => <div style={{textAlign: "right", height: "100%",}}>
+                <div style={{fontSize: '12px'}}>{props.value === undefined ? 0 : parseInt(props.value).toLocaleString()}</div>
+                <div style={{fontSize: '12px'}}>{props.value === undefined ? 0 : props.value[1] * 100 + '%'}</div>
                 </div>,
-                // height: 30
+                height: 30
               }
               allArr.push(obj)
             }
@@ -475,10 +475,10 @@ renderCharts() {
               let obj = {
                 Header: str,
                 accessor: str,
-                Cell: props => <div style={{textAlign: "right"}}>
+                Cell: props => <div style={{textAlign: "right", height: "100%",}}>
                 <div>{props.value === undefined ? 0 : parseInt(props.value).toLocaleString()}</div>
                 </div>,
-                // height: 30
+                height: 30
               }
               allArr.push(obj)
             }

@@ -48,27 +48,27 @@ class SingleDetail extends React.Component {
     let cw = document.body.clientWidth - 30
 
     const data2 = [{
-      name: '20岁以下', '猫眼': dl.maoyan_0_19 * 100, '淘票票': dl.tpp_0_19 * 100
+      name: '<20', '猫眼': dl.maoyan_0_19 * 100, '淘票票': dl.tpp_0_19 * 100
     },{
-      name: '20-24', '猫眼': dl.maoyan_20_24 * 100, '淘票票': dl.tpp_20_24 * 100
+      name: '<24', '猫眼': dl.maoyan_20_24 * 100, '淘票票': dl.tpp_20_24 * 100
     },{
-      name: '25-29', '猫眼': dl.maoyan_25_29 * 100, '淘票票': dl.tpp_25_29* 100
+      name: '<30', '猫眼': dl.maoyan_25_29 * 100, '淘票票': dl.tpp_25_29* 100
     },{
-      name: '30-34', '猫眼': dl.maoyan_30_34 * 100, '淘票票': dl.tpp_30_34* 100
+      name: '<34', '猫眼': dl.maoyan_30_34 * 100, '淘票票': dl.tpp_30_34* 100
     },{
-      name: '35-39', '猫眼': dl.maoyan_35_39 * 100, '淘票票': dl.tpp_35_39* 100
+      name: '<40', '猫眼': dl.maoyan_35_39 * 100, '淘票票': dl.tpp_35_39* 100
     },{
-      name: '40岁以上', '猫眼': dl.maoyan_40_100 * 100, '淘票票': dl.tpp_40_100* 100
+      name: '>40', '猫眼': dl.maoyan_40_100 * 100, '淘票票': dl.tpp_40_100* 100
     }]
 
     const data3 = [{
-      tppc: '一线城市', '淘票票': dl.tpp_city1 * 100
+      tppc: '一线', '淘票票': dl.tpp_city1 * 100
     },{
-      tppc: '二线城市', '淘票票': dl.tpp_city2 * 100
+      tppc: '二线', '淘票票': dl.tpp_city2 * 100
     },{
-      tppc: '三线城市', '淘票票': dl.tpp_city3 * 100
+      tppc: '三线', '淘票票': dl.tpp_city3 * 100
     },{
-      tppc: '四线城市', '淘票票': dl.tpp_city4 * 100
+      tppc: '四线', '淘票票': dl.tpp_city4 * 100
     }]
 
     return (
@@ -83,34 +83,34 @@ class SingleDetail extends React.Component {
               <span>想看</span><span className={showItem1 ? "up-pic" : "down-pic"}></span></div>
             <div ref="wanted-body" style={{display: showItem1 ? 'block' : 'none'}}>
             <div className="wanted-item_t"><span>观测指标</span><span>当前值  </span><span>变化值</span><span>日环比</span></div>
-            <div className="wanted-item"><span className="st1">猫眼</span><span>{this.toThousands(dl.maoyan_wish_count)}</span><span>{this.toThousands(dl.maoyan_wish_up)}</span><span>{dl.maoyan_wish_up_percent * 100 + '%'}</span></div>
-            <div className="wanted-item"><span className="st2">淘票票</span><span>{this.toThousands(dl.tpp_wish_count)}</span><span>{this.toThousands(dl.tpp_wish_up)}</span><span>{dl.tpp_wish_up_percent * 100 + '%'}</span></div>
-            <div className="wanted-item"><span className="st3">微博</span><span>{this.toThousands(dl.weibo_wish_count)}</span><span>{this.toThousands(dl.weibo_wish_up)}</span><span>{dl.weibo_wish_up_percent * 100 + '%'}</span></div>
+            <div className="wanted-item"><span className="st1">猫眼</span><span>{this.toThousands(dl.maoyan_wish_count) || '-'}</span><span>{this.toThousands(dl.maoyan_wish_up) || '-'}</span><span>{(dl.maoyan_wish_up_percent * 100).toFixed() + '%' || '-'}</span></div>
+            <div className="wanted-item"><span className="st2">淘票票</span><span>{this.toThousands(dl.tpp_wish_count) || '-'}</span><span>{this.toThousands(dl.tpp_wish_up) || '-'}</span><span>{(dl.tpp_wish_up_percent * 100).toFixed() + '%' || '-'}</span></div>
+            <div className="wanted-item"><span className="st3">微博</span><span>{this.toThousands(dl.weibo_wish_count) || '-'}</span><span>{this.toThousands(dl.weibo_wish_up) || '-'}</span><span>{(dl.weibo_wish_up_percent * 100).toFixed() + '%' || '-'}</span></div>
             {/* <div className="wanted-item"><span className="st4">微信</span><span>{this.toThousands(dl.weixin_index_count)}</span><span>{dl.weixin_index_up}</span><span>{dl.weixin_index_up_percent * 100 + '%'}</span></div> */}
-            <div className="wanted-item"><span className="ht6">豆瓣</span><span>{this.toThousands(dl.douban_wish_count)}</span><span>{dl.douban_wish_up}</span><span>{dl.douban_wish_up_percent * 100 + '%'}</span></div>
+            <div className="wanted-item"><span className="ht6">豆瓣</span><span>{this.toThousands(dl.douban_wish_count)}</span><span>{dl.douban_wish_up}</span><span>{(dl.douban_wish_up_percent * 100).toFixed() + '%'}</span></div>
           </div></div>
 
           <div className="single-wanted">
             <div className={showItem2 ? "wanted-title_up" : "wanted-title"} onClick={()=>{this.setState({showItem2: !this.state.showItem2})}}><span>热度</span><span className={showItem2 ? "up-pic" : "down-pic"}></span></div>
             <div ref="hot-body" style={{display: showItem2 ? 'block' : 'none'}}>
             <div className="hot-item_t"><span>观测指标</span><span>当前值</span><span>日环比</span></div>
-            <div className="wanted-item"><span className="ht1">百度</span><span>{this.toThousands(dl.baidu_index_count)}</span><span>{dl.baidu_index_up}</span><span>{dl.baidu_index_up_percent * 100 + '%'}</span></div>
-            <div className="wanted-item"><span className="st3">微博</span><span>{this.toThousands(dl.weibo_wish_count)}</span><span>{dl.weibo_wish_up}</span><span>{dl.weibo_wish_up_percent * 100 + '%'}</span></div>
-            <div className="wanted-item"><span className="ht3">阅读</span><span>{this.toThousands(dl.weibo_view_count)}</span><span>{dl.weibo_view_up}</span><span>{dl.weibo_view_up_percent * 100 + '%'}</span></div>
-            <div className="wanted-item"><span className="ht4">讨论</span><span>{this.toThousands(dl.weibo_discuss_count)}</span><span>{dl.weibo_discuss_up}</span><span>{dl.weibo_discuss_up_percent * 100 + '%'}</span></div>
-            <div className="wanted-item"><span className="st4">微信</span><span>{this.toThousands(dl.weixin_index_count)}</span><span>{dl.weixin_index_up}</span><span>{dl.weixin_index_up_percent * 100 + '%'}</span></div>
+            <div className="wanted-item"><span className="ht1">百度</span><span>{this.toThousands(dl.baidu_index_count) || '-'}</span><span>{dl.baidu_index_up || '-'}</span><span>{(dl.baidu_index_up_percent * 100).toFixed() + '%' || '-'}</span></div>
+            <div className="wanted-item"><span className="st3">微博</span><span>{this.toThousands(dl.weibo_wish_count) || '-'}</span><span>{dl.weibo_wish_up || '-'}</span><span>{(dl.weibo_wish_up_percent * 100).toFixed() + '%' || '-'}</span></div>
+            <div className="wanted-item"><span className="ht3">阅读</span><span>{this.toThousands(dl.weibo_view_count) || '-'}</span><span>{dl.weibo_view_up || '-'}</span><span>{(dl.weibo_view_up_percent * 100).toFixed() + '%' || '-'}</span></div>
+            <div className="wanted-item"><span className="ht4">讨论</span><span>{this.toThousands(dl.weibo_discuss_count) || '-'}</span><span>{dl.weibo_discuss_up || '-'}</span><span>{(dl.weibo_discuss_up_percent * 100).toFixed() + '%' || '-'}</span></div>
+            <div className="wanted-item"><span className="st4">微信</span><span>{this.toThousands(dl.weixin_index_count) || '-'}</span><span>{dl.weixin_index_up || '-'}</span><span>{(dl.weixin_index_up_percent * 100 ).toFixed()+ '%' || '-'}</span></div>
             </div>
           </div>
               
           <div className="single-wanted">
-            <div className={showItem3 ? "wanted-title_up" : "wanted-title"} onClick={()=>{this.setState({showItem3: !this.state.showItem3})}}><span>物料</span><span className={showItem3 ? "up-pic" : "down-pic"}></span><span style={{display: showItem3 ? 'block' : 'none'}} className="checkHistory" onClick={()=>{this.props.showHistory(true)}}>查看历史</span></div>
+            <div className={showItem3 ? "wanted-title_up" : "wanted-title"} onClick={()=>{this.setState({showItem3: !this.state.showItem3})}} ><span>物料</span><span className={showItem3 ? "up-pic" : "down-pic"}></span><span style={{display: showItem3 ? 'block' : 'none'}} className="checkHistory" onClick={()=>{this.props.showHistory(true)}}>查看历史</span></div>
             <div ref="mate-body" style={{display: showItem3 ? 'block' : 'none'}}>
             <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>增量值</span><span>日环比</span></div>
-            <div className="wanted-item"><span className="wt1">总播放</span><span>{this.toThousands(dl.play_total_count)}</span><span>{dl.play_total_up}</span><span>{dl.play_total_up_percent * 100 + '%'}</span></div>
-            <div className="wanted-item"><span className="wt2">腾讯</span><span>{this.toThousands(dl.play_qq_count)}</span><span>{dl.play_qq_up}</span><span>{dl.play_qq_up_percent * 100 + '%'}</span></div>
-            <div className="wanted-item"><span className="wt3">优酷</span><span>{this.toThousands(dl.play_youku_count)}</span><span>{dl.play_youku_up}</span><span>{dl.play_youku_up_percent * 100 + '%'}</span></div>
-            <div className="wanted-item"><span className="wt4">爱奇艺</span><span>{this.toThousands(dl.play_iqiyi_count)}</span><span>{dl.play_iqiyi_up}</span><span>{dl.play_iqiyi_up_percent * 100 + '%'}</span></div>
-            <div className="wanted-item"><span className="wt5">秒拍</span><span>{this.toThousands(dl.play_miaopai_count)}</span><span>{dl.play_miaopai_up}</span><span>{dl.play_miaopai_up_percent * 100 + '%'}</span></div>
+            <div className="wanted-item"><span className="wt1">总播放</span><span>{this.toThousands(dl.play_total_count) || '-'}</span><span>{dl.play_total_up || '-'}</span><span>{(dl.play_total_up_percent * 100).toFixed() + '%' || '-'}</span></div>
+            <div className="wanted-item"><span className="wt2">腾讯</span><span>{this.toThousands(dl.play_qq_count) || '-'}</span><span>{dl.play_qq_up || '-'}</span><span>{(dl.play_qq_up_percent * 100).toFixed() + '%' || '-'}</span></div>
+            <div className="wanted-item"><span className="wt3">优酷</span><span>{this.toThousands(dl.play_youku_count) || '-'}</span><span>{dl.play_youku_up || '-'}</span><span>{(dl.play_youku_up_percent * 100).toFixed() + '%' || '-'}</span></div>
+            <div className="wanted-item"><span className="wt4">爱奇艺</span><span>{this.toThousands(dl.play_iqiyi_count) || '-'}</span><span>{dl.play_iqiyi_up || '-'}</span><span>{(dl.play_iqiyi_up_percent * 100).toFixed() + '%' || '-'}</span></div>
+            <div className="wanted-item"><span className="wt5">秒拍</span><span>{this.toThousands(dl.play_miaopai_count) || '-'}</span><span>{dl.play_miaopai_up || '-'}</span><span>{(dl.play_miaopai_up_percent * 100).toFixed() + '%' || '-'}</span></div>
             </div>
           </div>
           
@@ -120,29 +120,29 @@ class SingleDetail extends React.Component {
             <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>昨日值</span><span>日环比</span></div>
             <div className="wanted-item">
               <span>零点场</span>
-              <span>{this.toThousands(dl.zero_box_count)}</span>
-              <span>{dl.zero_box_up}</span>
-              <span>{dl.zero_box_percent * 100 + '%'}</span>
+              <span>{this.toThousands(dl.zero_box_count) || '-'}</span>
+              <span>{dl.zero_box_up || '-'}</span>
+              <span>{(dl.zero_box_percent * 100).toFixed() + '%' || '-'}</span>
             </div>
             <div className="wanted-item"><span>首日票房</span>
-            <span>{this.toThousands(dl.first_box_count)}</span>
-            <span>{dl.first_box_up}</span>
-            <span>{dl.first_box_percent * 100 + '%'}</span></div>
-            <div className="wanted-item"><span>首日排片</span><span>{dl.first_num_percent_count}</span><span>{dl.first_num_percent_up}</span><span>{dl.first_num_percent_up_percent * 100 + '%'}</span></div>
-            <div className="wanted-item"><span>首日场次</span><span>{this.toThousands(dl.first_num_count)}</span><span>{dl.first_num_percent_count}</span><span>{dl.first_num_up_percent * 100 + '%'}</span></div>
-            <div className="wanted-item"><span>大盘场次</span><span>{this.toThousands(dl.first_num_total_count)}</span><span>{dl.first_num_total_up}</span><span>{dl.first_num_total_up_percent * 100 + '%'}</span></div></div>
+            <span>{this.toThousands(dl.first_box_count) || '-'}</span>
+            <span>{dl.first_box_up || '-'}</span>
+            <span>{dl.first_box_percent * 100 + '%' || '-'}</span></div>
+            <div className="wanted-item"><span>首日排片</span><span>{dl.first_num_percent_count || '-'}</span><span>{dl.first_num_percent_up || '-'}</span><span>{(dl.first_num_percent_up_percent * 100).toFixed() + '%' || '-'}</span></div>
+            <div className="wanted-item"><span>首日场次</span><span>{this.toThousands(dl.first_num_count) || '-'}</span><span>{dl.first_num_percent_count || '-'}</span><span>{(dl.first_num_up_percent * 100).toFixed() + '%' || '-'}</span></div>
+            <div className="wanted-item"><span>大盘场次</span><span>{this.toThousands(dl.first_num_total_count) || '-'}</span><span>{dl.first_num_total_up || '-'}</span><span>{(dl.first_num_total_up_percent * 100).toFixed() + '%' || '-'}</span></div></div>
           </div>
 
           <div className="single-wanted">
             <div className={showItem5 ? "wanted-title_up" : "wanted-title"} onClick={()=>{this.setState({showItem5: !this.state.showItem5})}}><span>口碑</span><span className={showItem5 ? "up-pic" : "down-pic"}></span></div>
             <div ref="kb-body" style={{display: showItem5 ? 'block' : 'none'}}>
             <div className="kb-item_t">
-            <span className="st1">猫眼  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{dl.rating}</span>
-            <span className="st2">淘票票 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {dl.taopiaopiao_rating}</span>
-            <span className="ht6">豆瓣  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{dl.douban_rating}</span>
-            <span className="itime">时光网 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{dl.mtime_rating}</span>
-            <span className="st3">微博大V推荐  &nbsp;&nbsp;&nbsp;&nbsp;{dl.weibo_v_rating}</span>
-            <span className="st3">微博好评率 &nbsp;&nbsp;&nbsp;&nbsp; {dl.weibo_rating}</span></div></div>
+            <span className="st1">猫眼  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{dl.rating || '-'}</span>
+            <span className="st2">淘票票 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {dl.taopiaopiao_rating || '-'}</span>
+            <span className="ht6">豆瓣  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{dl.douban_rating || '-'}</span>
+            <span className="itime">时光网 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{dl.mtime_rating || '-'}</span>
+            <span className="st3">微博大V推荐  &nbsp;&nbsp;&nbsp;&nbsp;{dl.weibo_v_rating || '-'}</span>
+            <span className="st3">微博好评率 &nbsp;&nbsp;&nbsp;&nbsp; {dl.weibo_rating || '-'}</span></div></div>
           </div>
           
           <div className="single-wanted">
