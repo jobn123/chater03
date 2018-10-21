@@ -436,7 +436,7 @@ class CompareDetail extends React.Component{
 
   getOption = (d) => {
       let { segIndex } = this.state
-      let xArr = d.data[0].data.date.split(',').reverse()
+      let xArr = d.data[0].data.date.split(',')
       if (segIndex === 1) { 
         let arr = []
         for (let i = 0; i < xArr.length; i++) {
@@ -495,7 +495,7 @@ class CompareDetail extends React.Component{
             {dataCls[d.target_code]}</span>
             <span className="check-event" style={{display: i === 0 ? 'inline-block' : 'none'}} onClick={()=>{this.goEvent(d)}}>查看事件</span></div>
           {/* <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption(d)}/> */}
-          <EchartsForReact style={{ width: cw, height: 350 }} option={this.getOption(d)}  showLoading={false} />
+          <EchartsForReact style={{ width: cw, height: 350 }} option={this.getOption(d)}  showLoading={false} theme="infographic"/>
         </div>
       )
       arr.push(item)

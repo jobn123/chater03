@@ -289,7 +289,7 @@ class Compare extends React.Component{
   }
   getOption = (d) => {
     let { segIndex, firsTitleIndex } = this.state
-    let xArr = d[0].date.split(',').reverse()
+    let xArr = d[0].date.split(',')
     if (segIndex == 1 && firsTitleIndex !== 4) { 
       let arr = []
       for (let i = 0; i < xArr.length; i++) {
