@@ -206,8 +206,8 @@ class Compare extends React.Component{
           case 4:
             let target4 = TA[i].subtitle[0].api
             let type4 = segZero === 0 ? 'count' : 'up'
-            let url4 = `http://123.56.14.124:918/compare/?format=json&target=${target4}&type=${type4}&id=${movies}&start=${start}&end=${end}`
-            // let url4 = 'http://123.56.14.124:918/compare/?id=176,382,564,59,504,68,465&start_days=-6&end_days=-2&target=first_box&type=count&format=json'
+            // let url4 = `http://123.56.14.124:918/compare/?format=json&target=${target4}&type=${type4}&id=${movies}&start=${start2}&end=${end2}`
+            let url4 = `http://123.56.14.124:918/compare/?id=${movies}&start_days=${start2}&end_days=${end2}&target=${target4}&type=${type4}&format=json`
             this.setState({segIndex: 1, showRange: true}, ()=>{
               this.fetchData(url4)
             })

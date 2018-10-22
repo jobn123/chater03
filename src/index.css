@@ -119,3 +119,6 @@ body {
     width: 160px;
     white-space: initial !important;
 }
+.ReactTable .rt-tbody .rt-tr-group {
+    border-bottom: none !important;
+}
