@@ -50,7 +50,7 @@ class Compare extends React.Component{
       dateStr: dateStr,
       start: start,
       end: end,
-      start2: '-30',
+      start2: '-90',
       end2: '0',
       firsTitleIndex: 0,
       secondTitleIndex: 0,
@@ -356,7 +356,7 @@ renderCharts() {
     return (
       <div className="wish-item_box">
         {/* <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption(dataLists)}/> */}
-        <EchartsForReact style={{ width: cw, height: 350 }} option={this.getOption(dataLists)}  showLoading={false} />
+        <EchartsForReact style={{ width: cw, height: 350 }} option={this.getOption(dataLists)}  showLoading={false} theme="infographic"/>
       </div>
     )
   }
@@ -382,7 +382,7 @@ renderCharts() {
       <Range
           style={{ marginLeft: 30, marginRight: 30 }}
           min={-90}
-          max={30}
+          max={0}
           defaultValue={[-90, 0]}
           onChange={this.rangeChange}
           onAfterChange={this.afteRangeChange}
@@ -461,7 +461,7 @@ renderCharts() {
                 accessor: dArr[i],
                 Cell: props => <div style={{textAlign: "right", height: "100%",}}>
                 <div style={{fontSize: '12px'}}>{props.value === undefined ? 0 : parseInt(props.value).toLocaleString()}</div>
-                <div style={{fontSize: '12px'}}>{props.value === undefined ? 0 : props.value[1] * 100 + '%'}</div>
+                <div style={{fontSize: '12px'}}>{props.value === undefined ? 0 : (props.value[1] * 100).toFixed() + '%'}</div>
                 </div>,
                 height: 30
               }

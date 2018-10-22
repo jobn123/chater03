@@ -408,7 +408,7 @@ class CompareDetail extends React.Component{
       <Range
           style={{ marginLeft: 30, marginRight: 30 }}
           min={-90}
-          max={30}
+          max={0}
           defaultValue={[-90, 0]}
           onChange={this.rangeChange}
           onAfterChange={this.afteRangeChange}

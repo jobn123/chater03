@@ -48,27 +48,27 @@ class SingleDetail extends React.Component {
     let cw = document.body.clientWidth - 30
 
     const data2 = [{
-      name: '<20', '猫眼': dl.maoyan_0_19 * 100, '淘票票': dl.tpp_0_19 * 100
+      name: '<20', '猫眼': +(dl.maoyan_0_19 * 100).toFixed(), '淘票票': +(dl.tpp_0_19 * 100).toFixed()
     },{
-      name: '<24', '猫眼': dl.maoyan_20_24 * 100, '淘票票': dl.tpp_20_24 * 100
+      name: '<24', '猫眼': +(dl.maoyan_20_24 * 100).toFixed(), '淘票票': +(dl.tpp_20_24 * 100).toFixed()
     },{
-      name: '<30', '猫眼': dl.maoyan_25_29 * 100, '淘票票': dl.tpp_25_29* 100
+      name: '<30', '猫眼': +(dl.maoyan_25_29 * 100).toFixed(), '淘票票': +(dl.tpp_25_29* 100).toFixed()
     },{
-      name: '<34', '猫眼': dl.maoyan_30_34 * 100, '淘票票': dl.tpp_30_34* 100
+      name: '<34', '猫眼': +(dl.maoyan_30_34 * 100).toFixed(), '淘票票': +(dl.tpp_30_34* 100).toFixed()
     },{
-      name: '<40', '猫眼': dl.maoyan_35_39 * 100, '淘票票': dl.tpp_35_39* 100
+      name: '<40', '猫眼': +(dl.maoyan_35_39 * 100).toFixed(), '淘票票': +(dl.tpp_35_39* 100).toFixed()
     },{
-      name: '>40', '猫眼': dl.maoyan_40_100 * 100, '淘票票': dl.tpp_40_100* 100
+      name: '>40', '猫眼': +(dl.maoyan_40_100 * 100).toFixed(), '淘票票': +(dl.tpp_40_100* 100).toFixed()
     }]
 
     const data3 = [{
-      tppc: '一线', '淘票票': dl.tpp_city1 * 100
+      tppc: '一线', '淘票票': +(dl.tpp_city1 * 100).toFixed()
     },{
-      tppc: '二线', '淘票票': dl.tpp_city2 * 100
+      tppc: '二线', '淘票票': +(dl.tpp_city2 * 100).toFixed()
     },{
-      tppc: '三线', '淘票票': dl.tpp_city3 * 100
+      tppc: '三线', '淘票票': +(dl.tpp_city3 * 100).toFixed()
     },{
-      tppc: '四线', '淘票票': dl.tpp_city4 * 100
+      tppc: '四线', '淘票票': +(dl.tpp_city4 * 100).toFixed()
     }]
 
     return (
@@ -93,7 +93,7 @@ class SingleDetail extends React.Component {
           <div className="single-wanted">
             <div className={showItem2 ? "wanted-title_up" : "wanted-title"} onClick={()=>{this.setState({showItem2: !this.state.showItem2})}}><span>热度</span><span className={showItem2 ? "up-pic" : "down-pic"}></span></div>
             <div ref="hot-body" style={{display: showItem2 ? 'block' : 'none'}}>
-            <div className="hot-item_t"><span>观测指标</span><span>当前值</span><span>日环比</span></div>
+            <div className="wanted-item"><span>观测指标</span><span>当前值</span><span>增量值</span><span>日环比</span></div>
             <div className="wanted-item"><span className="ht1">百度</span><span>{this.toThousands(dl.baidu_index_count) || '-'}</span><span>{dl.baidu_index_up || '-'}</span><span>{(dl.baidu_index_up_percent * 100).toFixed() + '%' || '-'}</span></div>
             <div className="wanted-item"><span className="st3">微博</span><span>{this.toThousands(dl.weibo_wish_count) || '-'}</span><span>{dl.weibo_wish_up || '-'}</span><span>{(dl.weibo_wish_up_percent * 100).toFixed() + '%' || '-'}</span></div>
             <div className="wanted-item"><span className="ht3">阅读</span><span>{this.toThousands(dl.weibo_view_count) || '-'}</span><span>{dl.weibo_view_up || '-'}</span><span>{(dl.weibo_view_up_percent * 100).toFixed() + '%' || '-'}</span></div>
@@ -105,7 +105,7 @@ class SingleDetail extends React.Component {
           <div className="single-wanted">
             <div className={showItem3 ? "wanted-title_up" : "wanted-title"} onClick={()=>{this.setState({showItem3: !this.state.showItem3})}} ><span>物料</span><span className={showItem3 ? "up-pic" : "down-pic"}></span><span style={{display: showItem3 ? 'block' : 'none'}} className="checkHistory" onClick={()=>{this.props.showHistory(true)}}>查看历史</span></div>
             <div ref="mate-body" style={{display: showItem3 ? 'block' : 'none'}}>
-            <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>增量值</span><span>日环比</span></div>
+            <div className="wanted-item"><span>观测指标</span><span>当前值</span><span>增量值</span><span>日环比</span></div>
             <div className="wanted-item"><span className="wt1">总播放</span><span>{this.toThousands(dl.play_total_count) || '-'}</span><span>{dl.play_total_up || '-'}</span><span>{(dl.play_total_up_percent * 100).toFixed() + '%' || '-'}</span></div>
             <div className="wanted-item"><span className="wt2">腾讯</span><span>{this.toThousands(dl.play_qq_count) || '-'}</span><span>{dl.play_qq_up || '-'}</span><span>{(dl.play_qq_up_percent * 100).toFixed() + '%' || '-'}</span></div>
             <div className="wanted-item"><span className="wt3">优酷</span><span>{this.toThousands(dl.play_youku_count) || '-'}</span><span>{dl.play_youku_up || '-'}</span><span>{(dl.play_youku_up_percent * 100).toFixed() + '%' || '-'}</span></div>
@@ -117,7 +117,7 @@ class SingleDetail extends React.Component {
           <div className="single-wanted">
             <div className={showItem4 ? "wanted-title_up" : "wanted-title"} onClick={()=>{this.setState({showItem4: !this.state.showItem4})}}><span>预售</span><span className={showItem4 ? "up-pic" : "down-pic"}></span></div>
             <div ref="sale-body" style={{display: showItem4 ? 'block' : 'none'}}>
-            <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>昨日值</span><span>日环比</span></div>
+            <div className="wanted-item_t"><span>观测指标</span><span>当前值</span><span>增量值</span><span>日环比</span></div>
             <div className="wanted-item">
               <span>零点场</span>
               <span>{this.toThousands(dl.zero_box_count) || '-'}</span>
@@ -138,9 +138,9 @@ class SingleDetail extends React.Component {
             <div ref="kb-body" style={{display: showItem5 ? 'block' : 'none'}}>
             <div className="kb-item_t">
             <span className="st1">猫眼  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{dl.rating || '-'}</span>
-            <span className="st2">淘票票 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {dl.taopiaopiao_rating || '-'}</span>
+            <span className="st2">淘票票 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{dl.taopiaopiao_rating || '-'}</span>
             <span className="ht6">豆瓣  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{dl.douban_rating || '-'}</span>
-            <span className="itime">时光网 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{dl.mtime_rating || '-'}</span>
+            <span className="itime">时光网 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{dl.mtime_rating || '-'}</span>
             <span className="st3">微博大V推荐  &nbsp;&nbsp;&nbsp;&nbsp;{dl.weibo_v_rating || '-'}</span>
             <span className="st3">微博好评率 &nbsp;&nbsp;&nbsp;&nbsp; {dl.weibo_rating || '-'}</span></div></div>
           </div>
@@ -169,7 +169,7 @@ class SingleDetail extends React.Component {
               <CartesianGrid strokeDasharray="3 3"/>
               <XAxis dataKey="name"/>
               <YAxis/>
-              <Tooltip/>
+              <Tooltip formatter={(value, name) => value + '%'}/>
               <Legend />
               <Bar dataKey="猫眼" fill="#FF574D" barSize={10}/>
               <Bar dataKey="淘票票" fill="#108EE9" barSize={10}/>
@@ -183,7 +183,7 @@ class SingleDetail extends React.Component {
               <CartesianGrid strokeDasharray="3 3"/>
               <XAxis dataKey="tppc" stroke="#8884d8"/>
               <YAxis/>
-              <Tooltip />
+              <Tooltip formatter={(value, name) => value + '%'}/>
               <Legend />
               <Bar dataKey="淘票票" fill="#FF574D" barSize={10}/>
               </BarChart>

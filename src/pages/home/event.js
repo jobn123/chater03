@@ -210,7 +210,7 @@ class Event extends React.Component{
           <div className="wish-title_event"><span>
             {dataLists[i].title}</span></div>
           {/* <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption(dataLists[i])}/> */}
-          <EchartsForReact style={{ width: cw, height: 350 }} option={this.getOption(dataLists[i])}  showLoading={false} />
+          <EchartsForReact style={{ width: cw, height: 350 }} option={this.getOption(dataLists[i])}  showLoading={false} theme="infographic"/>
         </div>
       )
       arr.push(item)
