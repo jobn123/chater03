@@ -21,7 +21,7 @@ import 'echarts/chart/treemap';
 import 'echarts/chart/venn';
 import 'echarts/chart/wordCloud';
 
-// // 引入相关组件组件;
+// 引入相关组件组件;
 import 'echarts/component/axis';
 import 'echarts/component/base';
 import 'echarts/component/categoryAxis';

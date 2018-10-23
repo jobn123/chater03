@@ -1,6 +1,6 @@
 import React from 'react'
-// import ReactEcharts from 'echarts-for-react'
-import EchartsForReact from './EchartsForReact';
+import ReactEcharts from 'echarts-for-react'
+// import EchartsForReact from './EchartsForReact';
 import axios from 'axios'
 import './event.css'
 const dataInfo = {
@@ -209,8 +209,8 @@ class Event extends React.Component{
         <div className="wish-item_box">
           <div className="wish-title_event"><span>
             {dataLists[i].title}</span></div>
-          {/* <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption(dataLists[i])}/> */}
-          <EchartsForReact style={{ width: cw, height: 350 }} option={this.getOption(dataLists[i])}  showLoading={false} theme="infographic"/>
+          <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption(dataLists[i])}/>
+          {/* <EchartsForReact style={{ width: cw, height: 350 }} option={this.getOption(dataLists[i])}  showLoading={false} theme="infographic"/> */}
         </div>
       )
       arr.push(item)

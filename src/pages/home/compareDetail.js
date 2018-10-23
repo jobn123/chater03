@@ -1,7 +1,7 @@
 import React from 'react'
 import { Calendar, Range, Button } from 'antd-mobile'
-// import ReactEcharts from 'echarts-for-react'
-import EchartsForReact from './EchartsForReact'
+import ReactEcharts from 'echarts-for-react'
+// import EchartsForReact from './EchartsForReact'
 import axios from 'axios'
 
 import './comparedetail.css'
@@ -494,8 +494,8 @@ class CompareDetail extends React.Component{
           <div className="wish-title"><span className={`${d.target_code}_icon`}>
             {dataCls[d.target_code]}</span>
             <span className="check-event" style={{display: i === 0 ? 'inline-block' : 'none'}} onClick={()=>{this.goEvent(d)}}>查看事件</span></div>
-          {/* <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption(d)}/> */}
-          <EchartsForReact style={{ width: cw, height: 350 }} option={this.getOption(d)}  showLoading={false} theme="infographic"/>
+          <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption(d)}/>
+          {/* <EchartsForReact style={{ width: cw, height: 350 }} option={this.getOption(d)}  showLoading={false} theme="infographic"/> */}
         </div>
       )
       arr.push(item)

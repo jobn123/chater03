@@ -1,7 +1,7 @@
 import React from 'react'
 import { Calendar, Range, Button } from 'antd-mobile'
-// import ReactEcharts from 'echarts-for-react'
-import EchartsForReact from './EchartsForReact'
+import ReactEcharts from 'echarts-for-react'
+// import EchartsForReact from './EchartsForReact'
 import ReactTable from "react-table"
 import "react-table/react-table.css"
 import axios from 'axios'
@@ -355,8 +355,8 @@ renderCharts() {
   if (dataLists.length === 0) return
     return (
       <div className="wish-item_box">
-        {/* <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption(dataLists)}/> */}
-        <EchartsForReact style={{ width: cw, height: 350 }} option={this.getOption(dataLists)}  showLoading={false} theme="infographic"/>
+        <ReactEcharts opts={{renderer: 'svg'}} notMerge={true} lazyUpdate={true} option={this.getOption(dataLists)}/>
+        {/* <EchartsForReact style={{ width: cw, height: 350 }} option={this.getOption(dataLists)}  showLoading={false} theme="infographic"/> */}
       </div>
     )
   }
